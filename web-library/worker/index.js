@@ -4,6 +4,8 @@ const AUTHORS = "https://raw.githubusercontent.com/segnpa66-lab/nb-scripts-autho
 const COOKIE = "sl_session";
 const UUID = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
 const HANDLE = "[A-Za-z0-9_.-]{1,64}";
+const STATIC_ORIGIN = "https://segnpa66-lab.github.io";
+const externalOrigin = request => ["null", STATIC_ORIGIN].includes(request.headers.get("origin"));
 let catalogSnapshot = null;
 let catalogExpires = 0;
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), {
@@ -13,7 +15,7 @@ const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(va
 function session(request) {
   const cookie = request.headers.get("cookie") || "";
   const match = cookie.match(new RegExp("(?:^|;\\s*)" + COOKIE + "=([^;]+)"));
-  const token = request.headers.get("origin") === "null" ? request.headers.get("x-script-library-session") || "" : "";
+  const token = externalOrigin(request) ? request.headers.get("x-script-library-session") || "" : "";
   const encoded = token || match?.[1];
   if (!encoded || encoded.length > 4096) return { cookies: {}, bearer: "" };
   try {
@@ -132,7 +134,7 @@ async function apiResponse(request, path) {
     const meResponse = await upstream("/users/me", "GET", null, auth);
     if (!meResponse.ok) return safeError(meResponse.status, await responseJson(meResponse));
     const saved = updatedSession(auth, meResponse);
-    return json({ user: await responseJson(meResponse), ...(request.headers.get("origin") === "null" ? { session: sessionToken(saved) } : {}) }, 200, { "set-cookie": sessionHeader(saved) });
+    return json({ user: await responseJson(meResponse), ...(externalOrigin(request) ? { session: sessionToken(saved) } : {}) }, 200, { "set-cookie": sessionHeader(saved) });
   }
   const auth = session(request);
   if (path === "/auth/logout" && request.method === "POST") {
@@ -156,11 +158,11 @@ async function apiResponse(request, path) {
   return json(value, response.status, headers);
 }
 function cors(request, response) {
-  if (request.headers.get("origin") !== "null") return response;
+  if (!externalOrigin(request)) return response;
   const path = new URL(request.url).pathname;
   if (path !== "/data/catalog" && !path.startsWith("/api/")) return response;
   const headers = new Headers(response.headers);
-  headers.set("access-control-allow-origin", "null");
+  headers.set("access-control-allow-origin", request.headers.get("origin"));
   headers.set("access-control-allow-methods", "GET, POST, DELETE, OPTIONS");
   headers.set("access-control-allow-headers", "content-type, x-script-library-session");
   headers.set("vary", "Origin");

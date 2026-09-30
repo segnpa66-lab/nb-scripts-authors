@@ -2,8 +2,9 @@
   const main = document.getElementById("main");
   const state = { catalog: null, user: null, favorites: new Set(), codes: new Map(), query: "", scope: "all", sort: "random", seed: Math.random(), visible: 60, detail: null, author: null, authorScripts: null, params: [], indexing: false };
   const languages = ["system", "en", "ru", "kk", "uk", "be", "pl", "sr", "hu", "zh-Hans", "ja", "pt-BR", "es", "it", "de", "nl"];
-  const bundled = location.protocol === "file:";
+  const bundled = location.protocol === "file:" || location.hostname === "segnpa66-lab.github.io";
   const apiOrigin = bundled ? "https://script-library-nulls.tmtsttamt022.chatgpt.site" : "";
+  const publicOrigin = location.protocol === "file:" ? "https://segnpa66-lab.github.io" : location.origin;
   let localSession = bundled ? sessionStorage.getItem("script-library-session") || "" : "";
   const languageNames = ["Системный", "English", "Русский", "Қазақша", "Українська", "Беларуская", "Polski", "Српски", "Magyar", "中文", "日本語", "Português (Brasil)", "Español", "Italiano", "Deutsch", "Nederlands"];
   const locale = () => { const saved = localStorage.getItem("language") || "system"; const code = saved === "system" ? navigator.language : saved; return code.startsWith("zh") ? "zh-Hans" : code.startsWith("pt-BR") ? "pt-BR" : code.split("-")[0]; };
@@ -163,7 +164,7 @@
     try { const data = await js("/api/users/" + state.user.uuid + "/favorites"); state.favorites = new Set((data.scripts || []).map(item => item.uuid)); } catch { state.favorites.clear(); }
   }
   async function share(path) {
-    const url = new URL(path, location.origin).href;
+    const url = new URL(path, publicOrigin).href;
     try { if (navigator.share) await navigator.share({ url }); else { await navigator.clipboard.writeText(url); toast(tr("Ссылка скопирована")); } }
     catch (error) { if (error.name !== "AbortError") toast(tr("Не удалось поделиться")); }
   }

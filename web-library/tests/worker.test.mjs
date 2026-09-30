@@ -58,6 +58,9 @@ test("login stores upstream session in a first-party HttpOnly cookie", async () 
     assert.equal(localLogin.headers.get("access-control-allow-origin"), "null");
     const localMe = await worker.fetch(new Request(origin + "/api/users/me", { headers: { origin: "null", "x-script-library-session": local.session } }));
     assert.equal((await localMe.json()).username, "first");
+    const pagesMe = await worker.fetch(new Request(origin + "/api/users/me", { headers: { origin: "https://segnpa66-lab.github.io", "x-script-library-session": local.session } }));
+    assert.equal(pagesMe.headers.get("access-control-allow-origin"), "https://segnpa66-lab.github.io");
+    assert.equal((await pagesMe.json()).username, "first");
   } finally { globalThis.fetch = original; }
 });
 

@@ -21,5 +21,6 @@ mkdirSync(join(root, "dist/files"), { recursive: true });
 mkdirSync(join(root, "dist/.openai"), { recursive: true });
 writeFileSync(join(root, "dist/server/index.js"), worker);
 writeFileSync(join(root, "dist/files/index.html"), page);
+writeFileSync(join(root, "dist/files/404.html"), page);
 writeFileSync(join(root, "dist/.openai/hosting.json"), read("web/../.openai/hosting.json"));
 console.log("Built single-file Worker:", Buffer.byteLength(worker), "bytes");
