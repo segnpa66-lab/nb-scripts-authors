@@ -11,6 +11,8 @@ root = Path(__file__).resolve().parents[1]
 java = root / 'app/src/main/java/gg/nulls/library'
 source = (java / 'MainActivity.java').read_text()
 source += (java / 'Core.java').read_text()
+source += (java / 'Api.java').read_text()
+source += (java / 'Repository.java').read_text()
 keys = []
 for literal in re.findall(r'"((?:\\.|[^"\\])*)"', source):
     if not re.search('[А-Яа-яЁё]', literal):

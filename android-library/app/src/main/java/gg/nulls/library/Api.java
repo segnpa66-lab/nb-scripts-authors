@@ -16,7 +16,9 @@ final class Api {
     synchronized boolean authenticated(){return me!=null;}
     synchronized JSONObject login(String u,String p,boolean remember)throws Exception{
         cookies.getCookieStore().removeAll();bearer="";me=null;username="";password="";
-        JSONObject r=raw("POST","/auth/login",new JSONObject().put("username",u).put("password",p));
+        JSONObject r;
+        try{r=raw("POST","/auth/login",new JSONObject().put("username",u).put("password",p));}
+        catch(Failure e){if(e.status==401)throw new Failure(401,"Неверное имя пользователя или пароль.");throw e;}
         bearer=r.optString("token",r.optString("access_token",""));
         try{me=Core.publicUser(raw("GET","/users/me",null));Core.requireUuid(me.optString("uuid"));username=u;password=p;if(remember)vault.save(u,p);else vault.clear();return me;}catch(Exception e){clear();throw e;}
     }
@@ -32,7 +34,7 @@ final class Api {
                 String u=username,p=password;boolean remembered=vault.read()!=null;
                 try{login(u,p,remembered);}catch(Exception loginError){clear();throw loginError;}
             }
-            try{return raw(method,path,body);}catch(Failure retryError){if(retryError.status==401)clear();throw retryError;}
+            try{return raw(method,path,body);}catch(Failure retryError){if(retryError.status==401&&path.endsWith("/content"))throw new Failure(403,"Код этого скрипта недоступен вашему аккаунту.");throw retryError;}
         }
     }
     private JSONObject raw(String method,String path,JSONObject body)throws Exception{

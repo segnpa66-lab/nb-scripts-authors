@@ -18,7 +18,7 @@ def tap(label,name):
 adb('install','-r','incoming/app-debug.apk')
 adb('logcat','-c')
 adb('shell','am','start','-W','-n','gg.nulls.library/.MainActivity');time.sleep(2)
-assert any(n.get('text')=='Script Library' for n in nodes('catalog')), 'App did not render'
+assert any(n.get('text')=='Скрипты' for n in nodes('catalog')), 'App did not render'
 screenshot('catalog')
 for label,name in [('Авторы','authors'),('Мои','my-scripts'),('Аккаунт','login')]:tap(label,name)
 assert any(n.get('text')=='Вход в Null’s' for n in nodes('login-verified')), 'Login screen missing'
