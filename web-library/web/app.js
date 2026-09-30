@@ -5,7 +5,14 @@
   const bundled = location.protocol === "file:" || location.hostname === "segnpa66-lab.github.io";
   const apiOrigin = bundled ? "https://script-library-nulls.tmtsttamt022.chatgpt.site" : "";
   const publicOrigin = location.protocol === "file:" ? "https://segnpa66-lab.github.io" : location.origin;
-  let localSession = bundled ? sessionStorage.getItem("script-library-session") || "" : "";
+  const routePath = () => bundled && location.hash.startsWith("#/") ? location.hash.slice(1) : location.protocol === "file:" ? "/" : location.pathname;
+  const routeHref = path => bundled ? "#" + path : path;
+  const sessionStore = {
+    get: () => { try { return sessionStorage.getItem("script-library-session") || ""; } catch { return ""; } },
+    set: value => { try { sessionStorage.setItem("script-library-session", value); } catch { /* Memory-only session. */ } },
+    clear: () => { try { sessionStorage.removeItem("script-library-session"); } catch { /* Memory-only session. */ } }
+  };
+  let localSession = bundled ? sessionStore.get() : "";
   const languageNames = ["Системный", "English", "Русский", "Қазақша", "Українська", "Беларуская", "Polski", "Српски", "Magyar", "中文", "日本語", "Português (Brasil)", "Español", "Italiano", "Deutsch", "Nederlands"];
   const locale = () => { const saved = localStorage.getItem("language") || "system"; const code = saved === "system" ? navigator.language : saved; return code.startsWith("zh") ? "zh-Hans" : code.startsWith("pt-BR") ? "pt-BR" : code.split("-")[0]; };
   const tr = value => (window.APP_TRANSLATIONS[locale()] || window.APP_TRANSLATIONS.ru || {})[value] || value;
@@ -23,7 +30,7 @@
   const randomRank = id => { let hash = 2166136261; for (const c of id + state.seed) hash = Math.imul(hash ^ c.charCodeAt(0), 16777619); return hash >>> 0; };
   const label = (text, value) => `<div><span>${e(tr(text))}</span>${e(value)}</div>`;
   const button = (text, action, cls = "") => `<button type="button" class="button ${cls}" data-action="${action}">${e(tr(text))}</button>`;
-  const link = (path, text, cls = "") => `<a href="${e(path)}" data-route="${e(path)}" class="${cls}">${e(text)}</a>`;
+  const link = (path, text, cls = "") => `<a href="${e(routeHref(path))}" data-route="${e(path)}" class="${cls}">${e(text)}</a>`;
   function toast(message) { const node = document.getElementById("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3200); }
   function heading(title, description = "", count = "") { return `<div class="page-head"><div><p class="eyebrow">Script Library</p><h1>${e(title)}</h1>${description ? `<p class="sub">${e(description)}</p>` : ""}</div>${count ? `<span class="count">${e(count)}</span>` : ""}</div>`; }
   function activeNav(route) {
@@ -33,10 +40,10 @@
     document.getElementById("refresh").title = document.getElementById("refresh").ariaLabel = tr("Обновить список авторов");
     document.getElementById("help").title = document.getElementById("help").ariaLabel = tr("Помощь");
   }
-  function go(path) { if (location.pathname !== path) history.pushState({}, "", path); renderRoute(); window.scrollTo(0, 0); }
+  function go(path) { if (routePath() !== path) { if (bundled) location.hash = path; else history.pushState({}, "", path); } renderRoute(); window.scrollTo(0, 0); }
   function card(script) {
     const author = script.author_username ? "@" + script.author_username : script.author_name || "";
-    return `<a class="script-card" href="/scripts/${e(script.uuid)}" data-route="/scripts/${e(script.uuid)}"><h2 class="script-title">${e(script.name || tr("Без названия"))}</h2><p class="script-author">${e(author)}</p><p class="script-desc">${e(script.description || tr("Описание не добавлено"))}</p><div class="script-bottom"><span>${e(date(script.published_at || script.created_at))}</span><span>${e(script.uuid.slice(0, 8))}</span></div></a>`;
+    return `<a class="script-card" href="${e(routeHref("/scripts/" + script.uuid))}" data-route="/scripts/${e(script.uuid)}"><h2 class="script-title">${e(script.name || tr("Без названия"))}</h2><p class="script-author">${e(author)}</p><p class="script-desc">${e(script.description || tr("Описание не добавлено"))}</p><div class="script-bottom"><span>${e(date(script.published_at || script.created_at))}</span><span>${e(script.uuid.slice(0, 8))}</span></div></a>`;
   }
   function filtered() {
     const query = state.query.toLocaleLowerCase().trim();
@@ -69,7 +76,7 @@
   function authors() {
     const list = [...(state.catalog?.authors || [])].sort((a, b) => randomRank(a.uuid) - randomRank(b.uuid));
     main.innerHTML = heading(tr("Авторы скриптов"), "", list.length ? `${list.length} ${tr("авторов")}` : "") +
-      (list.length ? `<div class="author-grid">${list.map(author => `<a class="author-card" href="/authors/${e(author.username)}" data-route="/authors/${e(author.username)}"><div class="author-name">${e(author.name)}</div><div class="author-handle">@${e(author.username)}</div></a>`).join("")}</div>` : `<div class="empty">${e(tr("Загружаю авторов…"))}</div>`);
+      (list.length ? `<div class="author-grid">${list.map(author => `<a class="author-card" href="${e(routeHref("/authors/" + author.username))}" data-route="/authors/${e(author.username)}"><div class="author-name">${e(author.name)}</div><div class="author-handle">@${e(author.username)}</div></a>`).join("")}</div>` : `<div class="empty">${e(tr("Загружаю авторов…"))}</div>`);
   }
   function authorPage() {
     const author = state.author;
@@ -107,7 +114,7 @@
       `<div class="panel"><label class="field"><span>${e(tr("Язык"))}</span><select id="language" class="select">${languages.map((code, i) => `<option value="${code}" ${(localStorage.getItem("language") || "system") === code ? "selected" : ""}>${e(languageNames[i])}</option>`).join("")}</select></label></div>`;
   }
   async function renderRoute() {
-    const path = decodeURIComponent(location.pathname);
+    const path = decodeURIComponent(routePath());
     document.documentElement.lang = locale();
     activeNav(path);
     if (path === "/authors") { authors(); return; }
@@ -121,11 +128,11 @@
       authorPage();
       try {
         if (!state.author) state.author = await js("/api/users/@" + encodeURIComponent(handle));
-        if (location.pathname !== path) return;
+        if (routePath() !== path) return;
         authorPage();
         if (!state.catalog?.authors.some(author => author.uuid === state.author.uuid)) {
           const data = await js("/api/users/" + state.author.uuid + "/scripts");
-          if (location.pathname !== path) return;
+          if (routePath() !== path) return;
           state.authorScripts = (data.scripts || []).filter(item => item.published_at).map(item => ({ ...item, author_uuid: state.author.uuid, author_name: state.author.name, author_username: state.author.username }));
           authorPage();
         }
@@ -138,7 +145,7 @@
       detail();
       try {
         const fresh = await js("/api/scripts/" + id);
-        if (location.pathname !== path) return;
+        if (routePath() !== path) return;
         state.detail = { ...state.detail, ...fresh, author_username: state.detail?.author_username };
         detail();
       } catch (error) { if (!state.detail) main.innerHTML = `<div class="empty">${e(error.message)}</div>`; }
@@ -157,14 +164,14 @@
     } catch (error) { if (!state.catalog) main.innerHTML = `<div class="empty">${e(error.message)}<br><br>${button("Обновить", "refresh")}</div>`; else toast(error.message); }
   }
   async function restore() {
-    try { state.user = await js("/api/users/me"); await loadFavorites(); renderRoute(); } catch { state.user = null; if (bundled) { localSession = ""; sessionStorage.removeItem("script-library-session"); } }
+    try { state.user = await js("/api/users/me"); await loadFavorites(); renderRoute(); } catch { state.user = null; if (bundled) { localSession = ""; sessionStore.clear(); } }
   }
   async function loadFavorites() {
     if (!state.user) return;
     try { const data = await js("/api/users/" + state.user.uuid + "/favorites"); state.favorites = new Set((data.scripts || []).map(item => item.uuid)); } catch { state.favorites.clear(); }
   }
   async function share(path) {
-    const url = new URL(path, publicOrigin).href;
+    const url = new URL(bundled ? "/#" + path : path, publicOrigin).href;
     try { if (navigator.share) await navigator.share({ url }); else { await navigator.clipboard.writeText(url); toast(tr("Ссылка скопирована")); } }
     catch (error) { if (error.name !== "AbortError") toast(tr("Не удалось поделиться")); }
   }
@@ -192,7 +199,7 @@
     let cursor = 0, done = 0, failed = 0;
     async function one() { while (cursor < list.length && state.indexing) { const script = list[cursor++]; if (!state.codes.has(script.uuid)) try { const data = await js("/api/scripts/" + script.uuid + "/content"); state.codes.set(script.uuid, data.content || ""); } catch { failed++; } done++; if (done % 10 === 0) toast(`${tr("Код: ")}${done} / ${list.length}`); } }
     await Promise.all(Array.from({ length: Math.min(6, list.length) }, one));
-    state.indexing = false; if (location.pathname === "/") library();
+    state.indexing = false; if (routePath() === "/") library();
     toast(`${tr("Код: ")}${state.codes.size} / ${list.length}${failed ? " · " + failed + " " + tr("недоступно") : ""}`);
   }
   const base62 = bytes => {
@@ -270,7 +277,7 @@
         if (remove) state.favorites.delete(id); else state.favorites.add(id);
         detail(); toast(tr(remove ? "Удалено из избранного" : "Добавлено в избранное")); return;
       }
-      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); localSession = ""; if (bundled) sessionStorage.removeItem("script-library-session"); state.user = null; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
+      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); localSession = ""; if (bundled) sessionStore.clear(); state.user = null; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
     } catch (error) { toast(error.message); }
   });
   document.addEventListener("submit", async event => {
@@ -280,7 +287,7 @@
       button.disabled = true;
       try {
         const result = await js("/api/auth/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ username: form.elements.namedItem("username").value.trim(), password: form.elements.namedItem("password").value }) });
-        if (bundled) { if (!result.session) throw new Error(tr("Сервис не вернул сессию.")); localSession = result.session; sessionStorage.setItem("script-library-session", localSession); }
+        if (bundled) { if (!result.session) throw new Error(tr("Сервис не вернул сессию.")); localSession = result.session; sessionStore.set(localSession); }
         state.user = result.user; await loadFavorites(); go("/"); toast(tr("Вход выполнен"));
       } catch (error) { toast(error.message); button.disabled = false; }
     }
@@ -295,6 +302,7 @@
   document.getElementById("refresh").addEventListener("click", () => loadCatalog(true));
   document.getElementById("help").addEventListener("click", () => go("/help"));
   addEventListener("popstate", renderRoute);
+  addEventListener("hashchange", renderRoute);
   renderRoute();
   loadCatalog();
   restore();
