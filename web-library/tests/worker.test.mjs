@@ -49,6 +49,15 @@ test("login stores upstream session in a first-party HttpOnly cookie", async () 
     assert(cookie.includes("Secure"));
     const me = await worker.fetch(new Request(origin + "/api/users/me", { headers: { cookie: cookie.split(";")[0] } }));
     assert.equal((await me.json()).username, "first");
+    const preflight = await worker.fetch(new Request(origin + "/api/auth/login", { method: "OPTIONS", headers: { origin: "null", "access-control-request-headers": "content-type" } }));
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get("access-control-allow-origin"), "null");
+    const localLogin = await worker.fetch(new Request(origin + "/api/auth/login", { method: "POST", headers: { origin: "null", "content-type": "application/json" }, body: JSON.stringify({ username: "first", password: "secret" }) }));
+    const local = await localLogin.json();
+    assert(local.session);
+    assert.equal(localLogin.headers.get("access-control-allow-origin"), "null");
+    const localMe = await worker.fetch(new Request(origin + "/api/users/me", { headers: { origin: "null", "x-script-library-session": local.session } }));
+    assert.equal((await localMe.json()).username, "first");
   } finally { globalThis.fetch = original; }
 });
 

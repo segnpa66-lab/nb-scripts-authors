@@ -13,18 +13,18 @@ const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(va
 function session(request) {
   const cookie = request.headers.get("cookie") || "";
   const match = cookie.match(new RegExp("(?:^|;\\s*)" + COOKIE + "=([^;]+)"));
-  if (!match) return { cookies: {}, bearer: "" };
+  const token = request.headers.get("origin") === "null" ? request.headers.get("x-script-library-session") || "" : "";
+  const encoded = token || match?.[1];
+  if (!encoded || encoded.length > 4096) return { cookies: {}, bearer: "" };
   try {
-    const raw = atob(match[1].replace(/-/g, "+").replace(/_/g, "/"));
+    const raw = atob(encoded.replace(/-/g, "+").replace(/_/g, "/"));
     const value = JSON.parse(raw);
     if (!value || typeof value !== "object") return { cookies: {}, bearer: "" };
     return { cookies: value.cookies || {}, bearer: value.bearer || "" };
   } catch { return { cookies: {}, bearer: "" }; }
 }
-function sessionHeader(value) {
-  const raw = btoa(JSON.stringify(value)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-  return `${COOKIE}=${raw}; Path=/; Max-Age=604800; Secure; HttpOnly; SameSite=Lax`;
-}
+function sessionToken(value) { return btoa(JSON.stringify(value)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+function sessionHeader(value) { return `${COOKIE}=${sessionToken(value)}; Path=/; Max-Age=604800; Secure; HttpOnly; SameSite=Lax`; }
 function clearSession() { return `${COOKIE}=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Lax`; }
 function updatedSession(old, response) {
   const next = { cookies: { ...old.cookies }, bearer: old.bearer };
@@ -131,7 +131,8 @@ async function apiResponse(request, path) {
     if (!Object.keys(auth.cookies).length && !auth.bearer) return json({ error: "Сервис не вернул сессию." }, 502);
     const meResponse = await upstream("/users/me", "GET", null, auth);
     if (!meResponse.ok) return safeError(meResponse.status, await responseJson(meResponse));
-    return json({ user: await responseJson(meResponse) }, 200, { "set-cookie": sessionHeader(updatedSession(auth, meResponse)) });
+    const saved = updatedSession(auth, meResponse);
+    return json({ user: await responseJson(meResponse), ...(request.headers.get("origin") === "null" ? { session: sessionToken(saved) } : {}) }, 200, { "set-cookie": sessionHeader(saved) });
   }
   const auth = session(request);
   if (path === "/auth/logout" && request.method === "POST") {
@@ -154,13 +155,26 @@ async function apiResponse(request, path) {
   const headers = (Object.keys(refreshed.cookies).length || refreshed.bearer) && JSON.stringify(refreshed) !== JSON.stringify(auth) ? { "set-cookie": sessionHeader(refreshed) } : {};
   return json(value, response.status, headers);
 }
+function cors(request, response) {
+  if (request.headers.get("origin") !== "null") return response;
+  const path = new URL(request.url).pathname;
+  if (path !== "/data/catalog" && !path.startsWith("/api/")) return response;
+  const headers = new Headers(response.headers);
+  headers.set("access-control-allow-origin", "null");
+  headers.set("access-control-allow-methods", "GET, POST, DELETE, OPTIONS");
+  headers.set("access-control-allow-headers", "content-type, x-script-library-session");
+  headers.set("vary", "Origin");
+  return new Response(response.body, { status: response.status, headers });
+}
 export default {
   async fetch(request) {
     const url = new URL(request.url);
-    if (url.pathname === "/data/catalog" && request.method === "GET") return catalogResponse(request);
+    if (request.method === "OPTIONS" && (url.pathname === "/data/catalog" || url.pathname.startsWith("/api/")))
+      return cors(request, new Response(null, { status: 204 }));
+    if (url.pathname === "/data/catalog" && request.method === "GET") return cors(request, await catalogResponse(request));
     if (url.pathname.startsWith("/api/")) {
-      try { return await apiResponse(request, url.pathname.slice(4)); }
-      catch { return json({ error: "Нет связи с сервисом." }, 502); }
+      try { return cors(request, await apiResponse(request, url.pathname.slice(4))); }
+      catch { return cors(request, json({ error: "Нет связи с сервисом." }, 502)); }
     }
     if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", { status: 405 });
     if (["/", "/authors", "/favorites", "/account", "/help"].includes(url.pathname) || /^\/scripts\/[0-9a-fA-F-]{36}$/.test(url.pathname) || /^\/authors\/[A-Za-z0-9_.-]{1,64}$/.test(url.pathname)) {

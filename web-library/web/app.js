@@ -2,12 +2,17 @@
   const main = document.getElementById("main");
   const state = { catalog: null, user: null, favorites: new Set(), codes: new Map(), query: "", scope: "all", sort: "random", seed: Math.random(), visible: 60, detail: null, author: null, authorScripts: null, params: [], indexing: false };
   const languages = ["system", "en", "ru", "kk", "uk", "be", "pl", "sr", "hu", "zh-Hans", "ja", "pt-BR", "es", "it", "de", "nl"];
+  const bundled = location.protocol === "file:";
+  const apiOrigin = bundled ? "https://script-library-nulls.tmtsttamt022.chatgpt.site" : "";
+  let localSession = bundled ? sessionStorage.getItem("script-library-session") || "" : "";
   const languageNames = ["Системный", "English", "Русский", "Қазақша", "Українська", "Беларуская", "Polski", "Српски", "Magyar", "中文", "日本語", "Português (Brasil)", "Español", "Italiano", "Deutsch", "Nederlands"];
   const locale = () => { const saved = localStorage.getItem("language") || "system"; const code = saved === "system" ? navigator.language : saved; return code.startsWith("zh") ? "zh-Hans" : code.startsWith("pt-BR") ? "pt-BR" : code.split("-")[0]; };
   const tr = value => (window.APP_TRANSLATIONS[locale()] || window.APP_TRANSLATIONS.ru || {})[value] || value;
   const e = value => String(value ?? "").replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]);
   const js = async (path, options = {}) => {
-    const response = await fetch(path, { credentials: "same-origin", ...options });
+    const headers = new Headers(options.headers || {});
+    if (bundled && localSession) headers.set("x-script-library-session", localSession);
+    const response = await fetch(apiOrigin + path, { credentials: bundled ? "omit" : "same-origin", ...options, headers });
     let body;
     try { body = await response.json(); } catch { body = {}; }
     if (!response.ok) throw new Error(body.error || tr("Не удалось выполнить"));
@@ -151,7 +156,7 @@
     } catch (error) { if (!state.catalog) main.innerHTML = `<div class="empty">${e(error.message)}<br><br>${button("Обновить", "refresh")}</div>`; else toast(error.message); }
   }
   async function restore() {
-    try { state.user = await js("/api/users/me"); await loadFavorites(); renderRoute(); } catch { state.user = null; }
+    try { state.user = await js("/api/users/me"); await loadFavorites(); renderRoute(); } catch { state.user = null; if (bundled) { localSession = ""; sessionStorage.removeItem("script-library-session"); } }
   }
   async function loadFavorites() {
     if (!state.user) return;
@@ -264,7 +269,7 @@
         if (remove) state.favorites.delete(id); else state.favorites.add(id);
         detail(); toast(tr(remove ? "Удалено из избранного" : "Добавлено в избранное")); return;
       }
-      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); state.user = null; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
+      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); localSession = ""; if (bundled) sessionStorage.removeItem("script-library-session"); state.user = null; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
     } catch (error) { toast(error.message); }
   });
   document.addEventListener("submit", async event => {
@@ -274,6 +279,7 @@
       button.disabled = true;
       try {
         const result = await js("/api/auth/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ username: form.elements.namedItem("username").value.trim(), password: form.elements.namedItem("password").value }) });
+        if (bundled) { if (!result.session) throw new Error(tr("Сервис не вернул сессию.")); localSession = result.session; sessionStorage.setItem("script-library-session", localSession); }
         state.user = result.user; await loadFavorites(); go("/"); toast(tr("Вход выполнен"));
       } catch (error) { toast(error.message); button.disabled = false; }
     }
