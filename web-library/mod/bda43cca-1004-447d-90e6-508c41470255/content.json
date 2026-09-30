@@ -1,0 +1,24 @@
+{
+  "@title": {
+    "EN": "Script Library",
+    "RU": "Библиотека скриптов"
+  },
+  "@description": {
+    "EN": "Opens the script catalogue in the game's news section.",
+    "RU": "Открывает каталог скриптов в разделе новостей игры."
+  },
+  "@author": "segnpa66",
+  "@version": "1.0.0",
+  "@gv": 68,
+  "locales": {
+    "*": {
+      "SinglePageAppCommunityLaserboxUrl": "https://script-library-nulls.wry-daisy-9332.chatgpt.site/"
+    },
+    "EN": {
+      "SinglePageAppCommunityLaserboxUrl": "https://script-library-nulls.wry-daisy-9332.chatgpt.site/"
+    },
+    "RU": {
+      "SinglePageAppCommunityLaserboxUrl": "https://script-library-nulls.wry-daisy-9332.chatgpt.site/"
+    }
+  }
+}

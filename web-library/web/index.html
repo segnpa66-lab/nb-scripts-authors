@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#131914">
+  <title>Script Library</title>
+  <style>__STYLE__</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="/" data-route="/" aria-label="Script Library"><span class="brand-mark">▥</span><span>Script Library</span></a>
+      <div class="top-actions">
+        <button class="icon-button" id="refresh" type="button" title="Обновить авторов" aria-label="Обновить авторов">↻</button>
+        <button class="icon-button" id="help" type="button" title="Помощь" aria-label="Помощь">?</button>
+      </div>
+    </header>
+    <div class="shell">
+      <nav class="sidebar" aria-label="Разделы">
+        <a href="/" data-route="/" data-nav="library"><span>▥</span><span data-t="Библиотека">Библиотека</span></a>
+        <a href="/authors" data-route="/authors" data-nav="authors"><span>◎</span><span data-t="Авторы">Авторы</span></a>
+        <a href="/favorites" data-route="/favorites" data-nav="favorites"><span>♡</span><span data-t="Избранное">Избранное</span></a>
+        <a href="/account" data-route="/account" data-nav="account"><span>◯</span><span data-t="Аккаунт">Аккаунт</span></a>
+        <div class="sidebar-foot"><span class="online-dot"></span><span id="catalog-age">…</span></div>
+      </nav>
+      <main id="main" tabindex="-1"><div class="loading">Загружаю авторов…</div></main>
+    </div>
+    <nav class="mobile-nav" aria-label="Разделы">
+      <a href="/" data-route="/" data-nav="library">▥<span data-t="Библиотека">Библиотека</span></a>
+      <a href="/authors" data-route="/authors" data-nav="authors">◎<span data-t="Авторы">Авторы</span></a>
+      <a href="/favorites" data-route="/favorites" data-nav="favorites">♡<span data-t="Избранное">Избранное</span></a>
+      <a href="/account" data-route="/account" data-nav="account">◯<span data-t="Аккаунт">Аккаунт</span></a>
+    </nav>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script>window.APP_TRANSLATIONS=__I18N__;window.BATTLE_CONFIG=__BATTLE__;</script>
+  <script>__SCRIPT__</script>
+</body>
+</html>

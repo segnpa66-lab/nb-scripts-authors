@@ -1,0 +1,25 @@
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
+import { deflateRawSync } from "node:zlib";
+
+const root = new URL("../", import.meta.url).pathname;
+const source = join(root, "mod/bda43cca-1004-447d-90e6-508c41470255/content.json");
+const data = readFileSync(source);
+const manifest = JSON.parse(data.toString("utf8"));
+if (manifest["@gv"] !== 68 || !manifest.locales?.["*"]?.SinglePageAppCommunityLaserboxUrl?.startsWith("https://")) throw Error("Invalid mod");
+const name = Buffer.from("content.json");
+const compressed = deflateRawSync(data);
+const crcTable = Array.from({ length: 256 }, (_, n) => { let value = n; for (let bit = 0; bit < 8; bit++) value = value & 1 ? 0xedb88320 ^ value >>> 1 : value >>> 1; return value >>> 0; });
+let crc = 0xffffffff; for (const byte of data) crc = crcTable[(crc ^ byte) & 255] ^ crc >>> 8; crc = (crc ^ 0xffffffff) >>> 0;
+const local = Buffer.alloc(30);
+local.writeUInt32LE(0x04034b50, 0); local.writeUInt16LE(20, 4); local.writeUInt16LE(8, 8);
+local.writeUInt32LE(crc, 14); local.writeUInt32LE(compressed.length, 18); local.writeUInt32LE(data.length, 22); local.writeUInt16LE(name.length, 26);
+const central = Buffer.alloc(46);
+central.writeUInt32LE(0x02014b50, 0); central.writeUInt16LE(20, 4); central.writeUInt16LE(20, 6); central.writeUInt16LE(8, 10);
+central.writeUInt32LE(crc, 16); central.writeUInt32LE(compressed.length, 20); central.writeUInt32LE(data.length, 24); central.writeUInt16LE(name.length, 28);
+const offset = local.length + name.length + compressed.length;
+const end = Buffer.alloc(22);
+end.writeUInt32LE(0x06054b50, 0); end.writeUInt16LE(1, 8); end.writeUInt16LE(1, 10); end.writeUInt32LE(central.length + name.length, 12); end.writeUInt32LE(offset, 16);
+mkdirSync(join(root, "dist"), { recursive: true });
+writeFileSync(join(root, "dist/Script-Library-unsigned.zip"), Buffer.concat([local, name, compressed, central, name, end]));
+console.log("Built unsigned mod ZIP");
