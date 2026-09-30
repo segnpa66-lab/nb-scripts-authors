@@ -1,0 +1,42 @@
+name: Android APK
+on:
+  push:
+    branches: ['android-script-library', 'main']
+    paths: ['Script-Library-Android-source.zip', 'android-library/**', '.github/workflows/android-apk.yml']
+  pull_request:
+    paths: ['Script-Library-Android-source.zip', 'android-library/**', '.github/workflows/android-apk.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract source project
+        run: unzip -o Script-Library-Android-source.zip 'android-library/*'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Test, lint and build
+        working-directory: android-library
+        run: gradle --no-daemon testDebugUnitTest lintDebug assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Script-Library-APK
+          path: android-library/app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-reports
+          path: |
+            android-library/app/build/reports/tests
+            android-library/app/build/reports/lint-results-debug.html
