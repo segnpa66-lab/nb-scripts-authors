@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <queries><intent><action android:name="android.intent.action.VIEW"/><data android:scheme="nullsbrawl"/></intent></queries>
+    <application android:label="Script Library" android:theme="@style/AppTheme" android:icon="@drawable/ic_library" android:allowBackup="false" android:dataExtractionRules="@xml/data_extraction_rules" android:usesCleartextTraffic="false" android:supportsRtl="true">
+        <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop" android:configChanges="uiMode|orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https" android:host="scripting.nulls.gg" android:pathPrefix="/scripts/"/>
+                <data android:scheme="https" android:host="scripting.nulls.gg" android:pathPrefix="/@"/>
+                <data android:scheme="https" android:host="scripting.nulls.gg" android:pathPrefix="/users/"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

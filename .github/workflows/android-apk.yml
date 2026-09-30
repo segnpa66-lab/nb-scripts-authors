@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract source project
-        run: unzip -o Script-Library-Android-source.zip 'android-library/*'
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
