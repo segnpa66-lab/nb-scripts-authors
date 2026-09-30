@@ -4,6 +4,8 @@ const AUTHORS = "https://raw.githubusercontent.com/segnpa66-lab/nb-scripts-autho
 const COOKIE = "sl_session";
 const UUID = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
 const HANDLE = "[A-Za-z0-9_.-]{1,64}";
+let catalogSnapshot = null;
+let catalogExpires = 0;
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), {
   status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...extra }
 });
@@ -94,17 +96,16 @@ async function catalog() {
   return { authors, scripts, listed: names.length, refreshed_at: new Date().toISOString() };
 }
 async function catalogResponse(request) {
-  const cache = globalThis.caches?.default;
-  const key = new Request(new URL("/data/catalog", request.url).toString());
-  if (cache && !new URL(request.url).searchParams.has("refresh")) {
-    const hit = await cache.match(key);
-    if (hit) return hit;
-  }
+  if (catalogSnapshot && Date.now() < catalogExpires && !new URL(request.url).searchParams.has("refresh"))
+    return json(catalogSnapshot, 200, { "cache-control": "public, max-age=300" });
   try {
-    const response = json(await catalog(), 200, { "cache-control": "public, max-age=300" });
-    if (cache) await cache.put(key, response.clone());
-    return response;
-  } catch { return json({ error: "Не удалось загрузить список авторов." }, 503); }
+    catalogSnapshot = await catalog();
+    catalogExpires = Date.now() + 300000;
+    return json(catalogSnapshot, 200, { "cache-control": "public, max-age=300" });
+  } catch (error) {
+    console.error("catalog load failed", error);
+    return json({ error: "Не удалось загрузить список авторов." }, 503);
+  }
 }
 function allowed(method, path) {
   const script = new RegExp("^/scripts/" + UUID + "$");
