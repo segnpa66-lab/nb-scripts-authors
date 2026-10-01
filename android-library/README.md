@@ -1,6 +1,6 @@
 # Script Library — Android
 
-Native Android 10+ application for Null’s Brawl scripts. No application backend, advertising SDK or analytics. The app talks directly to `https://scripting.nulls.gg/api` and reads the author registry from the existing `main/list.txt` in this repository.
+Native Android 10+ application for Null’s Brawl scripts. No application backend, advertising SDK or analytics. The app talks directly to `https://scripting.nulls.gg/api` and reads the author registry from the existing `android-script-library/list.txt` in this repository.
 
 ## Build and install
 

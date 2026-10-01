@@ -1,7 +1,7 @@
 name: Android APK
 on:
   push:
-    branches: ['android-script-library', 'main']
+    branches: ['android-script-library']
     paths: ['Script-Library-Android-source.zip', 'android-library/**', '.github/workflows/android-apk.yml']
   pull_request:
     paths: ['Script-Library-Android-source.zip', 'android-library/**', '.github/workflows/android-apk.yml']
