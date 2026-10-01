@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Generate NB Luau declarations and an IDE schema from the official Markdown API.
 
-The parser reads the documented signatures instead of copying another project's
-declarations. Unknown enum members stay unknown; CSV names are validated by the
-IDE's separately updated catalogue.
+The parser reads documented signatures. Enum members and CSV names are supplied
+by the separately extracted game catalogue.
 """
 from __future__ import annotations
 
@@ -150,10 +149,11 @@ def field_type(item: dict) -> str:
 
 
 def generate(classes: dict, catalog: dict | None = None) -> str:
+    enum_values = (catalog or {}).get("enums", {})
     lines = [
         "--!strict",
-        "-- Generated from nulls-mods-community/scripting-docs/reference.md",
-        "-- Run: python generate_api.py",
+        f"-- Null Studio NB Scripting declarations · {catalog.get('gameVersion', 'current') if catalog else 'current'}",
+        "-- Generated file; edit the input data and regenerate.",
         "-- Runtime values are Java userdata; these are editor declarations only.",
         "",
         "type Iterable<T> = { T }",
@@ -171,8 +171,14 @@ def generate(classes: dict, catalog: dict | None = None) -> str:
     ]
     for name in classes:
         if name in ENUMS:
-            # The public reference does not list every enum constant.
-            lines.extend([f"type {name} = {{ [string]: any }}", f"declare {name}: {name}", ""])
+            values = enum_values.get(name, [])
+            if values:
+                lines.append(f"type {name} = {{")
+                lines.extend(f"    read {value}: {name}," for value in values)
+                lines.append("}")
+            else:
+                lines.append(f"type {name} = {{ [string]: any }}")
+            lines.extend([f"declare {name}: {name}", ""])
             continue
         if name == "ArrayList":
             continue
@@ -195,8 +201,7 @@ def generate(classes: dict, catalog: dict | None = None) -> str:
     names = (catalog or {}).get("names", {})
     if names:
         lines.extend([
-            f"-- Internal lookup names from Nulls Brawl {catalog.get('gameVersion', 'unknown')}",
-            "-- For another game version, regenerate from its APK.", "",
+            f"-- lookup() names · {catalog.get('gameVersion', 'unknown')}", "",
         ])
         for type_id, values in names.items():
             if int(type_id) not in LOOKUP_RESULTS:
@@ -234,6 +239,12 @@ def main() -> None:
             reference = response.read().decode("utf-8")
     classes = parse_reference(reference)
     catalog = json.loads(CATALOG.read_text(encoding="utf-8")) if CATALOG.exists() else None
+    for name, values in (catalog or {}).get("enums", {}).items():
+        if name in classes:
+            classes[name]["fields"] = [
+                {"name": value, "signature": name, "description": "", "readonly": True}
+                for value in values
+            ]
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "api-schema.json").write_text(
         json.dumps({"source": "nulls-mods-community/scripting-docs",
