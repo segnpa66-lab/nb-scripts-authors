@@ -4,14 +4,16 @@ Native Android 10+ application for Null’s Brawl scripts. No application backen
 
 ## Build and install
 
-Open **Actions → Android APK**, download **Script-Library-APK**, unzip and install `app-debug.apk`. This first build is signed with the standard development key; a stable release signing key is needed before distributing future automatic APK updates. The app automatically refreshes its catalogue/session, not its APK binary. Build locally with JDK 17, Android SDK 35 and Gradle 8.9: `gradle testDebugUnitTest lintDebug assembleDebug` inside `android-library/`.
+Install the signed `Script-Library.apk` from [Releases](https://github.com/segnpa66-lab/nb-scripts-authors/releases). At launch the app checks the latest release with a five-second timeout. When a newer version exists, it downloads the release APK, verifies the GitHub SHA-256 digest and opens Android's package installer. Android requires user confirmation; it cannot silently install. Older debug builds use a different signing certificate and require one uninstall/reinstall before stable release updates can work.
+
+Build locally with JDK 17, Android SDK 35 and Gradle 8.9: `gradle testDebugUnitTest lintDebug assembleDebug` inside `android-library/`. The CI release job runs on `v*` tags. It needs `RELEASE_KEYSTORE_BASE64`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, and `RELEASE_KEY_PASSWORD` repository secrets. Back up the matching keystore privately: losing it prevents in-place updates to installed release APKs. Generated APKs and ZIPs belong in Actions or Releases, not Git.
 
 ## Features
 
 - Public scripts from the remotely maintained author list, random/new/old/alphabetical/recently updated order. Guest browsing and battle setup work without signing in when the service permits the author's script to launch.
 - Partial search in titles, authors, descriptions, UUIDs and available indexed code. Code indexing is explicit, cancellable and limited to 24 MiB in memory; failures and coverage are shown. Unindexed/inaccessible code is not searched.
 - Public author profiles, script details, sharing and Android deep links. Favourites require an account.
-- Authenticated code viewing and downloads through `/scripts/{uuid}/content`, never through share tokens. Downloads use Android MediaStore at `/sdcard/Download/script_library/` and remove email addresses. Code sent to the editor/server is preserved as authored.
+- Authenticated code viewing and downloads through `/scripts/{uuid}/content`, never through share tokens. Downloads use Android MediaStore at `/sdcard/Download/script_library/`.
 - Create/import/edit/name/description, explicit publication and confirmed deletion of own scripts. Creation and metadata updates are separate API calls, so a partially completed operation may leave a draft which remains editable in My scripts.
 - All 32 currently verified battle settings, persisted per script. A fresh public share token is requested for each game launch, using the official `params:v2` Base62 room format. A script whose author has no Connect configuration cannot launch. Unknown additional parameter IDs are reported and linked to the official site rather than silently omitted.
 - Lua syntax highlighting, light and dark themes, and 15 bundled languages selected from the device or in app settings.

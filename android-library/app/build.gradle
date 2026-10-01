@@ -2,6 +2,7 @@ plugins { id 'com.android.application' }
 android {
     namespace 'gg.nulls.library'
     compileSdk 35
+    buildFeatures { buildConfig true }
     signingConfigs {
         release {
             if (System.getenv('RELEASE_KEYSTORE')) {
