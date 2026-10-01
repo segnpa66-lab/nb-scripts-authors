@@ -274,5 +274,19 @@
   "Слишком большой запрос.": "Request too large.",
   "Слишком много запросов. Повторите позже.": "Too many requests. Try again later.",
   "Требуется вход.": "Sign in required.",
-  "У автора нет Null’s Connect.": "The author has no Null’s Connect."
+  "У автора нет Null’s Connect.": "The author has no Null’s Connect.",
+  "В чёрном списке": "Blocked",
+  "Разблокировать автора": "Unblock author",
+  "Заблокировать автора": "Block author",
+  "Показывать в «Случайно»": "Show in Random",
+  "Скрыть в «Случайно»": "Hide in Random",
+  "Только для случайной сортировки": "Only for random sorting",
+  "Автор заблокирован на этом устройстве.": "This author is blocked on this device.",
+  "Разблокировать скрипт": "Unblock script",
+  "Заблокировать скрипт": "Block script",
+  "Чёрный список": "Blocklist",
+  "Сохраняется только на этом устройстве.": "Saved on this device only.",
+  "Разблокировать": "Unblock",
+  "Чёрный список пуст": "Blocklist is empty",
+  "Открыть скрипт по ссылке или UUID": "Open script by link or UUID"
 }

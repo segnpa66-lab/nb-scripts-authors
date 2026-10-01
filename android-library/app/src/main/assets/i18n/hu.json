@@ -274,5 +274,19 @@
   "Слишком большой запрос.": "A kérés túl nagy.",
   "Слишком много запросов. Повторите позже.": "Túl sok kérés. Próbáld később.",
   "Требуется вход.": "Bejelentkezés szükséges.",
-  "У автора нет Null’s Connect.": "A szerzőnek nincs Null’s Connect hozzáférése."
+  "У автора нет Null’s Connect.": "A szerzőnek nincs Null’s Connect hozzáférése.",
+  "В чёрном списке": "Letiltva",
+  "Разблокировать автора": "Szerző feloldása",
+  "Заблокировать автора": "Szerző letiltása",
+  "Показывать в «Случайно»": "Megjelenítés véletlen sorrendben",
+  "Скрыть в «Случайно»": "Elrejtés véletlen sorrendben",
+  "Только для случайной сортировки": "Csak véletlen rendezésnél",
+  "Автор заблокирован на этом устройстве.": "Ez a szerző le van tiltva ezen az eszközön.",
+  "Разблокировать скрипт": "Szkript feloldása",
+  "Заблокировать скрипт": "Szkript letiltása",
+  "Чёрный список": "Tiltólista",
+  "Сохраняется только на этом устройстве.": "Csak ezen az eszközön tárolódik.",
+  "Разблокировать": "Feloldás",
+  "Чёрный список пуст": "A tiltólista üres",
+  "Открыть скрипт по ссылке или UUID": "Szkript megnyitása hivatkozással vagy UUID-vel"
 }

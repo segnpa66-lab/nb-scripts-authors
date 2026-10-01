@@ -274,5 +274,19 @@
   "Слишком большой запрос.": "Żądanie jest za duże.",
   "Слишком много запросов. Повторите позже.": "Zbyt wiele żądań. Spróbuj później.",
   "Требуется вход.": "Wymagane logowanie.",
-  "У автора нет Null’s Connect.": "Autor nie ma Null’s Connect."
+  "У автора нет Null’s Connect.": "Autor nie ma Null’s Connect.",
+  "В чёрном списке": "Zablokowano",
+  "Разблокировать автора": "Odblokuj autora",
+  "Заблокировать автора": "Zablokuj autora",
+  "Показывать в «Случайно»": "Pokaż w losowej kolejności",
+  "Скрыть в «Случайно»": "Ukryj w losowej kolejności",
+  "Только для случайной сортировки": "Tylko przy losowym sortowaniu",
+  "Автор заблокирован на этом устройстве.": "Ten autor jest zablokowany na tym urządzeniu.",
+  "Разблокировать скрипт": "Odblokuj skrypt",
+  "Заблокировать скрипт": "Zablokuj skrypt",
+  "Чёрный список": "Lista zablokowanych",
+  "Сохраняется только на этом устройстве.": "Zapisano tylko na tym urządzeniu.",
+  "Разблокировать": "Odblokuj",
+  "Чёрный список пуст": "Lista zablokowanych jest pusta",
+  "Открыть скрипт по ссылке или UUID": "Otwórz skrypt przez link lub UUID"
 }

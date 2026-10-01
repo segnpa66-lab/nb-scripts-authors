@@ -274,5 +274,19 @@
   "Слишком большой запрос.": "Verzoek is te groot.",
   "Слишком много запросов. Повторите позже.": "Te veel verzoeken. Probeer het later opnieuw.",
   "Требуется вход.": "Aanmelden vereist.",
-  "У автора нет Null’s Connect.": "De auteur heeft geen Null’s Connect."
+  "У автора нет Null’s Connect.": "De auteur heeft geen Null’s Connect.",
+  "В чёрном списке": "Geblokkeerd",
+  "Разблокировать автора": "Auteur deblokkeren",
+  "Заблокировать автора": "Auteur blokkeren",
+  "Показывать в «Случайно»": "Tonen bij willekeurig",
+  "Скрыть в «Случайно»": "Verbergen bij willekeurig",
+  "Только для случайной сортировки": "Alleen bij willekeurige sortering",
+  "Автор заблокирован на этом устройстве.": "Deze auteur is op dit apparaat geblokkeerd.",
+  "Разблокировать скрипт": "Script deblokkeren",
+  "Заблокировать скрипт": "Script blokkeren",
+  "Чёрный список": "Blokkeerlijst",
+  "Сохраняется только на этом устройстве.": "Alleen op dit apparaat opgeslagen.",
+  "Разблокировать": "Deblokkeren",
+  "Чёрный список пуст": "De blokkeerlijst is leeg",
+  "Открыть скрипт по ссылке или UUID": "Script openen via link of UUID"
 }

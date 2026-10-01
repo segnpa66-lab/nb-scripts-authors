@@ -1,6 +1,7 @@
 package gg.nulls.library;
 
 import java.math.BigInteger;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.text.Collator;
 import java.util.*;
@@ -30,6 +31,17 @@ public final class Core {
         return "nullsbrawl://createAndJoinRoom?roomname=params:v2:"+base62(o.toString().getBytes(StandardCharsets.UTF_8))+"&friendly=1&side=0";
     }
     public static void requireUuid(String id){if(id==null||!id.matches("(?i)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"))throw new IllegalArgumentException("Некорректный UUID");}
+    public static String scriptId(String input){
+        if(input==null)return null;
+        String value=input.trim();
+        try{requireUuid(value);return value.toLowerCase(Locale.ROOT);}catch(IllegalArgumentException ignored){}
+        try{URI uri=URI.create(value);if(!"https".equalsIgnoreCase(uri.getScheme())||!"scripting.nulls.gg".equalsIgnoreCase(uri.getHost())||uri.getUserInfo()!=null||uri.getPort()!=-1)return null;
+            Matcher match=Pattern.compile("^/scripts/([0-9a-fA-F-]{36})/?$").matcher(uri.getPath());if(!match.matches())return null;String id=match.group(1);requireUuid(id);return id.toLowerCase(Locale.ROOT);
+        }catch(Exception ignored){return null;}
+    }
+    public static boolean hidden(JSONObject script,String handle,Set<String> blockedAuthors,Set<String> blockedScripts,boolean hideD2Random,boolean randomSort){
+        return blockedScripts.contains(script.optString("uuid"))||blockedAuthors.contains(script.optString("author_uuid"))||randomSort&&hideD2Random&&"d2rkmean".equalsIgnoreCase(handle);
+    }
     public static String clean(String s){return s==null?"":s.replaceAll("(?i)[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\\.[a-z0-9-]+)+","[email удалён]");}
     public static JSONObject publicUser(JSONObject raw)throws JSONException{JSONObject o=new JSONObject();for(String k:new String[]{"uuid","name","username"})o.put(k,clean(raw.optString(k,"")));return o;}
     public static JSONObject publicScript(JSONObject raw)throws JSONException{JSONObject o=new JSONObject();for(String k:new String[]{"uuid","author_uuid","author_name","name","description","created_at","updated_at","published_at"})if(!raw.isNull(k))o.put(k,clean(raw.optString(k,"")));o.put("is_favorite",raw.optBoolean("is_favorite"));return o;}
