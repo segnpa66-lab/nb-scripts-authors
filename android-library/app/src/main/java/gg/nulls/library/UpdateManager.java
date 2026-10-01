@@ -27,6 +27,7 @@ final class UpdateManager {
     private static final String LATEST = "https://api.github.com/repos/segnpa66-lab/nb-scripts-authors/releases/latest";
     private static final ExecutorService NETWORK = Executors.newSingleThreadExecutor();
     private static final Handler UI = new Handler(Looper.getMainLooper());
+    private static File pendingApk;
 
     static final class Release {
         final String version, url, sha256;
@@ -124,16 +125,23 @@ final class UpdateManager {
 
     private static void install(Activity activity, File apk, Consumer<String> error) {
         if (!activity.getPackageManager().canRequestPackageInstalls()) {
+            pendingApk = apk;
             Intent settings = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + activity.getPackageName()));
-            try { activity.startActivity(settings); error.accept("Разрешите установку из этого приложения и нажмите «Обновить» ещё раз."); }
+            try { activity.startActivity(settings); }
             catch (Exception ignored) { error.accept("Разрешите установку приложений из этого источника в настройках Android."); }
             return;
         }
+        pendingApk = null;
         try {
             Uri uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".updates", apk);
             Intent intent = new Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
                     .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
         } catch (Exception exception) { error.accept("Не удалось открыть установщик Android."); }
+    }
+
+    static void resumeInstall(Activity activity, Consumer<String> error) {
+        File apk = pendingApk;
+        if (apk != null && activity.getPackageManager().canRequestPackageInstalls()) install(activity, apk, error);
     }
 }
