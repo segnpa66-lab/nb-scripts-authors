@@ -1,6 +1,6 @@
 (() => {
   const main = document.getElementById("main");
-  const state = { catalog: null, user: null, own: [], ownLoaded: false, favorites: new Set(), codes: new Map(), query: "", scope: "all", sort: "random", seed: Math.random(), visible: 60, detail: null, author: null, authorScripts: null, params: [], indexing: false };
+  const state = { catalog: null, user: null, own: [], ownLoaded: false, favorites: new Set(), codes: new Map(), codeVersions: new Map(), query: "", scope: "all", sort: "random", seed: Math.random(), visible: 60, detail: null, author: null, authorScripts: null, params: [], indexing: false };
   const languages = ["system", "en", "ru", "kk", "uk", "be", "pl", "sr", "hu", "zh-Hans", "ja", "pt-BR", "es", "it", "de", "nl"];
   const bundled = location.protocol === "file:" || location.hostname === "segnpa66-lab.github.io";
   const apiOrigin = bundled ? "https://script-library-nulls.tmtsttamt022.chatgpt.site" : "";
@@ -12,6 +12,27 @@
     set: value => { try { sessionStorage.setItem("script-library-session", value); } catch { /* Memory-only session. */ } },
     clear: () => { try { sessionStorage.removeItem("script-library-session"); } catch { /* Memory-only session. */ } }
   };
+  const battleKey = id => "battle-settings:" + id;
+  function battleLimits(i) { const config = window.BATTLE_CONFIG; return { min: config.min[i], max: config.max[i], defaultValue: config.defaults[i] }; }
+  function initialBattleValues(id, parameters) {
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(battleKey(id)) || "null"); } catch { /* Ignore invalid preset. */ }
+    return window.BATTLE_RULES.initial(window.BATTLE_CONFIG, parameters, saved);
+  }
+  function readBattleValues(form) {
+    const config = window.BATTLE_CONFIG;
+    const values = config.ids.map((_, i) => {
+      const field = form.elements.namedItem("p" + i);
+      return field.type === "checkbox" ? (field.checked ? 1 : i === 23 ? -1 : 0) : field.value.trim() === "" ? NaN : Number(field.value);
+    });
+    try { return window.BATTLE_RULES.validate(config, values); }
+    catch (error) {
+      const i = error.index;
+      if (i >= 0) { form.elements.namedItem("p" + i).focus(); throw Error(tr(config.names[i]) + ": " + config.min[i] + " … " + config.max[i]); }
+      throw error;
+    }
+  }
+  function storeBattleValues(id, values) { try { localStorage.setItem(battleKey(id), JSON.stringify(values)); return true; } catch { return false; } }
   let localSession = bundled ? sessionStore.get() : "";
   let directAvailable = false;
   const directProbe = location.protocol === "file:" ? fetch("https://scripting.nulls.gg/api/users/@evserym", { signal: AbortSignal.timeout(4000) }).then(response => { directAvailable = response.ok; }).catch(() => {}) : Promise.resolve();
@@ -33,7 +54,7 @@
     if (!response) response = await fetch(apiOrigin + path, { credentials: bundled ? "omit" : "same-origin", ...options, headers });
     let body;
     try { body = await response.json(); } catch { body = {}; }
-    if (!response.ok) throw new Error(body.error || tr("Не удалось выполнить"));
+    if (!response.ok) { const error = new Error(body.error || tr("Не удалось выполнить")); error.status = response.status; throw error; }
     return body;
   };
   const date = raw => raw ? new Intl.DateTimeFormat(locale(), { dateStyle: "medium", timeStyle: "short" }).format(new Date(raw)) : tr("Без даты");
@@ -188,6 +209,7 @@
         try { data = await directCatalog(); } catch { directAvailable = false; }
       }
       if (!data) data = await js("/data/catalog" + (refresh ? "?refresh=1" : ""));
+      for (const script of data.scripts) if (state.codes.has(script.uuid) && state.codeVersions.get(script.uuid) !== (script.updated_at || script.created_at || "")) { state.codes.delete(script.uuid); state.codeVersions.delete(script.uuid); }
       state.catalog = data;
       const node = document.getElementById("catalog-age");
       node.textContent = `${data.authors.length} ${tr("авторов")} · ${data.scripts.length} ${tr("скриптов")}`;
@@ -237,21 +259,93 @@
   async function showCode() {
     if (!state.detail) return;
     const id = state.detail.uuid;
+    const display = content => { main.innerHTML = `<button class="back" data-action="detail">← ${e(tr("Скрипт"))}</button>` + heading(state.detail.name) + `<pre class="code"><code>${highlight(content)}</code></pre>`; };
+    if (state.codes.has(id)) { display(state.codes.get(id)); return; }
     main.innerHTML = `<div class="loading">${e(tr("Загружаю код…"))}</div>`;
     try {
       const data = await js("/api/scripts/" + id + "/content");
       state.codes.set(id, data.content || "");
-      main.innerHTML = `<button class="back" data-action="detail">← ${e(tr("Скрипт"))}</button>` + heading(state.detail.name) + `<pre class="code"><code>${highlight(data.content || "")}</code></pre>`;
+      const script = state.catalog?.scripts.find(item => item.uuid === id) || state.own.find(item => item.uuid === id);
+      if (script) state.codeVersions.set(id, script.updated_at || script.created_at || "");
+      if (script) saveCodeCache([{ ...script, content: data.content || "" }]);
+      display(data.content || "");
     } catch (error) { toast(error.message); detail(); }
+  }
+  let codeDbPromise;
+  function codeDb() {
+    if (!codeDbPromise) codeDbPromise = new Promise((resolve, reject) => {
+      const request = indexedDB.open("script-library-codes", 1);
+      request.onupgradeneeded = () => request.result.createObjectStore("codes", { keyPath: "key" });
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    }).catch(() => null);
+    return codeDbPromise;
+  }
+  async function loadCodeCache(list) {
+    try {
+      const db = await codeDb(); if (!db || !state.user) return;
+      const rows = await new Promise((resolve, reject) => {
+        const request = db.transaction("codes", "readonly").objectStore("codes").getAll();
+        request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error);
+      });
+      const current = new Map(list.map(script => [script.uuid, script.updated_at || script.created_at || ""]));
+      for (const row of rows) if (row.owner === state.user.uuid && current.get(row.id) === row.updated) { state.codes.set(row.id, row.content); state.codeVersions.set(row.id, row.updated); }
+    } catch { /* Cache is optional. */ }
+  }
+  async function saveCodeCache(rows) {
+    if (!rows.length || !state.user) return;
+    const owner = state.user.uuid;
+    try {
+      const db = await codeDb(); if (!db) return;
+      await new Promise((resolve, reject) => {
+        const transaction = db.transaction("codes", "readwrite");
+        for (const row of rows) transaction.objectStore("codes").put({ key: owner + ":" + row.uuid, owner, id: row.uuid, updated: row.updated_at || row.created_at || "", content: row.content });
+        transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error);
+      });
+    } catch { /* Search still works in memory. */ }
+  }
+  async function clearCodeCache() {
+    try {
+      const db = await codeDb(); if (!db) return;
+      await new Promise((resolve, reject) => {
+        const transaction = db.transaction("codes", "readwrite"); transaction.objectStore("codes").clear();
+        transaction.oncomplete = resolve; transaction.onerror = () => reject(transaction.error);
+      });
+    } catch { /* Ignore unavailable storage. */ }
   }
   async function indexCodes() {
     if (state.indexing) return;
     if (!state.user) { go("/account"); toast(tr("Сначала войдите в Null’s")); return; }
     const list = state.catalog?.scripts || [];
     state.indexing = true; library();
-    let cursor = 0, done = 0, failed = 0;
-    async function one() { while (cursor < list.length && state.indexing) { const script = list[cursor++]; if (!state.codes.has(script.uuid)) try { const data = await js("/api/scripts/" + script.uuid + "/content"); state.codes.set(script.uuid, data.content || ""); } catch { failed++; } done++; if (done % 25 === 0) toast(`${tr("Код: ")}${done} / ${list.length}`); } }
-    await Promise.all(Array.from({ length: Math.min(18, list.length) }, one));
+    await loadCodeCache(list);
+    const pending = list.filter(script => !state.codes.has(script.uuid));
+    let cursor = 0, done = list.length - pending.length, failed = 0, cooldown = 0;
+    const fetched = [];
+    async function one() {
+      while (cursor < pending.length && state.indexing) {
+        const script = pending[cursor++];
+        for (let attempt = 0; attempt < 3; attempt++) {
+          try {
+            if (cooldown > Date.now()) await new Promise(resolve => setTimeout(resolve, cooldown - Date.now()));
+            const data = await js("/api/scripts/" + script.uuid + "/content");
+            if (!state.indexing || !state.user) break;
+            const content = data.content || "";
+            state.codes.set(script.uuid, content); state.codeVersions.set(script.uuid, script.updated_at || script.created_at || ""); fetched.push({ ...script, content }); break;
+          } catch (error) {
+            if (error.status === 429 || error.status === 502 || error.status === 503) {
+              cooldown = Math.max(cooldown, Date.now() + 500 * (attempt + 1));
+              if (attempt < 2) continue;
+            }
+            failed++; break;
+          }
+        }
+        done++;
+        if (done % 25 === 0 || done === list.length) toast(`${tr("Код: ")}${done} / ${list.length}`);
+      }
+    }
+    await Promise.all(Array.from({ length: Math.min(32, pending.length) }, one));
+    await saveCodeCache(fetched);
     state.indexing = false; if (routePath() === "/") library();
     toast(`${tr("Код: ")}${state.codes.size} / ${list.length}${failed ? " · " + failed + " " + tr("недоступно") : ""}`);
   }
@@ -276,30 +370,27 @@
       state.params = data.parameters || [];
       const known = new Map(state.params.map(param => [param.id, param]));
       const config = window.BATTLE_CONFIG;
+      const values = initialBattleValues(state.detail.uuid, state.params);
       const extra = state.params.filter(param => !config.ids.includes(param.id));
       main.innerHTML = `<button class="back" data-action="detail">← ${e(tr("Скрипт"))}</button>` + heading(tr("Настройка боя"), state.detail.name) +
         (extra.length ? `<div class="notice">${e(tr("Есть дополнительные параметры, которые эта версия не передаёт."))}</div>` : "") +
         `<form id="battle-form" class="panel">${[["Уровни",0,4],["Скорость и заряд",4,10],["Арена и боты",10,16],["Способности",16,20],["Кубики и вход",20,26],["Дополнительно",26,32]].map(([title,start,end]) => `<section class="battle-section"><h2>${e(tr(title))}</h2><div class="battle-grid">${config.ids.slice(start,end).map((id, index) => {
           const i = start + index;
-          const param = known.get(id); const value = param?.default_value ?? config.defaults[i];
+          const param = known.get(id); const value = values[i];
           const isBool = param?.type === "bool" || [13,16,17,18,21,23,25,26,27,28,29,30].includes(i);
           const name = tr(config.names[i]);
-          return `<div class="battle-option"><label for="p${i}">${e(name)}</label>${isBool ? `<input id="p${i}" name="p${i}" type="checkbox" ${value === 1 ? "checked" : ""}>` : `<input id="p${i}" name="p${i}" type="number" min="${param?.min_value ?? config.min[i]}" max="${param?.max_value ?? config.max[i]}" value="${value}" required>`}</div>`;
-        }).join("")}</div></section>`).join("")}<div class="actions"><button type="submit" class="button primary">${e(tr("Запустить в Null’s Brawl"))}</button></div></form>`;
+          const range = `${tr("Мин")}: ${config.min[i]} · ${tr("Макс")}: ${config.max[i]} · ${tr("По умолчанию")}: ${config.defaults[i]}`;
+          return `<div class="battle-option"><div class="battle-option-head"><label for="p${i}">${e(name)}</label>${isBool ? `<input id="p${i}" name="p${i}" type="checkbox" ${value === 1 ? "checked" : ""}>` : ""}</div><div class="battle-range">${e(range)}</div>${isBool ? "" : `<div class="stepper"><button type="button" data-action="step" data-index="${i}" data-delta="-1" aria-label="${e(tr("Уменьшить"))}: ${e(name)}">−</button><input id="p${i}" name="p${i}" type="number" inputmode="numeric" min="${config.min[i]}" max="${config.max[i]}" value="${value}" required><button type="button" data-action="step" data-index="${i}" data-delta="1" aria-label="${e(tr("Увеличить"))}: ${e(name)}">+</button></div>`}</div>`;
+        }).join("")}</div></section>`).join("")}<div class="actions battle-actions">${button("Сбросить параметры", "reset-battle")}${button("Сохранить параметры", "save-battle")}<button type="submit" class="button primary">${e(tr("Запустить в Null’s Brawl"))}</button></div></form>`;
     } catch (error) { toast(error.message); detail(); }
   }
   async function launch(form) {
-    const config = window.BATTLE_CONFIG, values = [];
-    for (let i = 0; i < 32; i++) {
-      const field = form.elements["p" + i], isBool = field.type === "checkbox";
-      const value = isBool ? (field.checked ? 1 : i === 23 ? -1 : 0) : Number(field.value);
-      const param = state.params.find(item => item.id === config.ids[i]);
-      if (!Number.isInteger(value) || value < (param?.min_value ?? config.min[i]) || value > (param?.max_value ?? config.max[i])) { field.focus(); toast(tr("Проверьте параметры боя")); return; }
-      values.push(value);
-    }
+    let values;
+    try { values = readBattleValues(form); } catch (error) { toast(error.message); return; }
     try {
       const data = await js("/api/scripts/" + state.detail.uuid + "/share", { method: "POST" });
       const link = roomLink(state.detail.uuid, data.token, values);
+      storeBattleValues(state.detail.uuid, values);
       main.innerHTML += `<div class="panel" style="margin-top:14px"><p>${e(tr("Ссылка на бой готова."))}</p><div class="actions"><a class="button primary" href="${e(link)}">${e(tr("Открыть игру"))}</a>${button("Скопировать ссылку", "copy-room")}</div></div>`;
       state.roomLink = link;
       location.href = link;
@@ -319,6 +410,23 @@
       if (action === "refresh") { await loadCatalog(true); return; }
       if (action === "index") { await indexCodes(); return; }
       if (action === "battle") { await battle(); return; }
+      if (action === "step") {
+        const i = Number(control.dataset.index), delta = Number(control.dataset.delta), field = document.getElementById("p" + i);
+        if (!Number.isInteger(i) || i < 0 || i >= 32 || !field || field.type !== "number") return;
+        const { min, max, defaultValue } = battleLimits(i);
+        field.value = String(Math.max(min, Math.min(max, (Number.isInteger(Number(field.value)) && field.value !== "" ? Number(field.value) : defaultValue) + delta)));
+        return;
+      }
+      if (action === "reset-battle") {
+        const form = document.getElementById("battle-form"), config = window.BATTLE_CONFIG;
+        config.defaults.forEach((value, i) => { const field = form.elements.namedItem("p" + i); if (field.type === "checkbox") field.checked = value === 1; else field.value = value; });
+        toast(tr("Параметры сброшены")); return;
+      }
+      if (action === "save-battle") {
+        const values = readBattleValues(document.getElementById("battle-form"));
+        if (storeBattleValues(state.detail.uuid, values)) toast(tr("Параметры сохранены")); else toast(tr("Не удалось сохранить параметры"));
+        return;
+      }
       if (action === "code") { if (!state.user) { go("/account"); toast(tr("Сначала войдите в Null’s")); } else await showCode(); return; }
       if (action === "share-script") { await share("/scripts/" + state.detail.uuid); return; }
       if (action === "share-author") { await share("/authors/" + state.author.username); return; }
@@ -333,7 +441,7 @@
         if (remove) state.favorites.delete(id); else state.favorites.add(id);
         detail(); toast(tr(remove ? "Удалено из избранного" : "Добавлено в избранное")); return;
       }
-      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); localSession = ""; if (bundled) sessionStore.clear(); state.user = null; state.own = []; state.ownLoaded = false; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
+      if (action === "logout") { state.indexing = false; try { await js("/api/auth/logout", { method: "POST" }); } catch { /* Clear the local session anyway. */ } localSession = ""; if (bundled) sessionStore.clear(); await clearCodeCache(); state.user = null; state.own = []; state.ownLoaded = false; state.favorites.clear(); state.codes.clear(); state.codeVersions.clear(); go("/"); toast(tr("Вы вышли")); }
     } catch (error) { toast(error.message); }
   });
   document.addEventListener("submit", async event => {

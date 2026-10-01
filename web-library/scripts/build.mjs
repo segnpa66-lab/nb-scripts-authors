@@ -11,9 +11,10 @@ const battle = JSON.parse(read("web/battle-config.json"));
 let page = read("web/index.html")
   .replace("__STYLE__", read("web/style.css").replace(/<\/style/gi, "<\\/style"))
   .replace("__SCRIPT__", read("web/app.js").replace(/<\/script/gi, "<\\/script"))
+  .replace("__BATTLE_RULES__", read("web/battle-rules.js").replace(/<\/script/gi, "<\\/script"))
   .replace("__I18N__", JSON.stringify(locales))
   .replace("__BATTLE__", JSON.stringify(battle));
-if (page.includes("__STYLE__") || page.includes("__SCRIPT__") || page.includes("__I18N__") || page.includes("__BATTLE__")) throw Error("Unresolved asset");
+if (page.includes("__STYLE__") || page.includes("__SCRIPT__") || page.includes("__BATTLE_RULES__") || page.includes("__I18N__") || page.includes("__BATTLE__")) throw Error("Unresolved asset");
 const worker = read("worker/index.js").replace('"__PAGE__"', JSON.stringify(page));
 if (worker.includes('"__PAGE__"')) throw Error("Unresolved HTML");
 mkdirSync(join(root, "dist/server"), { recursive: true });
