@@ -2,12 +2,13 @@ name: Android APK
 on:
   push:
     branches: ['android-script-library']
-    paths: ['Script-Library-Android-source.zip', 'android-library/**', '.github/workflows/android-apk.yml']
+    tags: ['v*']
+    paths: ['android-library/**', '.github/workflows/android-apk.yml']
   pull_request:
-    paths: ['Script-Library-Android-source.zip', 'android-library/**', '.github/workflows/android-apk.yml']
+    paths: ['android-library/**', '.github/workflows/android-apk.yml']
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: android-${{ github.ref }}
   cancel-in-progress: true
@@ -37,3 +38,22 @@ jobs:
           path: |
             android-library/app/build/reports/tests
             android-library/app/build/reports/lint-results-debug.html
+      - name: Build signed release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          test -n "$KEYSTORE_BASE64"
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          echo "RELEASE_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          cd android-library
+          gradle --no-daemon assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Script-Library.apk"
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP/Script-Library.apk" --verify-tag --title "$GITHUB_REF_NAME" --generate-notes

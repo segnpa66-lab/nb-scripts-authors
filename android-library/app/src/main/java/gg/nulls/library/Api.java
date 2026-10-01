@@ -52,5 +52,5 @@ final class Api {
         }finally{c.disconnect();}
     }
     static String read(InputStream stream,int limit)throws IOException{if(stream==null)return "";try(InputStream in=stream;ByteArrayOutputStream out=new ByteArrayOutputStream()){byte[] b=new byte[8192];int n;while((n=in.read(b))!=-1){if(out.size()+n>limit)throw new IOException("Файл превышает допустимый размер");out.write(b,0,n);}return out.toString(StandardCharsets.UTF_8.name());}}
-    static String authorList()throws IOException{HttpURLConnection c=(HttpURLConnection)new URL(Core.AUTHORS).openConnection();c.setConnectTimeout(15000);c.setReadTimeout(15000);try{if(c.getResponseCode()!=200)throw new IOException("Список авторов временно недоступен");return read(c.getInputStream(),256*1024);}finally{c.disconnect();}}
+    static String authorList()throws IOException{HttpURLConnection c=(HttpURLConnection)new URL(Core.AUTHORS+"?refresh="+System.currentTimeMillis()).openConnection();c.setUseCaches(false);c.setRequestProperty("Cache-Control","no-cache");c.setRequestProperty("Pragma","no-cache");c.setConnectTimeout(15000);c.setReadTimeout(15000);try{if(c.getResponseCode()!=200)throw new IOException("Список авторов временно недоступен");return read(c.getInputStream(),256*1024);}finally{c.disconnect();}}
 }
