@@ -14,8 +14,8 @@ test("catalog reads the mutable main list and includes newly added authors", asy
     if (url.startsWith("https://raw.githubusercontent.com/")) return new Response("1. https://scripting.nulls.gg/@first\n2. https://scripting.nulls.gg/@second\n3. https://scripting.nulls.gg/@first");
     if (url.endsWith("/users/@first")) return data({ uuid: "00000000-0000-0000-0000-000000000001", name: "First", username: "first" });
     if (url.endsWith("/users/@second")) return data({ uuid: "00000000-0000-0000-0000-000000000002", name: "Second", username: "second" });
-    if (url.endsWith("/users/00000000-0000-0000-0000-000000000001/scripts")) return data({ scripts: [{ uuid: "10000000-0000-0000-0000-000000000001", name: "One", published_at: "2026-09-30T00:00:00Z" }] });
-    if (url.endsWith("/users/00000000-0000-0000-0000-000000000002/scripts")) return data({ scripts: [{ uuid: "10000000-0000-0000-0000-000000000002", name: "Two", published_at: "2026-09-30T00:00:00Z" }] });
+    if (url.endsWith("/users/@first/scripts")) return data({ scripts: [{ uuid: "10000000-0000-0000-0000-000000000001", name: "One", published_at: "2026-09-30T00:00:00Z" }] });
+    if (url.endsWith("/users/@second/scripts")) return data({ scripts: [{ uuid: "10000000-0000-0000-0000-000000000002", name: "Two", published_at: "2026-09-30T00:00:00Z" }] });
     throw Error("Unexpected request: " + url);
   };
   try {
@@ -67,7 +67,7 @@ test("login stores upstream session in a first-party HttpOnly cookie", async () 
 test("API proxy rejects script editing and page routes load inside the site", async () => {
   const blocked = await worker.fetch(new Request(origin + "/api/scripts/00000000-0000-0000-0000-000000000001", { method: "DELETE" }));
   assert.equal(blocked.status, 404);
-  for (const route of ["/", "/authors", "/favorites", "/account", "/help", "/scripts/00000000-0000-0000-0000-000000000001", "/authors/first"]) {
+  for (const route of ["/", "/authors", "/mine", "/favorites", "/account", "/help", "/scripts/00000000-0000-0000-0000-000000000001", "/authors/first"]) {
     const response = await worker.fetch(new Request(origin + route));
     assert.equal(response.status, 200, route);
     assert(response.headers.get("content-type").includes("text/html"));

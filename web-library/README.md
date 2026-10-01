@@ -1,7 +1,5 @@
-# Script Library — web
+# Script Library
 
-The site reads the current `main/list.txt` from the author registry, resolves public profiles and scripts through a same-origin Worker, and caches the resulting catalogue for five minutes. It does not use a commit-pinned list URL.
+`npm test && npm run build && npm run mod` проверяет и собирает одностраничный интерфейс, API-прокси и неподписанный мод. Мод открывает интерфейс во встроенном разделе новостей игры. Основной URL размещён на GitHub Pages; локальная HTML-страница включается отдельной функцией только после установки файлов мода.
 
-The Worker also forwards a small allowlist of Null’s scripting API requests. Login credentials are sent to the service and are not saved in the site source or server storage. The upstream session is kept in a first-party, HttpOnly, Secure cookie. Script editing and file downloads are intentionally absent.
-
-`npm test && npm run build` validates and packages the Cloudflare Worker at `dist/server/index.js`. It also writes `dist/files/index.html` for the game’s in-app news WebView and GitHub Pages. The static page requests catalogue and API data through the same service; the API hostname is not shown in the game. The unsigned mod source is in `mod/`; the game’s ordinary client requires the community signing process before installation.
+Каталог читает актуальный `main/list.txt`. Публичные профили и скрипты загружаются параллельно. Сайт показывает свои скрипты после входа и позволяет запускать бой с параметрами, разбитыми на группы. Вход и приватные запросы проходят через прокси, поскольку `scripting.nulls.gg` не разрешает обычному `file://` WebView прямые CORS-запросы. Редактирования и сохранения файлов здесь нет.

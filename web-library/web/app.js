@@ -1,6 +1,6 @@
 (() => {
   const main = document.getElementById("main");
-  const state = { catalog: null, user: null, favorites: new Set(), codes: new Map(), query: "", scope: "all", sort: "random", seed: Math.random(), visible: 60, detail: null, author: null, authorScripts: null, params: [], indexing: false };
+  const state = { catalog: null, user: null, own: [], ownLoaded: false, favorites: new Set(), codes: new Map(), query: "", scope: "all", sort: "random", seed: Math.random(), visible: 60, detail: null, author: null, authorScripts: null, params: [], indexing: false };
   const languages = ["system", "en", "ru", "kk", "uk", "be", "pl", "sr", "hu", "zh-Hans", "ja", "pt-BR", "es", "it", "de", "nl"];
   const bundled = location.protocol === "file:" || location.hostname === "segnpa66-lab.github.io";
   const apiOrigin = bundled ? "https://script-library-nulls.tmtsttamt022.chatgpt.site" : "";
@@ -13,6 +13,8 @@
     clear: () => { try { sessionStorage.removeItem("script-library-session"); } catch { /* Memory-only session. */ } }
   };
   let localSession = bundled ? sessionStore.get() : "";
+  let directAvailable = false;
+  const directProbe = location.protocol === "file:" ? fetch("https://scripting.nulls.gg/api/users/@evserym", { signal: AbortSignal.timeout(4000) }).then(response => { directAvailable = response.ok; }).catch(() => {}) : Promise.resolve();
   const languageNames = ["Системный", "English", "Русский", "Қазақша", "Українська", "Беларуская", "Polski", "Српски", "Magyar", "中文", "日本語", "Português (Brasil)", "Español", "Italiano", "Deutsch", "Nederlands"];
   const locale = () => { const saved = localStorage.getItem("language") || "system"; const code = saved === "system" ? navigator.language : saved; return code.startsWith("zh") ? "zh-Hans" : code.startsWith("pt-BR") ? "pt-BR" : code.split("-")[0]; };
   const tr = value => (window.APP_TRANSLATIONS[locale()] || window.APP_TRANSLATIONS.ru || {})[value] || value;
@@ -20,7 +22,15 @@
   const js = async (path, options = {}) => {
     const headers = new Headers(options.headers || {});
     if (bundled && localSession) headers.set("x-script-library-session", localSession);
-    const response = await fetch(apiOrigin + path, { credentials: bundled ? "omit" : "same-origin", ...options, headers });
+    await directProbe;
+    const publicGet = options.method === undefined || options.method === "GET";
+    const direct = directAvailable && publicGet && /^\/api\/(?:users\/@[A-Za-z0-9_.-]+(?:\/scripts)?|scripts\/[0-9a-f-]+(?:\/parameters)?)$/.test(path);
+    let response;
+    if (direct) {
+      try { response = await fetch("https://scripting.nulls.gg" + path, { method: "GET" }); }
+      catch { directAvailable = false; }
+    }
+    if (!response) response = await fetch(apiOrigin + path, { credentials: bundled ? "omit" : "same-origin", ...options, headers });
     let body;
     try { body = await response.json(); } catch { body = {}; }
     if (!response.ok) throw new Error(body.error || tr("Не удалось выполнить"));
@@ -34,7 +44,7 @@
   function toast(message) { const node = document.getElementById("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3200); }
   function heading(title, description = "", count = "") { return `<div class="page-head"><div><p class="eyebrow">Script Library</p><h1>${e(title)}</h1>${description ? `<p class="sub">${e(description)}</p>` : ""}</div>${count ? `<span class="count">${e(count)}</span>` : ""}</div>`; }
   function activeNav(route) {
-    const section = route.startsWith("/authors") ? "authors" : route.startsWith("/favorites") ? "favorites" : route.startsWith("/account") ? "account" : "library";
+    const section = route.startsWith("/authors") ? "authors" : route.startsWith("/mine") ? "mine" : route.startsWith("/favorites") ? "favorites" : route.startsWith("/account") ? "account" : "library";
     for (const node of document.querySelectorAll("[data-nav]")) node.classList.toggle("active", node.dataset.nav === section);
     for (const node of document.querySelectorAll("[data-t]")) node.textContent = tr(node.dataset.t);
     document.getElementById("refresh").title = document.getElementById("refresh").ariaLabel = tr("Обновить список авторов");
@@ -43,7 +53,7 @@
   function go(path) { if (routePath() !== path) { if (bundled) location.hash = path; else history.pushState({}, "", path); } renderRoute(); window.scrollTo(0, 0); }
   function card(script) {
     const author = script.author_username ? "@" + script.author_username : script.author_name || "";
-    return `<a class="script-card" href="${e(routeHref("/scripts/" + script.uuid))}" data-route="/scripts/${e(script.uuid)}"><h2 class="script-title">${e(script.name || tr("Без названия"))}</h2><p class="script-author">${e(author)}</p><p class="script-desc">${e(script.description || tr("Описание не добавлено"))}</p><div class="script-bottom"><span>${e(date(script.published_at || script.created_at))}</span><span>${e(script.uuid.slice(0, 8))}</span></div></a>`;
+    return `<a class="script-card" href="${e(routeHref("/scripts/" + script.uuid))}" data-route="/scripts/${e(script.uuid)}"><h2 class="script-title">${e(script.name || tr("Без названия"))}</h2><p class="script-author">${e(author)}</p><p class="script-desc">${e(script.description || tr("Описание не добавлено"))}</p><div class="script-bottom"><span>${e(script.published_at ? date(script.published_at) : tr("Черновик"))}</span><span>${e(script.uuid.slice(0, 8))}</span></div></a>`;
   }
   function filtered() {
     const query = state.query.toLocaleLowerCase().trim();
@@ -95,7 +105,7 @@
   }
   function account() {
     if (state.user) {
-      main.innerHTML = heading(tr("Аккаунт")) + `<div class="panel login"><h2>${e(state.user.name || state.user.username)}</h2><p class="author-handle">@${e(state.user.username)}</p><div class="actions">${button("Избранное", "favorites", "primary")}${button("Выйти", "logout")}</div></div>`;
+      main.innerHTML = heading(tr("Аккаунт")) + `<div class="panel login"><h2>${e(state.user.name || state.user.username)}</h2><p class="author-handle">@${e(state.user.username)}</p><div class="actions">${button("Мои скрипты", "mine", "primary")}${button("Избранное", "favorites")}${button("Выйти", "logout")}</div></div>`;
     } else {
       main.innerHTML = heading(tr("Вход в Null’s")) + `<form id="login" class="panel login"><label class="field"><span>${e(tr("Имя пользователя"))}</span><input class="input" name="username" autocomplete="username" required></label><label class="field"><span>${e(tr("Пароль"))}</span><input class="input" type="password" name="password" autocomplete="current-password" required></label><button class="button primary" type="submit">${e(tr("Войти"))}</button><p class="sub">${e(tr("Вход нужен для избранного и просмотра кода."))}</p></form>`;
     }
@@ -104,6 +114,22 @@
     if (!state.user) { main.innerHTML = heading(tr("Избранное")) + `<div class="notice">${e(tr("Войдите, чтобы увидеть избранное."))} ${link("/account", tr("Войти"))}</div>`; return; }
     const items = state.catalog?.scripts.filter(item => state.favorites.has(item.uuid)) || [];
     main.innerHTML = heading(tr("Избранное"), "", String(items.length)) + (items.length ? `<div class="grid">${items.slice(0, state.visible).map(card).join("")}</div>${items.length > state.visible ? `<div style="text-align:center;margin:24px 0">${button("Показать ещё", "more")}</div>` : ""}` : `<div class="empty">${e(tr("В избранном пока пусто"))}</div>`);
+  }
+  function mine() {
+    if (!state.user) { main.innerHTML = heading(tr("Мои скрипты")) + `<div class="notice">${e(tr("Войдите, чтобы увидеть свои скрипты."))} ${link("/account", tr("Войти"))}</div>`; return; }
+    main.innerHTML = heading(tr("Мои скрипты"), "", state.ownLoaded ? String(state.own.length) : "") + (state.own.length ? `<div class="grid">${state.own.map(card).join("")}</div>` : `<div class="empty">${e(tr(state.ownLoaded ? "Скриптов пока нет" : "Загружаю скрипты…"))}</div>`);
+    if (!state.ownLoaded) loadOwn();
+  }
+  async function loadOwn() {
+    if (!state.user || state.ownLoading) return;
+    state.ownLoading = true;
+    try {
+      const data = await js("/api/users/" + state.user.uuid + "/scripts");
+      state.own = (data.scripts || []).map(item => ({ ...item, author_uuid: state.user.uuid, author_name: state.user.name, author_username: state.user.username }));
+      state.ownLoaded = true;
+      if (routePath() === "/mine") mine();
+    } catch (error) { if (routePath() === "/mine") main.innerHTML = heading(tr("Мои скрипты")) + `<div class="empty">${e(error.message)} ${button("Повторить", "retry-own")}</div>`; }
+    finally { state.ownLoading = false; }
   }
   function help() {
     const question = (title, answer) => `<div class="panel"><p class="eyebrow">${e(tr(title))}</p><p>${e(tr(answer))}</p></div>`;
@@ -119,6 +145,7 @@
     activeNav(path);
     if (path === "/authors") { authors(); return; }
     if (path === "/favorites") { favorites(); return; }
+    if (path === "/mine") { mine(); return; }
     if (path === "/account") { account(); return; }
     if (path === "/help") { help(); return; }
     if (path.startsWith("/authors/")) {
@@ -141,7 +168,7 @@
     }
     if (/^\/scripts\/[0-9a-fA-F-]{36}$/.test(path)) {
       const id = path.slice(9);
-      state.detail = state.catalog?.scripts.find(item => item.uuid === id) || null;
+      state.detail = state.catalog?.scripts.find(item => item.uuid === id) || state.own.find(item => item.uuid === id) || null;
       detail();
       try {
         const fresh = await js("/api/scripts/" + id);
@@ -155,13 +182,39 @@
   }
   async function loadCatalog(refresh = false) {
     try {
-      const data = await js("/data/catalog" + (refresh ? "?refresh=1" : ""));
+      await directProbe;
+      let data;
+      if (directAvailable) {
+        try { data = await directCatalog(); } catch { directAvailable = false; }
+      }
+      if (!data) data = await js("/data/catalog" + (refresh ? "?refresh=1" : ""));
       state.catalog = data;
       const node = document.getElementById("catalog-age");
       node.textContent = `${data.authors.length} ${tr("авторов")} · ${data.scripts.length} ${tr("скриптов")}`;
       renderRoute();
       if (refresh) toast(tr("Список обновлён"));
     } catch (error) { if (!state.catalog) main.innerHTML = `<div class="empty">${e(error.message)}<br><br>${button("Обновить", "refresh")}</div>`; else toast(error.message); }
+  }
+  async function directCatalog() {
+    const source = await fetch("https://raw.githubusercontent.com/segnpa66-lab/nb-scripts-authors/main/list.txt", { cache: "no-store" });
+    if (!source.ok) throw Error("author list");
+    const names = [...new Set([...((await source.text()).matchAll(/@([A-Za-z0-9_.-]{1,64})/g))].map(match => match[1].toLowerCase()))];
+    if (!names.length) throw Error("author list");
+    const authors = [], scripts = [];
+    let cursor = 0;
+    async function one() {
+      while (cursor < names.length) {
+        const handle = names[cursor++];
+        try {
+          const [user, data] = await Promise.all([js("/api/users/@" + encodeURIComponent(handle)), js("/api/users/@" + encodeURIComponent(handle) + "/scripts")]);
+          authors.push({ uuid: user.uuid, name: user.name || handle, username: user.username || handle });
+          for (const item of data.scripts || []) if (item.published_at) scripts.push({ ...item, author_uuid: user.uuid, author_name: item.author_name || user.name || handle, author_username: user.username || handle });
+        } catch { /* Skip unavailable author. */ }
+      }
+    }
+    await Promise.all(Array.from({ length: Math.min(8, names.length) }, one));
+    if (!authors.length) throw Error("catalog");
+    return { authors, scripts, listed: names.length, refreshed_at: new Date().toISOString() };
   }
   async function restore() {
     try { state.user = await js("/api/users/me"); await loadFavorites(); renderRoute(); } catch { state.user = null; if (bundled) { localSession = ""; sessionStore.clear(); } }
@@ -197,8 +250,8 @@
     const list = state.catalog?.scripts || [];
     state.indexing = true; library();
     let cursor = 0, done = 0, failed = 0;
-    async function one() { while (cursor < list.length && state.indexing) { const script = list[cursor++]; if (!state.codes.has(script.uuid)) try { const data = await js("/api/scripts/" + script.uuid + "/content"); state.codes.set(script.uuid, data.content || ""); } catch { failed++; } done++; if (done % 10 === 0) toast(`${tr("Код: ")}${done} / ${list.length}`); } }
-    await Promise.all(Array.from({ length: Math.min(6, list.length) }, one));
+    async function one() { while (cursor < list.length && state.indexing) { const script = list[cursor++]; if (!state.codes.has(script.uuid)) try { const data = await js("/api/scripts/" + script.uuid + "/content"); state.codes.set(script.uuid, data.content || ""); } catch { failed++; } done++; if (done % 25 === 0) toast(`${tr("Код: ")}${done} / ${list.length}`); } }
+    await Promise.all(Array.from({ length: Math.min(18, list.length) }, one));
     state.indexing = false; if (routePath() === "/") library();
     toast(`${tr("Код: ")}${state.codes.size} / ${list.length}${failed ? " · " + failed + " " + tr("недоступно") : ""}`);
   }
@@ -226,12 +279,13 @@
       const extra = state.params.filter(param => !config.ids.includes(param.id));
       main.innerHTML = `<button class="back" data-action="detail">← ${e(tr("Скрипт"))}</button>` + heading(tr("Настройка боя"), state.detail.name) +
         (extra.length ? `<div class="notice">${e(tr("Есть дополнительные параметры, которые эта версия не передаёт."))}</div>` : "") +
-        `<form id="battle-form" class="panel"><div class="battle-grid">${config.ids.map((id, i) => {
+        `<form id="battle-form" class="panel">${[["Уровни",0,4],["Скорость и заряд",4,10],["Арена и боты",10,16],["Способности",16,20],["Кубики и вход",20,26],["Дополнительно",26,32]].map(([title,start,end]) => `<section class="battle-section"><h2>${e(tr(title))}</h2><div class="battle-grid">${config.ids.slice(start,end).map((id, index) => {
+          const i = start + index;
           const param = known.get(id); const value = param?.default_value ?? config.defaults[i];
           const isBool = param?.type === "bool" || [13,16,17,18,21,23,25,26,27,28,29,30].includes(i);
           const name = tr(config.names[i]);
           return `<div class="battle-option"><label for="p${i}">${e(name)}</label>${isBool ? `<input id="p${i}" name="p${i}" type="checkbox" ${value === 1 ? "checked" : ""}>` : `<input id="p${i}" name="p${i}" type="number" min="${param?.min_value ?? config.min[i]}" max="${param?.max_value ?? config.max[i]}" value="${value}" required>`}</div>`;
-        }).join("")}</div><div class="actions"><button type="submit" class="button primary">${e(tr("Запустить в Null’s Brawl"))}</button></div></form>`;
+        }).join("")}</div></section>`).join("")}<div class="actions"><button type="submit" class="button primary">${e(tr("Запустить в Null’s Brawl"))}</button></div></form>`;
     } catch (error) { toast(error.message); detail(); }
   }
   async function launch(form) {
@@ -270,6 +324,8 @@
       if (action === "share-author") { await share("/authors/" + state.author.username); return; }
       if (action === "copy-room") { await navigator.clipboard.writeText(state.roomLink); toast(tr("Ссылка скопирована")); return; }
       if (action === "favorites") { go("/favorites"); return; }
+      if (action === "mine") { go("/mine"); return; }
+      if (action === "retry-own") { await loadOwn(); return; }
       if (action === "favorite") {
         if (!state.user) { go("/account"); toast(tr("Сначала войдите в Null’s")); return; }
         const id = state.detail.uuid, remove = state.favorites.has(id);
@@ -277,7 +333,7 @@
         if (remove) state.favorites.delete(id); else state.favorites.add(id);
         detail(); toast(tr(remove ? "Удалено из избранного" : "Добавлено в избранное")); return;
       }
-      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); localSession = ""; if (bundled) sessionStore.clear(); state.user = null; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
+      if (action === "logout") { await js("/api/auth/logout", { method: "POST" }); localSession = ""; if (bundled) sessionStore.clear(); state.user = null; state.own = []; state.ownLoaded = false; state.favorites.clear(); state.codes.clear(); go("/"); toast(tr("Вы вышли")); }
     } catch (error) { toast(error.message); }
   });
   document.addEventListener("submit", async event => {
@@ -288,7 +344,7 @@
       try {
         const result = await js("/api/auth/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ username: form.elements.namedItem("username").value.trim(), password: form.elements.namedItem("password").value }) });
         if (bundled) { if (!result.session) throw new Error(tr("Сервис не вернул сессию.")); localSession = result.session; sessionStore.set(localSession); }
-        state.user = result.user; await loadFavorites(); go("/"); toast(tr("Вход выполнен"));
+        state.user = result.user; state.own = []; state.ownLoaded = false; await loadFavorites(); go("/mine"); toast(tr("Вход выполнен"));
       } catch (error) { toast(error.message); button.disabled = false; }
     }
     if (event.target.id === "battle-form") { event.preventDefault(); await launch(event.target); }

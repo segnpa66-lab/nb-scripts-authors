@@ -9,7 +9,7 @@ const entries = [
   ["files/index.html", readFileSync(join(root, "dist/files/index.html"))]
 ];
 const manifest = JSON.parse(entries[0][1].toString("utf8"));
-if (manifest["@gv"] !== 68 || !manifest.locales?.["*"]?.SinglePageAppCommunityLaserboxUrl?.endsWith(`/${uuid}/files/index.html`)) throw Error("Invalid mod");
+if (manifest["@gv"] !== 68 || manifest.locales?.["*"]?.SinglePageAppCommunityLaserboxUrl !== "https://segnpa66-lab.github.io/" || !manifest["@features"]?.local_page?.locales?.["*"]?.SinglePageAppCommunityLaserboxUrl?.endsWith(`/${uuid}/files/index.html`)) throw Error("Invalid mod");
 const table = Array.from({ length: 256 }, (_, n) => { let value = n; for (let bit = 0; bit < 8; bit++) value = value & 1 ? 0xedb88320 ^ value >>> 1 : value >>> 1; return value >>> 0; });
 const chunks = [], directory = [];
 let offset = 0;

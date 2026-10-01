@@ -8,6 +8,7 @@ const STATIC_ORIGIN = "https://segnpa66-lab.github.io";
 const externalOrigin = request => ["null", STATIC_ORIGIN].includes(request.headers.get("origin"));
 let catalogSnapshot = null;
 let catalogExpires = 0;
+let catalogPending = null;
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), {
   status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...extra }
 });
@@ -79,11 +80,10 @@ async function catalog() {
     while (cursor < names.length) {
       const handle = names[cursor++];
       try {
-        const userResponse = await upstream("/users/@" + encodeURIComponent(handle));
+        const [userResponse, scriptsResponse] = await Promise.all([upstream("/users/@" + encodeURIComponent(handle)), upstream("/users/@" + encodeURIComponent(handle) + "/scripts")]);
         if (!userResponse.ok) continue;
         const user = await responseJson(userResponse);
         if (!new RegExp("^" + UUID + "$").test(user.uuid || "")) continue;
-        const scriptsResponse = await upstream("/users/" + user.uuid + "/scripts");
         if (!scriptsResponse.ok) continue;
         const data = await responseJson(scriptsResponse);
         authors.push({ uuid: user.uuid, name: user.name || handle, username: user.username || handle });
@@ -93,7 +93,7 @@ async function catalog() {
       } catch { /* Continue with the other authors. */ }
     }
   }
-  await Promise.all(Array.from({ length: Math.min(4, names.length) }, one));
+  await Promise.all(Array.from({ length: Math.min(8, names.length) }, one));
   if (!authors.length) throw new Error("catalog");
   return { authors, scripts, listed: names.length, refreshed_at: new Date().toISOString() };
 }
@@ -101,11 +101,13 @@ async function catalogResponse(request) {
   if (catalogSnapshot && Date.now() < catalogExpires && !new URL(request.url).searchParams.has("refresh"))
     return json(catalogSnapshot, 200, { "cache-control": "public, max-age=300" });
   try {
-    catalogSnapshot = await catalog();
+    if (!catalogPending) catalogPending = catalog().finally(() => { catalogPending = null; });
+    catalogSnapshot = await catalogPending;
     catalogExpires = Date.now() + 300000;
     return json(catalogSnapshot, 200, { "cache-control": "public, max-age=300" });
   } catch (error) {
     console.error("catalog load failed", error);
+    if (catalogSnapshot) return json(catalogSnapshot, 200, { "cache-control": "public, max-age=60" });
     return json({ error: "Не удалось загрузить список авторов." }, 503);
   }
 }
@@ -179,7 +181,7 @@ export default {
       catch { return cors(request, json({ error: "Нет связи с сервисом." }, 502)); }
     }
     if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", { status: 405 });
-    if (["/", "/authors", "/favorites", "/account", "/help"].includes(url.pathname) || /^\/scripts\/[0-9a-fA-F-]{36}$/.test(url.pathname) || /^\/authors\/[A-Za-z0-9_.-]{1,64}$/.test(url.pathname)) {
+    if (["/", "/authors", "/mine", "/favorites", "/account", "/help"].includes(url.pathname) || /^\/scripts\/[0-9a-fA-F-]{36}$/.test(url.pathname) || /^\/authors\/[A-Za-z0-9_.-]{1,64}$/.test(url.pathname)) {
       return new Response(request.method === "HEAD" ? null : PAGE, { status: 200, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=300", "x-content-type-options": "nosniff", "referrer-policy": "strict-origin-when-cross-origin" } });
     }
     return new Response("Not found", { status: 404 });
