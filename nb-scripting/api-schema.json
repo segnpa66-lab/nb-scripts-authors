@@ -1,0 +1,1166 @@
+{
+  "source": "nulls-mods-community/scripting-docs",
+  "classes": {
+    "Server": {
+      "description": "Объект текущего боя. Существует в единственном экземпляре. Является точкой входа в API скриптинга.",
+      "parent": null,
+      "fields": [
+        {
+          "name": "tick",
+          "signature": "number (readonly)",
+          "description": "Текущий тик сервера. Монотонно увеличивается на 1 каждые 50 миллисекунд.",
+          "readonly": true
+        },
+        {
+          "name": "playersCount",
+          "signature": "number (readonly)",
+          "description": "Количество игроков в бою.",
+          "readonly": true
+        },
+        {
+          "name": "locationData",
+          "signature": "LocationData (readonly)",
+          "description": "LocationData текущей локации. Может быть равен nil, если используется кастомная карта.",
+          "readonly": true
+        },
+        {
+          "name": "gameMode",
+          "signature": "GameMode (readonly)",
+          "description": "Текущий игровой режим.",
+          "readonly": true
+        },
+        {
+          "name": "isBattleEnded",
+          "signature": "boolean (readonly)",
+          "description": "Завершен ли бой?",
+          "readonly": true
+        },
+        {
+          "name": "hasPoisonDisabled",
+          "signature": "boolean",
+          "description": "Выключен ли яд игрового режима?",
+          "readonly": false
+        },
+        {
+          "name": "hasIntroSkip",
+          "signature": "boolean",
+          "description": "Пропустить ли интро-анимацию?",
+          "readonly": false
+        },
+        {
+          "name": "objectManager",
+          "signature": "GameObjectManager (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "map",
+          "signature": "TileMap (readonly)",
+          "description": "",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "getClientInfo",
+          "signature": "(index: number) ⇒ ClientInfo",
+          "description": "Позволяет получить объект ClientInfo по индексу игрока.",
+          "readonly": false
+        },
+        {
+          "name": "isIntroFinished",
+          "signature": "() ⇒ boolean",
+          "description": "Позволяет проверить, завершилась ли интро-анимация боя.",
+          "readonly": false
+        },
+        {
+          "name": "getRandomInt",
+          "signature": "(N: number, M: number) ⇒ number",
+          "description": "Позволяет получить случайное целое число от N до M: [N; M). Использует тот же генератор случайных чисел, что и логика игры.",
+          "readonly": false
+        },
+        {
+          "name": "debugFinishBattle",
+          "signature": "(team: number) ⇒ void",
+          "description": "Принудительно завершает бой, задавая команду-победителя.",
+          "readonly": false
+        }
+      ]
+    },
+    "GameObjectManager": {
+      "description": "Менеджер игровых объектов LogicGameObject. Хранит игровые объекты и управляет их жизненным циклом.",
+      "parent": null,
+      "fields": [],
+      "methods": [
+        {
+          "name": "getObject",
+          "signature": "(id: number) ⇒ LogicGameObject",
+          "description": "Ищет объект по Object ID.",
+          "readonly": false
+        },
+        {
+          "name": "addObject",
+          "signature": "(object: LogicGameObject) ⇒ void",
+          "description": "Добавляет новый объект на поле боя.",
+          "readonly": false
+        },
+        {
+          "name": "getCharacters",
+          "signature": "() ⇒ Iterable",
+          "description": "Возвращает список объектов класса LogicCharacter.",
+          "readonly": false
+        },
+        {
+          "name": "getAreaEffects",
+          "signature": "() ⇒ Iterable",
+          "description": "Возвращает список объектов класса LogicAreaEffect.",
+          "readonly": false
+        },
+        {
+          "name": "getItems",
+          "signature": "() ⇒ Iterable",
+          "description": "Возвращает список объектов LogicItem.",
+          "readonly": false
+        },
+        {
+          "name": "getProjectiles",
+          "signature": "() ⇒ Iterable",
+          "description": "Возвращает список объектов LogicProjectile.",
+          "readonly": false
+        }
+      ]
+    },
+    "ClientInfo": {
+      "description": "Данные конкретного игрока. Для каждого игрока этот объект создается в единственном экземпляре на весь бой. Имейте в виду, что некоторые поля (например: x, y, isAlive) обновляются только в конце игрового цикла каждый тик.",
+      "parent": null,
+      "fields": [
+        {
+          "name": "index",
+          "signature": "number (readonly)",
+          "description": "Индекс этого игрока.",
+          "readonly": true
+        },
+        {
+          "name": "team",
+          "signature": "number (readonly)",
+          "description": "Номер команды игрока. Два игрока одной команды будут иметь одинаковое значение.",
+          "readonly": true
+        },
+        {
+          "name": "objectId",
+          "signature": "number (readonly)",
+          "description": "Object ID текущего LogicCharacter, за которого играет игрок.",
+          "readonly": true
+        },
+        {
+          "name": "x",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "y",
+          "signature": "number (readonly)",
+          "description": "Позиция камеры игрока. В большинстве случаев будет совпадать с позицией LogicCharacter, за которого играет игрок.",
+          "readonly": true
+        },
+        {
+          "name": "gamePoints",
+          "signature": "number",
+          "description": "Количество игровых очков. Предназначение зависит от режима.",
+          "readonly": false
+        },
+        {
+          "name": "isAlive",
+          "signature": "boolean (readonly)",
+          "description": "Равен true, если персонаж игрока жив и присутствует на карте.",
+          "readonly": true
+        },
+        {
+          "name": "isBot",
+          "signature": "boolean (readonly)",
+          "description": "Показывает, является ли игрок ботом.",
+          "readonly": true
+        },
+        {
+          "name": "ultiCharge",
+          "signature": "number",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "maxUltiCharge",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "overchargeCharge",
+          "signature": "number",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "maxOverchargeCharge",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "ultiUsesLeft",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "isRespawning",
+          "signature": "boolean (readonly)",
+          "description": "Равен true, если игрок возрождается и вот-вот заспавнится.",
+          "readonly": true
+        },
+        {
+          "name": "emoteUsedIndex",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "emoteUsedTick",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "isOverchargeActive",
+          "signature": "boolean (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "accessory",
+          "signature": "Accessory (readonly)",
+          "description": "",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "getSkinData",
+          "signature": "() ⇒ SkinData",
+          "description": "Возвращает текущий SkinData для этого игрока.",
+          "readonly": false
+        },
+        {
+          "name": "getAttackTeam",
+          "signature": "() ⇒ number",
+          "description": "Возвращает эффективный номер команды игрока. Если игрок находится под контролем Виллоу, значение будет равно номеру команды этой Виллоу. В остальных случаях будет равно полю team.",
+          "readonly": false
+        }
+      ]
+    },
+    "LogicGameObject": {
+      "description": "Абстрактный класс. Игровой объект на поле боя.",
+      "parent": null,
+      "fields": [
+        {
+          "name": "id",
+          "signature": "number (readonly)",
+          "description": "Уникальный Object ID этого объекта.",
+          "readonly": true
+        },
+        {
+          "name": "data",
+          "signature": "GameObjectData (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "x",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "y",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "z",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "index",
+          "signature": "number (readonly)",
+          "description": "Индекс игрока, которому принадлежит объект. Равен -1, если объект никому не принадлежит.",
+          "readonly": true
+        },
+        {
+          "name": "team",
+          "signature": "number (readonly)",
+          "description": "Номер команды, которой принадлежит объект. Равен -1, если объект нейтрален или враждебен для всех.",
+          "readonly": true
+        },
+        {
+          "name": "dimension",
+          "signature": "number (readonly)",
+          "description": "Измерение. Равен 1, если объект находится в измерении Корделиуса, и 0 в остальных случаях.",
+          "readonly": true
+        },
+        {
+          "name": "traits",
+          "signature": "Traits (readonly)",
+          "description": "",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "setPosition",
+          "signature": "(x: number, y: number, z: number) ⇒ void",
+          "description": "Задает координаты объекта. Важно: игровая логика может перезаписать ваши координаты, если объект находится в движении.",
+          "readonly": false
+        },
+        {
+          "name": "isAlive",
+          "signature": "() ⇒ boolean",
+          "description": "Возвращает false, если объект был уничтожен или убит. В ином случае вернет true.",
+          "readonly": false
+        },
+        {
+          "name": "getType",
+          "signature": "() ⇒ number",
+          "description": "Позволяет узнать тип этого объекта: 0 = LogicCharacter, 1 = LogicProjectile, 2 = LogicAreaEffect, 3 = LogicItem.",
+          "readonly": false
+        },
+        {
+          "name": "getSkinData",
+          "signature": "() ⇒ SkinData",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "isOverchargeActive",
+          "signature": "() ⇒ boolean",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "setIndex",
+          "signature": "(index: number, team: number) ⇒ void",
+          "description": "Позволяет задать игрока-владельца объекта. Рекомендуется вызывать только перед добавлением объекта в GameObjectManager.",
+          "readonly": false
+        }
+      ]
+    },
+    "Traits": {
+      "description": "Менеджер особых способностей (traits) конкретного игрового объекта. Новые объекты наследуют способности от родительских объектов.",
+      "parent": null,
+      "fields": [],
+      "methods": [
+        {
+          "name": "add",
+          "signature": "(data: TraitData) ⇒ void",
+          "description": "Добавляет конкретную способность.",
+          "readonly": false
+        },
+        {
+          "name": "remove",
+          "signature": "(data: TraitData) ⇒ boolean",
+          "description": "Удаляет конкретную способность.",
+          "readonly": false
+        },
+        {
+          "name": "getComponent",
+          "signature": "(type: TraitType) ⇒ TraitData",
+          "description": "Позволяет получить конкретную способность по её типу. Возвращает nil, если способности с таким типом у объекта нет.",
+          "readonly": false
+        }
+      ]
+    },
+    "LogicCharacter": {
+      "description": "Наследуется от LogicGameObject. Персонаж. Имеет здоровье, может двигаться по заданному пути и атаковать. Самый обширный класс объектов.",
+      "parent": "LogicGameObject",
+      "fields": [
+        {
+          "name": "angleLegs",
+          "signature": "number (readonly)",
+          "description": "Угол направления ног персонажа. По этому значению можно определить направление его движения.",
+          "readonly": true
+        },
+        {
+          "name": "angleHead",
+          "signature": "number (readonly)",
+          "description": "Угол направления головы персонажа.",
+          "readonly": true
+        },
+        {
+          "name": "hitPoints",
+          "signature": "number (readonly)",
+          "description": "Текущее количество здоровья.",
+          "readonly": true
+        },
+        {
+          "name": "maxHitPoints",
+          "signature": "number (readonly)",
+          "description": "Максимальное количество здоровья.",
+          "readonly": true
+        },
+        {
+          "name": "type",
+          "signature": "CharacterType (readonly)",
+          "description": "Тип персонажа.",
+          "readonly": true
+        },
+        {
+          "name": "isBot",
+          "signature": "boolean (readonly)",
+          "description": "Управляется ли персонаж ботом?",
+          "readonly": true
+        },
+        {
+          "name": "isStunned",
+          "signature": "boolean (readonly)",
+          "description": "Есть ли стан у персонажа?",
+          "readonly": true
+        },
+        {
+          "name": "persistentSpeedBuff",
+          "signature": "number",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "persistentReloadBuff",
+          "signature": "number",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "heroUpgradeLevel",
+          "signature": "number",
+          "description": "Уровень улучшения персонажа. Считается с нуля. Не все игровые механики используют это поле, поэтому вам также может понадобиться вызвать setUpgradeLevel() у конкретного Skill.",
+          "readonly": false
+        },
+        {
+          "name": "gamePoints",
+          "signature": "number",
+          "description": "Количество игровых очков текущего персонажа. Предназначение зависит от режима и может отличаться от одноименного поля в ClientInfo.",
+          "readonly": false
+        },
+        {
+          "name": "powerPoints",
+          "signature": "number",
+          "description": "Количество очков усиления из ШД. Используется для отображения на клиенте и при выпадании предметов при смерти. Не влияет на урон или ХП персонажа.",
+          "readonly": false
+        },
+        {
+          "name": "linkedCharacter",
+          "signature": "LogicCharacter (readonly)",
+          "description": "Мяч (carryable), который держит персонаж. Если персонаж ничего не держит, то будет равен nil.",
+          "readonly": true
+        },
+        {
+          "name": "lastDamageSourceIndex",
+          "signature": "number (readonly)",
+          "description": "Индекс игрока, который в последний раз наносил урон этому персонажу.",
+          "readonly": true
+        },
+        {
+          "name": "hasRespawnShield",
+          "signature": "boolean (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "consShieldValue",
+          "signature": "number (readonly)",
+          "description": "Оставшееся здоровье consumable-щита.",
+          "readonly": true
+        },
+        {
+          "name": "takingDamageListeners",
+          "signature": "List (readonly)",
+          "description": "Список подписок на событие получения урона. Использует класс DamageEventListener.",
+          "readonly": true
+        },
+        {
+          "name": "dealingDamageListeners",
+          "signature": "List (readonly)",
+          "description": "Список подписок на событие нанесения урона. Использует класс DamageEventListener.",
+          "readonly": true
+        },
+        {
+          "name": "deathListeners",
+          "signature": "List (readonly)",
+          "description": "Список подписок на событие смерти (когда здоровье опускается до нуля). Использует класс SourceListener.",
+          "readonly": true
+        },
+        {
+          "name": "skillUseListeners",
+          "signature": "List (readonly)",
+          "description": "Список подписок на событие использования атаки или супера. Использует класс SkillEventListener.",
+          "readonly": true
+        },
+        {
+          "name": "startOverchargeListeners",
+          "signature": "List (readonly)",
+          "description": "Список подписок на событие использования гиперзаряда. Использует класс BasicListener.",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "takeDamage",
+          "signature": "(srcIndex: number, damage: number, ulti: number, attacker: LogicCharacter, projectile: LogicProjectile, hasIndication: boolean, hasHighlight: boolean, srcX: number, srcY: number, someData: Data, forceProtected: boolean, origin: AttackOrigin, forceAll: boolean, makeVisible: boolean, disallowSpawns: boolean, extraValue: number) ⇒ boolean",
+          "description": "Наносит определенный урон игроку.",
+          "readonly": false
+        },
+        {
+          "name": "takeHeal",
+          "signature": "(srcIndex: number, damage: number, hasIndication: boolean, someData: Data, origin: AttackOrigin) ⇒ boolean",
+          "description": "Лечит определенное количество здоровья игрока.",
+          "readonly": false
+        },
+        {
+          "name": "stopMovement",
+          "signature": "() ⇒ void",
+          "description": "Останавливает движение персонажа.",
+          "readonly": false
+        },
+        {
+          "name": "moveTo",
+          "signature": "(x: number, y: number, hasCustomSpeed: boolean, customSpeed: number, isNw: boolean, useTeleports: boolean) ⇒ void",
+          "description": "Строит путь и начинает перемещение к указанной точке. Если hasCustomSpeed = false, то используется скорость персонажа.",
+          "readonly": false
+        },
+        {
+          "name": "isPlayerControlRemoved",
+          "signature": "() ⇒ boolean",
+          "description": "Возвращает true, если игрок не может управлять своим персонажем в данный момент.",
+          "readonly": false
+        },
+        {
+          "name": "getWeaponSkill",
+          "signature": "() ⇒ Skill",
+          "description": "Возвращает скилл основной атаки персонажа.",
+          "readonly": false
+        },
+        {
+          "name": "getUltiSkill",
+          "signature": "() ⇒ Skill",
+          "description": "Возвращает скилл супера персонажа.",
+          "readonly": false
+        },
+        {
+          "name": "getSkill",
+          "signature": "(data: SkillData) ⇒ Skill",
+          "description": "Возвращает скилл с соответствующим SkillData, если такой присутствует у персонажа.",
+          "readonly": false
+        },
+        {
+          "name": "useSkill",
+          "signature": "(data: SkillData, x: number, y: number, isAutoAim: boolean) ⇒ boolean",
+          "description": "Использует заданный скилл, если он доступен.",
+          "readonly": false
+        },
+        {
+          "name": "increaseMaxHitPoints",
+          "signature": "(value: number, powerUps: boolean) ⇒ void",
+          "description": "Увеличивает максимальное количество здоровья у персонажа. Если второй аргумент равен true, то также увеличивает на 1 количество банок в ШД.",
+          "readonly": false
+        },
+        {
+          "name": "teleport",
+          "signature": "(x: number, y: number, srcAreaEffect: AreaEffectData, destAreaEffect: AreaEffectData, damage: number, ultiCharge: number) ⇒ void",
+          "description": "Телепортирует персонажа в указанную точку. Можно задать эффекты, которые появятся в исходной точке и точке назначения. Эти эффекты будут использовать заданный урон.",
+          "readonly": false
+        },
+        {
+          "name": "spawnCirclingAreaEffect",
+          "signature": "(damageBonus: number, data: AreaEffectData, origin: AttackOrigin, applyOwnerBuffs: boolean, followOwner: boolean) ⇒ LogicAreaEffect",
+          "description": "Создает новый эффект от имени этого персонажа. Конкретно этот метод предполагается для таких механик, как супер Эмз, эффект зарядки ульты Базза или эффект лечения от станции Пэм. В общем, разные долгоживущие эффекты, зачастую привязанные к персонажу.",
+          "readonly": false
+        },
+        {
+          "name": "getPet",
+          "signature": "(movingOnly: boolean, standingOnly: boolean) ⇒ LogicCharacter",
+          "description": "Позволяет получить первого питомца этого персонажа, если таковой присутствует. Иначе вернет nil.",
+          "readonly": false
+        },
+        {
+          "name": "blockHealthRegen",
+          "signature": "() ⇒ void",
+          "description": "Сбрасывает таймер восстановления здоровья.",
+          "readonly": false
+        },
+        {
+          "name": "addStatusEffect",
+          "signature": "(data: StatusEffectData, srcIndex: number, srcTeam: number, origin: AttackOrigin, attacker: LogicCharacter) ⇒ StatusEffect",
+          "description": "Накладывает статус-эффект персонажу. Конкретное поведение эффекта определяется его StatusEffectData. Аргументы srcIndex, srcTeam, attacker позволяют определить от лица какого персонажа (и игрока) будет происходить действие (например, нанесение урона), если это применимо к этому эффекту. Может вернуть nil, если (1) эффект не может быть наложен, либо (2) если такой эффект уже наложен, при этом Stackable = FALSE и Refreshable = FALSE.",
+          "readonly": false
+        },
+        {
+          "name": "addStatusEffectSelf",
+          "signature": "(data: StatusEffectData, origin: AttackOrigin) ⇒ StatusEffect",
+          "description": "Аналогично addStatusEffect(). Действие будет происходить от лица персонажа, на которого накладывается статус эффект.",
+          "readonly": false
+        },
+        {
+          "name": "setInvisibility",
+          "signature": "(ticks: number, distanceToSee: number) ⇒ void",
+          "description": "Выдает классическую невидимость, как у супера Леона. Позволяет задать длительность и дистанцию, на которой персонаж становится принудительно видимым.",
+          "readonly": false
+        },
+        {
+          "name": "setConsumableShield",
+          "signature": "(value: number, ticks: number) ⇒ void",
+          "description": "Выдает consumable-щит. Позволяет указать его количество здоровья (value) и длительность (ticks).",
+          "readonly": false
+        },
+        {
+          "name": "gainShield",
+          "signature": "(ticks: number, value: number) ⇒ void",
+          "description": "Выдает классический щит. Позволяет указать процент защиты (value) и длительность (ticks).",
+          "readonly": false
+        },
+        {
+          "name": "setStun",
+          "signature": "(ticks: number, skipImmunity: boolean, isSleepy: boolean, isCrossing: boolean) ⇒ boolean",
+          "description": "Накладывает классический эффект стана. Позволяет указать длительность (ticks) и подтип (isSleepy, isCrossing).",
+          "readonly": false
+        },
+        {
+          "name": "push",
+          "signature": "(pushX: number, pushY: number, strength: number, canFly: boolean, a7: boolean, a8: boolean, a9: boolean, skipCCImmunity: boolean, a11: boolean, a12: boolean, a13: boolean, useFixedDistance: boolean, stunTicks: number, speedModifier: number) ⇒ void",
+          "description": "Отталкивает персонажа от указанной точки. Сила (strength) определяет расстояние отталкивания.",
+          "readonly": false
+        }
+      ]
+    },
+    "Skill": {
+      "description": "",
+      "parent": null,
+      "fields": [
+        {
+          "name": "data",
+          "signature": "SkillData (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "activeTicksLeft",
+          "signature": "number (readonly)",
+          "description": "Количество тиков, через которое скилл перейдет из активного в неактивное состояние. Монотонно убывает. Если скилл не в активном состоянии, то равен нулю.",
+          "readonly": true
+        },
+        {
+          "name": "chargeValue",
+          "signature": "number (readonly)",
+          "description": "Текущие патроны. Актуально только для основной атаки. Одна единица равна 1/1000 патрона.",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "setUpgradeLevel",
+          "signature": "(level: number) ⇒ void",
+          "description": "Выставляет уровень улучшения этого скилла. Считается с нуля. Влияет на урон и другие параметры его атаки.",
+          "readonly": false
+        },
+        {
+          "name": "getMaxCharge",
+          "signature": "() ⇒ number",
+          "description": "Максимальное значение для патронов. Актуально только для основной атаки. Одна единица равна 1/1000 патрона.",
+          "readonly": false
+        },
+        {
+          "name": "charge",
+          "signature": "(percent: number) ⇒ void",
+          "description": "Позволяет добавить или убавить текущие патроны. Актуально только для основной атаки. Аргумент выражается в 1/100 патрона и может быть отрицательным.",
+          "readonly": false
+        },
+        {
+          "name": "isWeaponSkill",
+          "signature": "() ⇒ boolean",
+          "description": "Возвращает true, если это основная атака.",
+          "readonly": false
+        },
+        {
+          "name": "isUltiSkill",
+          "signature": "() ⇒ boolean",
+          "description": "Возвращает true, если это супер.",
+          "readonly": false
+        }
+      ]
+    },
+    "StatusEffect": {
+      "description": "",
+      "parent": null,
+      "fields": [
+        {
+          "name": "data",
+          "signature": "StatusEffectData (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "ticksTotal",
+          "signature": "number (readonly)",
+          "description": "Общее количество тиков, в течение которых действует этот статус-эффект.",
+          "readonly": true
+        },
+        {
+          "name": "ticksLeft",
+          "signature": "number (readonly)",
+          "description": "Оставшееся количество тиков, в течение которых действует этот статус-эффект. Монотонно убывает.",
+          "readonly": true
+        },
+        {
+          "name": "damageBase",
+          "signature": "number",
+          "description": "Базовое значение периодического урона без учета баффов и уровня.",
+          "readonly": false
+        },
+        {
+          "name": "healingBase",
+          "signature": "number",
+          "description": "Базовое значение периодического исцеления без учета баффов и уровня.",
+          "readonly": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "cancel",
+          "signature": "() ⇒ void",
+          "description": "Прекращает действие статус-эффекта.",
+          "readonly": false
+        },
+        {
+          "name": "addTicks",
+          "signature": "(number) ⇒ void",
+          "description": "Продлевает действие статус-эффекта на указанное количество тиков.",
+          "readonly": false
+        },
+        {
+          "name": "isActive",
+          "signature": "() ⇒ boolean",
+          "description": "Позволяет узнать, активен ли статус-эффект в текущий момент времени.",
+          "readonly": false
+        }
+      ]
+    },
+    "LogicProjectile": {
+      "description": "Наследуется от LogicGameObject. Снаряд. Летит по заданной траектории, может наносить урон персонажам и не только.",
+      "parent": "LogicGameObject",
+      "fields": [
+        {
+          "name": "finishState",
+          "signature": "number (readonly)",
+          "description": "Изначально равен нулю. При завершении движения выставляется положительное значение: 1 — достигнута предельная дистанция, 2 — попадание в границу карты, 3 — попадание в персонажа, 4 — попадание в блок, 5 — уничтожен извне.",
+          "readonly": true
+        },
+        {
+          "name": "shotCharacter",
+          "signature": "LogicCharacter (readonly)",
+          "description": "Изначально равен nil, но если попадание произошло в персонажа, то этот персонаж будет записан в это поле.",
+          "readonly": true
+        },
+        {
+          "name": "origin",
+          "signature": "AttackOrigin (readonly)",
+          "description": "",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "setFinishState",
+          "signature": "(finishState: number) ⇒ void",
+          "description": "",
+          "readonly": false
+        }
+      ]
+    },
+    "LogicAreaEffect": {
+      "description": "Наследуется от LogicGameObject. Зона с эффектом. Действует на персонажей (и некоторые снаряды), механика зависит от конкретного эффекта.",
+      "parent": "LogicGameObject",
+      "fields": [
+        {
+          "name": "ownerCharacter",
+          "signature": "LogicCharacter (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "origin",
+          "signature": "AttackOrigin (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "damage",
+          "signature": "number",
+          "description": "Урон, который будет наносить этот эффект персонажам в зоне действия.",
+          "readonly": false
+        },
+        {
+          "name": "ultiEnergy",
+          "signature": "number",
+          "description": "Количество супера, которое будет заряжаться у игрока при каждом нанесения урона.",
+          "readonly": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "setSource",
+          "signature": "(index: number, team: number, ownerCharacter: LogicCharacter, origin: AttackOrigin) ⇒ void",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "isObjectInside",
+          "signature": "(object: LogicGameObject) ⇒ boolean",
+          "description": "Проверяет, находится ли игровой объект внутри зоны действия эффекта.",
+          "readonly": false
+        },
+        {
+          "name": "destroy",
+          "signature": "() ⇒ void",
+          "description": "Уничтожает этот эффект немедленно.",
+          "readonly": false
+        },
+        {
+          "name": "trigger",
+          "signature": "() ⇒ void",
+          "description": "Начинает действие этого эффекта. Необходимо вызвать один раз после добавления в GameObjectManager.",
+          "readonly": false
+        }
+      ]
+    },
+    "LogicItem": {
+      "description": "Наследуется от LogicGameObject. Предмет. В большинстве случаев его можно поднять или активировать.",
+      "parent": "LogicGameObject",
+      "fields": [
+        {
+          "name": "isTriggered",
+          "signature": "boolean (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "triggeredCharacter",
+          "signature": "LogicCharacter (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "ownerCharacter",
+          "signature": "LogicCharacter (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "origin",
+          "signature": "AttackOrigin (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "sprayDataIndex",
+          "signature": "number",
+          "description": "Если предмет является спреем (Spray), тогда указывает на индекс конкретного спрея.",
+          "readonly": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "setSource",
+          "signature": "(index: number, team: number, ownerCharacter: LogicCharacter, origin: AttackOrigin) ⇒ void",
+          "description": "",
+          "readonly": false
+        },
+        {
+          "name": "destroy",
+          "signature": "() ⇒ void",
+          "description": "Уничтожает этот предмет немедленно.",
+          "readonly": false
+        }
+      ]
+    },
+    "Accessory": {
+      "description": "",
+      "parent": null,
+      "fields": [
+        {
+          "name": "data",
+          "signature": "AccessoryData (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "isActive",
+          "signature": "boolean (readonly)",
+          "description": "",
+          "readonly": true
+        }
+      ],
+      "methods": []
+    },
+    "TileMap": {
+      "description": "Карта боя, содержит тайловую сетку и позволяет работать с ней.",
+      "parent": null,
+      "fields": [
+        {
+          "name": "tileSizeX",
+          "signature": "number (readonly)",
+          "description": "Ширина карты в клетках.",
+          "readonly": true
+        },
+        {
+          "name": "tileSizeY",
+          "signature": "number (readonly)",
+          "description": "Высота карты в клетках.",
+          "readonly": true
+        },
+        {
+          "name": "absSizeX",
+          "signature": "number (readonly)",
+          "description": "Абсолютная ширина карты.",
+          "readonly": true
+        },
+        {
+          "name": "absSizeY",
+          "signature": "number (readonly)",
+          "description": "Абсолютная высота карты.",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "destructTile",
+          "signature": "(x: number, y: number, isBasicWeapon: boolean) ⇒ void",
+          "description": "Уничтожает блок на заданной клетке.",
+          "readonly": false
+        },
+        {
+          "name": "setDynamicTile",
+          "signature": "(data: TileData, x: number, y: number, ownerCharacter: LogicCharacter) ⇒ void",
+          "description": "Выставляет динамический блок на заданной клетке. Данный блок должен иметь DynamicCode != 0.",
+          "readonly": false
+        },
+        {
+          "name": "getTile",
+          "signature": "(x: number, y: number) ⇒ Tile",
+          "description": "Возвращает тайл по тайловым (клеточным) координатам. Возвращает nil, если задана точка вне карты.",
+          "readonly": false
+        }
+      ]
+    },
+    "Tile": {
+      "description": "Конкретная клетка на карте.",
+      "parent": null,
+      "fields": [
+        {
+          "name": "data",
+          "signature": "TileData (readonly)",
+          "description": "Текущий TileData этой клетки.",
+          "readonly": true
+        },
+        {
+          "name": "dataOriginal",
+          "signature": "TileData (readonly)",
+          "description": "Оригинальный TileData этой клетки. Загружается один раз и не меняется в течение боя.",
+          "readonly": true
+        },
+        {
+          "name": "x",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        },
+        {
+          "name": "y",
+          "signature": "number (readonly)",
+          "description": "",
+          "readonly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "isDynamic",
+          "signature": "() ⇒ boolean",
+          "description": "Возвращает true, если этот тайл был выставлен динамически.",
+          "readonly": false
+        },
+        {
+          "name": "restoreOriginal",
+          "signature": "() ⇒ void",
+          "description": "Восстанавливает изначальное состояние тайла с момента начала боя.",
+          "readonly": false
+        }
+      ]
+    },
+    "AttackOrigin": {
+      "description": "Является перечислением. ",
+      "parent": null,
+      "fields": [],
+      "methods": []
+    },
+    "CharacterType": {
+      "description": "Является перечислением. ",
+      "parent": null,
+      "fields": [],
+      "methods": []
+    },
+    "TraitType": {
+      "description": "Является перечислением. ",
+      "parent": null,
+      "fields": [],
+      "methods": []
+    },
+    "GameMode": {
+      "description": "Является перечислением. ",
+      "parent": null,
+      "fields": [],
+      "methods": []
+    },
+    "Data": {
+      "description": "Абстрактный класс. Хранит табличные данные (.csv) для какого-то конкретного объекта. Например, Wall1 из tiles.csv будет описываться своим объектом TileData.",
+      "parent": null,
+      "fields": [],
+      "methods": [
+        {
+          "name": "getIndex",
+          "signature": "() ⇒ number",
+          "description": "Возвращает свой индекс в таблице.",
+          "readonly": false
+        },
+        {
+          "name": "getType",
+          "signature": "() ⇒ number",
+          "description": "Возвращает тип (числовой) своей таблицы. Для объектов внутри одной таблицы всегда будет одинаковым.",
+          "readonly": false
+        },
+        {
+          "name": "getGlobalId",
+          "signature": "() ⇒ number",
+          "description": "Возвращает свой уникальный ID. Фактически считается так: (this.getType() * 1000000) + this.getIndex()",
+          "readonly": false
+        },
+        {
+          "name": "getName",
+          "signature": "() ⇒ string",
+          "description": "",
+          "readonly": false
+        }
+      ]
+    },
+    "GameObjectData": {
+      "description": "Наследуется от Data. Абстрактный класс.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "ProjectileData": {
+      "description": "Наследуется от GameObjectData. Хранит табличные данные для каждого снаряда из projectiles_skin.csv и projectiles_logic.csv.",
+      "parent": "GameObjectData",
+      "fields": [],
+      "methods": []
+    },
+    "CharacterData": {
+      "description": "Наследуется от GameObjectData. Хранит табличные данные для каждого персонажа из characters.csv.",
+      "parent": "GameObjectData",
+      "fields": [],
+      "methods": []
+    },
+    "ItemData": {
+      "description": "Наследуется от GameObjectData. Хранит табличные данные для каждого предмета из items.csv.",
+      "parent": "GameObjectData",
+      "fields": [],
+      "methods": []
+    },
+    "AreaEffectData": {
+      "description": "Наследуется от GameObjectData. Хранит табличные данные для каждого скилла из area_effects_skin.csv и area_effects_logic.csv.",
+      "parent": "GameObjectData",
+      "fields": [],
+      "methods": []
+    },
+    "TileData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждого тайла из tiles.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "SkillData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждого скилла из skills.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "LocationData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждой локации из locations.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "SkinData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждого скина из skins.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "StatusEffectData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждого эффекта из status_effects_skin.csv и status_effects_logic.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "AccessoryData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждого гаджета из accessories.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "TraitData": {
+      "description": "Наследуется от Data. Хранит табличные данные для каждой способности из traits.csv.",
+      "parent": "Data",
+      "fields": [],
+      "methods": []
+    },
+    "ArrayList": {
+      "description": "Список.",
+      "parent": null,
+      "fields": [],
+      "methods": [
+        {
+          "name": "get",
+          "signature": "(number) ⇒ Object",
+          "description": "Получает объект из списка по индексу. Нумерация начинается с нуля.",
+          "readonly": false
+        },
+        {
+          "name": "add",
+          "signature": "(Object) ⇒ boolean",
+          "description": "Добавляет объект в список.",
+          "readonly": false
+        },
+        {
+          "name": "size",
+          "signature": "() ⇒ number",
+          "description": "Позволяет получить размер списка.",
+          "readonly": false
+        },
+        {
+          "name": "indexOf",
+          "signature": "(Object) ⇒ number",
+          "description": "Позволяет получить индекс объекта в списке. Равен -1, если не объект не найден.",
+          "readonly": false
+        }
+      ]
+    }
+  }
+}
