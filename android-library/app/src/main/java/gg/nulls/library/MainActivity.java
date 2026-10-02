@@ -98,6 +98,12 @@ public final class MainActivity extends Activity {
         if(title.equals(tr("История версий")))return R.drawable.nav_history;
         if(title.equals(tr("Опубликовать версию"))||title.equals(tr("Обновить")))return R.drawable.nav_upload;
         if(title.equals(tr("Заблокировать скрипт"))||title.equals(tr("Разблокировать скрипт"))||title.equals(tr("Заблокировать автора"))||title.equals(tr("Разблокировать автора")))return R.drawable.nav_block;
+        if(title.equals(tr("Сохранить параметры"))||title.equals(tr("Сохранить конфигурацию")))return R.drawable.nav_save;
+        if(title.equals(tr("Сбросить параметры")))return R.drawable.nav_refresh;
+        if(title.startsWith(tr("Заблокированные бойцы")))return R.drawable.nav_block;
+        if(title.equals(tr("Редактировать"))||title.equals(tr("Переименовать")))return R.drawable.nav_edit;
+        if(title.equals(tr("Создать конфигурацию")))return R.drawable.nav_plus;
+        if(title.equals(tr("Удалить")))return R.drawable.nav_trash;
         return 0;
     }
     private TextView avatar(String name){TextView v=text(name.isEmpty()?"?":name.substring(0,name.offsetByCodePoints(0,1)).toUpperCase(Locale.ROOT),25,ACCENT);v.setGravity(Gravity.CENTER);v.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));v.setBackground(bg(LINE,22));return v;}
