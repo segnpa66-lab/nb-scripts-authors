@@ -292,5 +292,10 @@
   "Убирать служебную обёртку": "Usuń otoczkę serwisu",
   "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Przywracaj oryginalną funkcję tick() podczas przeglądania i zapisywania kodu.",
   "Уменьшить": "Zmniejsz",
-  "Увеличить": "Zwiększ"
+  "Увеличить": "Zwiększ",
+  "Убирать защитную обёртку": "Usuń otoczkę ochronną",
+  "История версий": "Historia wersji",
+  "Последняя версия": "Najnowsza wersja",
+  "Опубликованных версий пока нет": "Brak opublikowanych wersji",
+  "Загружаю версии…": "Ładowanie wersji…"
 }

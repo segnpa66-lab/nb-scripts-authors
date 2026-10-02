@@ -292,5 +292,10 @@
   "Убирать служебную обёртку": "Remove service wrapper",
   "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Restore the original tick() when viewing and saving code.",
   "Уменьшить": "Decrease",
-  "Увеличить": "Increase"
+  "Увеличить": "Increase",
+  "Убирать защитную обёртку": "Remove protective wrapper",
+  "История версий": "Version history",
+  "Последняя версия": "Latest version",
+  "Опубликованных версий пока нет": "No published versions yet",
+  "Загружаю версии…": "Loading versions…"
 }

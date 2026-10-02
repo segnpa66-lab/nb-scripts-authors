@@ -292,5 +292,10 @@
   "Убирать служебную обёртку": "Dienst-Wrapper entfernen",
   "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Ursprüngliches tick() beim Anzeigen und Speichern des Codes wiederherstellen.",
   "Уменьшить": "Verringern",
-  "Увеличить": "Erhöhen"
+  "Увеличить": "Erhöhen",
+  "Убирать защитную обёртку": "Schutz-Wrapper entfernen",
+  "История версий": "Versionsverlauf",
+  "Последняя версия": "Neueste Version",
+  "Опубликованных версий пока нет": "Noch keine veröffentlichten Versionen",
+  "Загружаю версии…": "Versionen werden geladen…"
 }

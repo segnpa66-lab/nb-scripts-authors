@@ -292,5 +292,10 @@
   "Убирать служебную обёртку": "Remover código do serviço",
   "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Restaurar o tick() original ao visualizar e salvar o código.",
   "Уменьшить": "Diminuir",
-  "Увеличить": "Aumentar"
+  "Увеличить": "Aumentar",
+  "Убирать защитную обёртку": "Remover código de proteção",
+  "История версий": "Histórico de versões",
+  "Последняя версия": "Versão mais recente",
+  "Опубликованных версий пока нет": "Nenhuma versão publicada ainda",
+  "Загружаю версии…": "Carregando versões…"
 }

@@ -292,5 +292,10 @@
   "Убирать служебную обёртку": "Servicewrapper verwijderen",
   "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Herstel de oorspronkelijke tick() bij het bekijken en opslaan van code.",
   "Уменьшить": "Verlagen",
-  "Увеличить": "Verhogen"
+  "Увеличить": "Verhogen",
+  "Убирать защитную обёртку": "Beschermende wrapper verwijderen",
+  "История версий": "Versiegeschiedenis",
+  "Последняя версия": "Nieuwste versie",
+  "Опубликованных версий пока нет": "Nog geen gepubliceerde versies",
+  "Загружаю версии…": "Versies laden…"
 }

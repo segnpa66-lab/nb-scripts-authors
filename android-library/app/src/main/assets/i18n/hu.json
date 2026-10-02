@@ -292,5 +292,10 @@
   "Убирать служебную обёртку": "Szolgáltatási burkolat eltávolítása",
   "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Az eredeti tick() visszaállítása a kód megtekintésekor és mentésekor.",
   "Уменьшить": "Csökkentés",
-  "Увеличить": "Növelés"
+  "Увеличить": "Növelés",
+  "Убирать защитную обёртку": "Védőburkolat eltávolítása",
+  "История версий": "Verzióelőzmények",
+  "Последняя версия": "Legújabb verzió",
+  "Опубликованных версий пока нет": "Még nincs közzétett verzió",
+  "Загружаю версии…": "Verziók betöltése…"
 }

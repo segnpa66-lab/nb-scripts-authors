@@ -17,4 +17,8 @@ public class CoreTest {
     @Test public void handlesUsePermanentListAndDedupe(){List<String> h=Core.handles("https://scripting.donutquine.dev/@ban\nhttps://scripting.donutquine.dev/users/@daily1337\nhttps://scripting.nulls.gg/@ban\nhttps://evil.test/@bad");assertEquals(Arrays.asList("ban","daily1337"),h);assertTrue(Core.AUTHORS.contains("/android-script-library/"));}
     @Test public void randomSortIsStableAndNameSortIsRussian()throws Exception{JSONObject a=new JSONObject().put("uuid","a").put("name","Яд"),b=new JSONObject().put("uuid","b").put("name","Атака");assertTrue(Core.comparator(3,0).compare(a,b)>0);assertEquals(Core.comparator(0,44).compare(a,b),Core.comparator(0,44).compare(a,b));}
     @Test public void fileNamesCannotEscapeDownloadDirectory(){assertFalse(Core.fileName("../../bad\\path","33a91f5c-fca7-4e6f-957a-ea2f424b1179").contains("/"));assertTrue(Core.fileName("Скрипт","33a91f5c-fca7-4e6f-957a-ea2f424b1179").endsWith(".lua"));}
+    @Test public void releaseHistorySortsLatestFirstAndKeepsOnlyPublicFields()throws Exception{
+        JSONArray raw=new JSONArray().put(new JSONObject().put("id",1).put("created_at","2026-09-30T14:10:00Z").put("description",JSONObject.NULL)).put(new JSONObject().put("id",2).put("created_at","2026-10-01T18:34:17Z").put("description","Changed behavior").put("private","secret"));
+        List<JSONObject> history=Core.releases(raw);assertEquals(2,history.size());assertEquals(2,history.get(0).getInt("id"));assertEquals("Changed behavior",history.get(0).getString("description"));assertFalse(history.get(0).has("private"));assertEquals("",history.get(1).getString("description"));
+    }
 }

@@ -50,5 +50,10 @@ public final class Core {
     public static Comparator<JSONObject> comparator(int sort,long seed){Collator col=Collator.getInstance(new Locale("ru"));col.setStrength(Collator.PRIMARY);return (a,b)->{int c;switch(sort){case 1:c=date(b).compareTo(date(a));break;case 2:c=date(a).compareTo(date(b));break;case 3:c=col.compare(a.optString("name"),b.optString("name"));break;case 4:c=col.compare(b.optString("name"),a.optString("name"));break;case 5:c=b.optString("updated_at").compareTo(a.optString("updated_at"));break;default:c=Long.compare(rank(a.optString("uuid"),seed),rank(b.optString("uuid"),seed));}return c!=0?c:a.optString("uuid").compareTo(b.optString("uuid"));};}
     private static long rank(String id,long seed){long x=seed^id.hashCode();x=(x^(x>>>30))*0xbf58476d1ce4e5b9L;x=(x^(x>>>27))*0x94d049bb133111ebL;return x^(x>>>31);}
     private static String date(JSONObject s){return s.optString("published_at",s.optString("created_at"));}
+    public static List<JSONObject> releases(JSONArray array)throws JSONException{
+        List<JSONObject> result=new ArrayList<>();
+        for(int i=0;i<array.length();i++){JSONObject item=array.getJSONObject(i);if(!item.has("id")||item.optLong("id")<=0)continue;result.add(new JSONObject().put("id",item.getLong("id")).put("created_at",item.optString("created_at")).put("description",clean(item.isNull("description")?"":item.optString("description"))));}
+        result.sort((a,b)->b.optString("created_at").compareTo(a.optString("created_at")));return result;
+    }
     public static String fileName(String name,String uuid){String n=clean(name).replaceAll("[^\\p{L}\\p{N}._-]+","_");if(n.length()>64)n=n.substring(0,64);if(n.isEmpty())n="script";return n+"_"+uuid.substring(0,8)+".lua";}
 }
