@@ -288,5 +288,9 @@
   "Сохраняется только на этом устройстве.": "Zapisano tylko na tym urządzeniu.",
   "Разблокировать": "Odblokuj",
   "Чёрный список пуст": "Lista zablokowanych jest pusta",
-  "Открыть скрипт по ссылке или UUID": "Otwórz skrypt przez link lub UUID"
+  "Открыть скрипт по ссылке или UUID": "Otwórz skrypt przez link lub UUID",
+  "Убирать служебную обёртку": "Usuń otoczkę serwisu",
+  "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Przywracaj oryginalną funkcję tick() podczas przeglądania i zapisywania kodu.",
+  "Уменьшить": "Zmniejsz",
+  "Увеличить": "Zwiększ"
 }

@@ -105,7 +105,7 @@
   "Опубликован: ": "Megjelent:",
   "Настроить и запустить бой": "Állítsák fel és indítsák el a harcot",
   "Поделиться скриптом": "A szkript megosztása",
-  "Скачать .lua": "Letöltés: .lua",
+  "Скачать .lua": ".lua letöltése",
   "Посмотреть код": "Nézd meg a kódot",
   "Загружаю код…": "A kód letöltése..",
   "Добавить / убрать из избранного": "Hozzáadás / eltávolítás a kijelölt",
@@ -288,5 +288,9 @@
   "Сохраняется только на этом устройстве.": "Csak ezen az eszközön tárolódik.",
   "Разблокировать": "Feloldás",
   "Чёрный список пуст": "A tiltólista üres",
-  "Открыть скрипт по ссылке или UUID": "Szkript megnyitása hivatkozással vagy UUID-vel"
+  "Открыть скрипт по ссылке или UUID": "Szkript megnyitása hivatkozással vagy UUID-vel",
+  "Убирать служебную обёртку": "Szolgáltatási burkolat eltávolítása",
+  "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Az eredeti tick() visszaállítása a kód megtekintésekor és mentésekor.",
+  "Уменьшить": "Csökkentés",
+  "Увеличить": "Növelés"
 }

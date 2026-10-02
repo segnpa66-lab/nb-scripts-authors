@@ -288,5 +288,9 @@
   "Сохраняется только на этом устройстве.": "Salvato solo su questo dispositivo.",
   "Разблокировать": "Sblocca",
   "Чёрный список пуст": "L'elenco bloccati è vuoto",
-  "Открыть скрипт по ссылке или UUID": "Apri script tramite link o UUID"
+  "Открыть скрипт по ссылке или UUID": "Apri script tramite link o UUID",
+  "Убирать служебную обёртку": "Rimuovi wrapper del servizio",
+  "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Ripristina il tick() originale quando visualizzi e salvi il codice.",
+  "Уменьшить": "Diminuisci",
+  "Увеличить": "Aumenta"
 }

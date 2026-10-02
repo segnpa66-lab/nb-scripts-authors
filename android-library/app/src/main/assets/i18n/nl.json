@@ -105,7 +105,7 @@
   "Опубликован: ": "Gepubliceerd:",
   "Настроить и запустить бой": "Zet het gevecht op en start het gevecht",
   "Поделиться скриптом": "Het script delen",
-  "Скачать .lua": "Download .lua",
+  "Скачать .lua": ".lua downloaden",
   "Посмотреть код": "Bekijk de code",
   "Загружаю код…": "De code downloaden..",
   "Добавить / убрать из избранного": "Toevoegen/verwijderen van de geselecteerde",
@@ -288,5 +288,9 @@
   "Сохраняется только на этом устройстве.": "Alleen op dit apparaat opgeslagen.",
   "Разблокировать": "Deblokkeren",
   "Чёрный список пуст": "De blokkeerlijst is leeg",
-  "Открыть скрипт по ссылке или UUID": "Script openen via link of UUID"
+  "Открыть скрипт по ссылке или UUID": "Script openen via link of UUID",
+  "Убирать служебную обёртку": "Servicewrapper verwijderen",
+  "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Herstel de oorspronkelijke tick() bij het bekijken en opslaan van code.",
+  "Уменьшить": "Verlagen",
+  "Увеличить": "Verhogen"
 }

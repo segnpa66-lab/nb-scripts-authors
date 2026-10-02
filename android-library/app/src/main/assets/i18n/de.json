@@ -288,5 +288,9 @@
   "Сохраняется только на этом устройстве.": "Nur auf diesem Gerät gespeichert.",
   "Разблокировать": "Entsperren",
   "Чёрный список пуст": "Die Sperrliste ist leer",
-  "Открыть скрипт по ссылке или UUID": "Skript per Link oder UUID öffnen"
+  "Открыть скрипт по ссылке или UUID": "Skript per Link oder UUID öffnen",
+  "Убирать служебную обёртку": "Dienst-Wrapper entfernen",
+  "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Ursprüngliches tick() beim Anzeigen und Speichern des Codes wiederherstellen.",
+  "Уменьшить": "Verringern",
+  "Увеличить": "Erhöhen"
 }

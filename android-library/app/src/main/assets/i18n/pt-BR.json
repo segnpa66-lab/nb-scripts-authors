@@ -105,7 +105,7 @@
   "Опубликован: ": "Publicado:",
   "Настроить и запустить бой": "Preparar e lançar a luta",
   "Поделиться скриптом": "Compartilhe o roteiro",
-  "Скачать .lua": "Baixe. Lua",
+  "Скачать .lua": "Baixar .lua",
   "Посмотреть код": "Veja o código",
   "Загружаю код…": "Baixando o código..",
   "Добавить / убрать из избранного": "Adicionar/remover dos selecionados",
@@ -288,5 +288,9 @@
   "Сохраняется только на этом устройстве.": "Salvo apenas neste dispositivo.",
   "Разблокировать": "Desbloquear",
   "Чёрный список пуст": "A lista de bloqueados está vazia",
-  "Открыть скрипт по ссылке или UUID": "Abrir script pelo link ou UUID"
+  "Открыть скрипт по ссылке или UUID": "Abrir script pelo link ou UUID",
+  "Убирать служебную обёртку": "Remover código do serviço",
+  "Восстанавливать исходный tick() при просмотре и сохранении кода.": "Restaurar o tick() original ao visualizar e salvar o código.",
+  "Уменьшить": "Diminuir",
+  "Увеличить": "Aumentar"
 }
