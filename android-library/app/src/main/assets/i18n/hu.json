@@ -297,5 +297,16 @@
   "История версий": "Verzióelőzmények",
   "Последняя версия": "Legújabb verzió",
   "Опубликованных версий пока нет": "Még nincs közzétett verzió",
-  "Загружаю версии…": "Verziók betöltése…"
+  "Загружаю версии…": "Verziók betöltése…",
+  "Заблокированные бойцы": "Letiltott harcosok",
+  "Отмеченные бойцы недоступны в этом бою.": "A kijelölt harcosok nem használhatók ebben a csatában.",
+  "Поиск бойца": "Harcos keresése",
+  "Разблокировать всех": "Összes feloldása",
+  "Оставьте хотя бы одного бойца": "Legalább egy harcos maradjon elérhető",
+  "Синхронизация…": "Szinkronizálás…",
+  "Синхронизировано": "Szinkronizálva",
+  "Синхронизация недоступна. Настройки сохранены на устройстве.": "A szinkronizálás nem érhető el. A beállítások az eszközön vannak mentve.",
+  "Синхронизируется с вашим аккаунтом.": "Szinkronizálva a fiókoddal.",
+  "Автор заблокирован.": "Szerző letiltva.",
+  "Уровень боя": "Harci szint"
 }

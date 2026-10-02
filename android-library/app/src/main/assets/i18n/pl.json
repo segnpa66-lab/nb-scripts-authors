@@ -297,5 +297,16 @@
   "История версий": "Historia wersji",
   "Последняя версия": "Najnowsza wersja",
   "Опубликованных версий пока нет": "Brak opublikowanych wersji",
-  "Загружаю версии…": "Ładowanie wersji…"
+  "Загружаю версии…": "Ładowanie wersji…",
+  "Заблокированные бойцы": "Zablokowani zadymiarze",
+  "Отмеченные бойцы недоступны в этом бою.": "Zaznaczeni zadymiarze są niedostępni w tej bitwie.",
+  "Поиск бойца": "Szukaj zadymiarza",
+  "Разблокировать всех": "Odblokuj wszystkich",
+  "Оставьте хотя бы одного бойца": "Pozostaw co najmniej jednego zadymiarza",
+  "Синхронизация…": "Synchronizacja…",
+  "Синхронизировано": "Zsynchronizowano",
+  "Синхронизация недоступна. Настройки сохранены на устройстве.": "Synchronizacja niedostępna. Ustawienia zapisano na urządzeniu.",
+  "Синхронизируется с вашим аккаунтом.": "Synchronizowane z Twoim kontem.",
+  "Автор заблокирован.": "Autor zablokowany.",
+  "Уровень боя": "Poziom walki"
 }

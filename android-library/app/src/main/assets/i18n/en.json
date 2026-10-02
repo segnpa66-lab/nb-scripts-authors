@@ -297,5 +297,16 @@
   "История версий": "Version history",
   "Последняя версия": "Latest version",
   "Опубликованных версий пока нет": "No published versions yet",
-  "Загружаю версии…": "Loading versions…"
+  "Загружаю версии…": "Loading versions…",
+  "Заблокированные бойцы": "Blocked brawlers",
+  "Отмеченные бойцы недоступны в этом бою.": "Selected brawlers are unavailable in this battle.",
+  "Поиск бойца": "Search brawlers",
+  "Разблокировать всех": "Unblock all",
+  "Оставьте хотя бы одного бойца": "Keep at least one brawler available",
+  "Синхронизация…": "Syncing…",
+  "Синхронизировано": "Synced",
+  "Синхронизация недоступна. Настройки сохранены на устройстве.": "Sync unavailable. Settings are saved on this device.",
+  "Синхронизируется с вашим аккаунтом.": "Synced with your account.",
+  "Автор заблокирован.": "Author blocked.",
+  "Уровень боя": "Combat level"
 }

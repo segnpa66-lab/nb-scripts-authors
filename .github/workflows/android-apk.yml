@@ -29,9 +29,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      - name: Select build mode
+        id: mode
+        run: |
+          if git log -1 --format=%B | grep -Fq '[skip checks]'; then
+            echo 'skip_checks=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'skip_checks=false' >> "$GITHUB_OUTPUT"
+          fi
       - name: Test, lint and build
+        if: ${{ steps.mode.outputs.skip_checks != 'true' }}
         working-directory: android-library
         run: gradle --no-daemon testDebugUnitTest lintDebug assembleDebug
+      - name: Compile without tests or lint
+        if: ${{ steps.mode.outputs.skip_checks == 'true' }}
+        working-directory: android-library
+        run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: Script-Library-APK

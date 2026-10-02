@@ -297,5 +297,16 @@
   "История версий": "Versionsverlauf",
   "Последняя версия": "Neueste Version",
   "Опубликованных версий пока нет": "Noch keine veröffentlichten Versionen",
-  "Загружаю версии…": "Versionen werden geladen…"
+  "Загружаю версии…": "Versionen werden geladen…",
+  "Заблокированные бойцы": "Gesperrte Brawler",
+  "Отмеченные бойцы недоступны в этом бою.": "Ausgewählte Brawler sind in diesem Kampf nicht verfügbar.",
+  "Поиск бойца": "Brawler suchen",
+  "Разблокировать всех": "Alle freigeben",
+  "Оставьте хотя бы одного бойца": "Lass mindestens einen Brawler verfügbar",
+  "Синхронизация…": "Synchronisierung…",
+  "Синхронизировано": "Synchronisiert",
+  "Синхронизация недоступна. Настройки сохранены на устройстве.": "Synchronisierung nicht verfügbar. Einstellungen sind auf diesem Gerät gespeichert.",
+  "Синхронизируется с вашим аккаунтом.": "Mit deinem Konto synchronisiert.",
+  "Автор заблокирован.": "Autor gesperrt.",
+  "Уровень боя": "Kampfniveau"
 }

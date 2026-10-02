@@ -297,5 +297,16 @@
   "История версий": "Versiegeschiedenis",
   "Последняя версия": "Nieuwste versie",
   "Опубликованных версий пока нет": "Nog geen gepubliceerde versies",
-  "Загружаю версии…": "Versies laden…"
+  "Загружаю версии…": "Versies laden…",
+  "Заблокированные бойцы": "Geblokkeerde brawlers",
+  "Отмеченные бойцы недоступны в этом бою.": "Geselecteerde brawlers zijn niet beschikbaar in dit gevecht.",
+  "Поиск бойца": "Brawlers zoeken",
+  "Разблокировать всех": "Alles deblokkeren",
+  "Оставьте хотя бы одного бойца": "Laat minstens één brawler beschikbaar",
+  "Синхронизация…": "Synchroniseren…",
+  "Синхронизировано": "Gesynchroniseerd",
+  "Синхронизация недоступна. Настройки сохранены на устройстве.": "Synchronisatie niet beschikbaar. Instellingen zijn op dit apparaat opgeslagen.",
+  "Синхронизируется с вашим аккаунтом.": "Gesynchroniseerd met je account.",
+  "Автор заблокирован.": "Auteur geblokkeerd.",
+  "Уровень боя": "Gevechtsniveau"
 }

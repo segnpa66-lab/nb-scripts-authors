@@ -12,6 +12,7 @@ final class Blocklist {
     private final Set<String> authors, scripts;
 
     Blocklist(Context context){prefs=context.getSharedPreferences("blocklist",Context.MODE_PRIVATE);authors=new HashSet<>(prefs.getStringSet(AUTHORS,new HashSet<>()));scripts=new HashSet<>(prefs.getStringSet(SCRIPTS,new HashSet<>()));}
+    void reload(){authors.clear();authors.addAll(prefs.getStringSet(AUTHORS,new HashSet<>()));scripts.clear();scripts.addAll(prefs.getStringSet(SCRIPTS,new HashSet<>()));}
     boolean author(String id){return authors.contains(id);}
     boolean script(String id){return scripts.contains(id);}
     Set<String> authors(){return new HashSet<>(authors);}

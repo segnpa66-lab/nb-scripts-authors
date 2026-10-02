@@ -37,6 +37,15 @@ final class Api {
             try{return raw(method,path,body);}catch(Failure retryError){if(retryError.status==401&&path.endsWith("/content"))throw new Failure(403,"Код этого скрипта недоступен вашему аккаунту.");throw retryError;}
         }
     }
+    JSONObject sync(JSONObject body,String expectedAccount)throws Exception{
+        try{return syncRaw(body,expectedAccount);}catch(Failure error){if(error.status!=401)throw error;request("GET","/users/me",null);return syncRaw(body,expectedAccount);}
+    }
+    private JSONObject syncRaw(JSONObject body,String expectedAccount)throws Exception{
+        String cookieHeader="",token;
+        synchronized(this){if(me==null)throw new Failure(401,"Требуется вход.");if(!expectedAccount.equals(me.optString("uuid")))throw new Failure(409,"Аккаунт изменён.");Map<String,List<String>> values=cookies.get(URI.create(Core.API+"/users/me"),Collections.emptyMap());for(Map.Entry<String,List<String>> value:values.entrySet())if(value.getKey().equalsIgnoreCase("Cookie"))cookieHeader=String.join("; ",value.getValue());token=bearer;}
+        HttpURLConnection connection=(HttpURLConnection)new URL("https://esmqzozbwufdixcxgtts.supabase.co/functions/v1/settings-sync").openConnection();connection.setConnectTimeout(10000);connection.setReadTimeout(25000);connection.setInstanceFollowRedirects(false);connection.setRequestMethod("POST");connection.setRequestProperty("Content-Type","application/json");connection.setRequestProperty("x-nulls-cookie",cookieHeader);connection.setRequestProperty("x-nulls-bearer",token);connection.setDoOutput(true);
+        try{byte[] data=body.toString().getBytes(StandardCharsets.UTF_8);connection.setFixedLengthStreamingMode(data.length);try(OutputStream out=connection.getOutputStream()){out.write(data);}int status=connection.getResponseCode();if(status<200||status>=300)throw new Failure(status,"Синхронизация недоступна. Настройки сохранены на устройстве.");return new JSONObject(read(connection.getInputStream(),1024*1024));}finally{connection.disconnect();}
+    }
     private JSONObject raw(String method,String path,JSONObject body)throws Exception{
         if(!path.startsWith("/")||path.contains("..")||path.contains("?token"))throw new IllegalArgumentException("Некорректный путь API");
         URI uri=URI.create(Core.API+path);HttpURLConnection c=(HttpURLConnection)uri.toURL().openConnection();c.setConnectTimeout(15000);c.setReadTimeout(20000);c.setInstanceFollowRedirects(false);c.setRequestMethod(method);c.setRequestProperty("Accept","application/json");
