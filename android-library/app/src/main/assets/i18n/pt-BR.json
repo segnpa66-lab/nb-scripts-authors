@@ -308,5 +308,21 @@
   "Синхронизация недоступна. Настройки сохранены на устройстве.": "Sincronização indisponível. As configurações foram salvas neste dispositivo.",
   "Синхронизируется с вашим аккаунтом.": "Sincronizado com sua conta.",
   "Автор заблокирован.": "Autor bloqueado.",
-  "Уровень боя": "Nível de combate"
+  "Уровень боя": "Nível de combate",
+  "Заблокировать всех": "Bloquear todos",
+  "Заблокировано": "Bloqueados",
+  "Заблокирован": "Bloqueado",
+  "Доступен": "Disponível",
+  "Конфигурации боя": "Configurações de batalha",
+  "Текущие параметры": "Configurações atuais",
+  "Сохранить конфигурацию": "Salvar configuração",
+  "Создать конфигурацию": "Criar configuração",
+  "Переименовать": "Renomear",
+  "Конфигурация сохранена": "Configuração salva",
+  "Выберите конфигурацию": "Selecione uma configuração",
+  "Конфигурация": "Configuração",
+  "Название: от 1 до 80 символов": "Nome: de 1 a 80 caracteres",
+  "Удалить конфигурацию?": "Excluir configuração?",
+  "Сохранить": "Salvar",
+  "Ничего не найдено": "Nenhum resultado"
 }

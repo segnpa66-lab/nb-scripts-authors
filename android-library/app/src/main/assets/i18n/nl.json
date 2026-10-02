@@ -308,5 +308,21 @@
   "Синхронизация недоступна. Настройки сохранены на устройстве.": "Synchronisatie niet beschikbaar. Instellingen zijn op dit apparaat opgeslagen.",
   "Синхронизируется с вашим аккаунтом.": "Gesynchroniseerd met je account.",
   "Автор заблокирован.": "Auteur geblokkeerd.",
-  "Уровень боя": "Gevechtsniveau"
+  "Уровень боя": "Gevechtsniveau",
+  "Заблокировать всех": "Alles blokkeren",
+  "Заблокировано": "Geblokkeerd",
+  "Заблокирован": "Geblokkeerd",
+  "Доступен": "Beschikbaar",
+  "Конфигурации боя": "Gevechtsconfiguraties",
+  "Текущие параметры": "Huidige instellingen",
+  "Сохранить конфигурацию": "Configuratie opslaan",
+  "Создать конфигурацию": "Configuratie maken",
+  "Переименовать": "Hernoemen",
+  "Конфигурация сохранена": "Configuratie opgeslagen",
+  "Выберите конфигурацию": "Selecteer een configuratie",
+  "Конфигурация": "Configuratie",
+  "Название: от 1 до 80 символов": "Naam: 1 tot 80 tekens",
+  "Удалить конфигурацию?": "Configuratie verwijderen?",
+  "Сохранить": "Opslaan",
+  "Ничего не найдено": "Geen resultaten"
 }

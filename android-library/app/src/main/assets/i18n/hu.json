@@ -308,5 +308,21 @@
   "Синхронизация недоступна. Настройки сохранены на устройстве.": "A szinkronizálás nem érhető el. A beállítások az eszközön vannak mentve.",
   "Синхронизируется с вашим аккаунтом.": "Szinkronizálva a fiókoddal.",
   "Автор заблокирован.": "Szerző letiltva.",
-  "Уровень боя": "Harci szint"
+  "Уровень боя": "Harci szint",
+  "Заблокировать всех": "Összes tiltása",
+  "Заблокировано": "Tiltva",
+  "Заблокирован": "Tiltott",
+  "Доступен": "Elérhető",
+  "Конфигурации боя": "Csatakonfigurációk",
+  "Текущие параметры": "Jelenlegi beállítások",
+  "Сохранить конфигурацию": "Konfiguráció mentése",
+  "Создать конфигурацию": "Konfiguráció létrehozása",
+  "Переименовать": "Átnevezés",
+  "Конфигурация сохранена": "Konfiguráció mentve",
+  "Выберите конфигурацию": "Válasszon konfigurációt",
+  "Конфигурация": "Konfiguráció",
+  "Название: от 1 до 80 символов": "Név: 1–80 karakter",
+  "Удалить конфигурацию?": "Törli a konfigurációt?",
+  "Сохранить": "Mentés",
+  "Ничего не найдено": "Nincs találat"
 }

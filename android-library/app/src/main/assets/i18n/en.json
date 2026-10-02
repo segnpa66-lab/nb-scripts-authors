@@ -308,5 +308,21 @@
   "Синхронизация недоступна. Настройки сохранены на устройстве.": "Sync unavailable. Settings are saved on this device.",
   "Синхронизируется с вашим аккаунтом.": "Synced with your account.",
   "Автор заблокирован.": "Author blocked.",
-  "Уровень боя": "Combat level"
+  "Уровень боя": "Combat level",
+  "Заблокировать всех": "Block all",
+  "Заблокировано": "Blocked",
+  "Заблокирован": "Blocked",
+  "Доступен": "Available",
+  "Конфигурации боя": "Battle configurations",
+  "Текущие параметры": "Current settings",
+  "Сохранить конфигурацию": "Save configuration",
+  "Создать конфигурацию": "Create configuration",
+  "Переименовать": "Rename",
+  "Конфигурация сохранена": "Configuration saved",
+  "Выберите конфигурацию": "Select a configuration",
+  "Конфигурация": "Configuration",
+  "Название: от 1 до 80 символов": "Name: 1 to 80 characters",
+  "Удалить конфигурацию?": "Delete configuration?",
+  "Сохранить": "Save",
+  "Ничего не найдено": "No results"
 }
