@@ -91,7 +91,7 @@ public final class MainActivity extends Activity {
     private int actionIcon(String title){
         if(title.equals(tr("Войти")))return R.drawable.nav_user;
         if(title.equals(tr("Сохранить на сервере"))||title.equals(tr("Сохранить")))return R.drawable.nav_save;
-        if(title.equals("Null’s Connect")||title.equals("Null's Connect"))return R.drawable.nav_connect;
+        if(title.equals(tr("Подключить"))||title.equals("Null’s Connect")||title.equals("Null's Connect"))return R.drawable.nav_connect;
         if(title.equals(tr("Выйти"))||title.equals(tr("Выйти и очистить данные")))return R.drawable.nav_logout;
         if(title.equals(tr("Удалить скрипт"))||title.equals(tr("Очистить историю")))return R.drawable.nav_trash;
         if(title.equals(tr("Создать аккаунт"))||title.equals(tr("+ Новый скрипт")))return R.drawable.nav_plus;
