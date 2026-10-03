@@ -380,5 +380,8 @@
   "Ничего.": "Niets.",
   "Обновление уже загружается": "De update wordt al gedownload",
   "Анимация открытия приложения и входа в аккаунт.": "Animatie bij het openen van de app en het inloggen.",
-  "Плавное появление значка, шапки и библиотеки.": "Het pictogram, de koptekst en de bibliotheek verschijnen geleidelijk."
+  "Плавное появление значка, шапки и библиотеки.": "Het pictogram, de koptekst en de bibliotheek verschijnen geleidelijk.",
+  "Скрытие из «Случайно» доступно для всех авторов.": "Elke auteur kan worden verborgen bij willekeurig sorteren.",
+  "В профиле автора показаны время публикации и UUID скриптов.": "Het auteursprofiel toont de publicatiedatum en -tijd en de UUID van scripts.",
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Instellingen voor het verbergen van auteurs synchroniseren tussen de website en app."
 }

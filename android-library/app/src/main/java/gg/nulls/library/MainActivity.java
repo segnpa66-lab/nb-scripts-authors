@@ -138,6 +138,7 @@ public final class MainActivity extends Activity {
         if(title.equals(tr("Список авторов")))return R.drawable.nav_users;
         if(title.equals(tr("История версий")))return R.drawable.nav_history;
         if(title.equals(tr("Опубликовать версию"))||title.equals(tr("Обновить")))return R.drawable.nav_upload;
+        if(title.equals(tr("Скрыть в «Случайно»"))||title.equals(tr("Показывать в «Случайно»")))return R.drawable.nav_shuffle;
         if(title.equals(tr("Заблокировать скрипт"))||title.equals(tr("Разблокировать скрипт"))||title.equals(tr("Заблокировать автора"))||title.equals(tr("Разблокировать автора")))return R.drawable.nav_block;
         if(title.equals(tr("Недавние скрипты")))return R.drawable.nav_history;
         if(title.equals(tr("Импортировать .lua")))return R.drawable.nav_upload;
@@ -250,17 +251,19 @@ public final class MainActivity extends Activity {
         addButton(c,button(tr(blocklist.author(authorId)?"Разблокировать автора":"Заблокировать автора"),()->{
             blocklist.toggleAuthor(authorId);current[0].dismiss();if(screen==0||screen==1)render();profile(a,linked);
         }));
-        if("d2rkmean".equalsIgnoreCase(handle)){
-            addButton(c,button(tr(blocklist.hideD2Random()?"Показывать в «Случайно»":"Скрыть в «Случайно»"),()->{
-                blocklist.toggleD2Random();current[0].dismiss();if(screen==0||screen==1)render();profile(a,linked);
-            }));
-            c.addView(label(tr("Только для случайной сортировки")));
-        }
+        addButton(c,button(tr(blocklist.randomAuthor(authorId,handle)?"Показывать в «Случайно»":"Скрыть в «Случайно»"),()->{
+            blocklist.toggleRandomAuthor(authorId,handle);current[0].dismiss();if(screen==0||screen==1)render();profile(a,linked);
+        }));
+        c.addView(label(tr("Только для случайной сортировки")));
         if(blocklist.author(authorId))c.addView(label(tr("Автор заблокирован.")));
         else{
             int visible=0;for(JSONObject script:authored)if(!blocklist.script(script.optString("uuid")))visible++;
             c.addView(label(tr("ОПУБЛИКОВАНО · ")+visible));
-            for(JSONObject script:authored)if(!blocklist.script(script.optString("uuid")))addButton(c,button(script.optString("name"),()->details(script)));
+            for(JSONObject script:authored)if(!blocklist.script(script.optString("uuid"))){
+                LinearLayout card=panel();card.setBackground(surface(WHITE,20));TextView title=text(script.optString("name"),17,INK);title.setTypeface(Typeface.create("sans-serif-medium",Typeface.NORMAL));title.setMaxLines(2);title.setEllipsize(TextUtils.TruncateAt.END);card.addView(title);
+                String scriptId=script.optString("uuid"),published=script.optString("published_at");TextView metadata=text((published.isEmpty()?tr("Черновик"):date(published))+"   /   "+scriptId.substring(0,Math.min(8,scriptId.length())),12,MUTED);metadata.setPadding(0,dp(10),0,0);card.addView(metadata);
+                card.setFocusable(true);card.setContentDescription(script.optString("name")+", "+metadata.getText()+", UUID "+scriptId);card.setOnClickListener(view->details(script));LinearLayout.LayoutParams space=new LinearLayout.LayoutParams(-1,-2);space.topMargin=dp(10);c.addView(card,space);
+            }
         }
         current[0]=sheet(tr("Профиль автора"),c);
     }

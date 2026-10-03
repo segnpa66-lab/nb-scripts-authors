@@ -380,5 +380,8 @@
   "Ничего.": "Niente.",
   "Обновление уже загружается": "L’aggiornamento è già in download",
   "Анимация открытия приложения и входа в аккаунт.": "Animazione all’apertura dell’app e all’accesso.",
-  "Плавное появление значка, шапки и библиотеки.": "Comparsa graduale dell’icona, dell’intestazione e della libreria."
+  "Плавное появление значка, шапки и библиотеки.": "Comparsa graduale dell’icona, dell’intestazione e della libreria.",
+  "Скрытие из «Случайно» доступно для всех авторов.": "Tutti gli autori possono essere nascosti dall’ordinamento casuale.",
+  "В профиле автора показаны время публикации и UUID скриптов.": "Il profilo dell’autore mostra data e ora di pubblicazione e UUID degli script.",
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Le preferenze per nascondere gli autori si sincronizzano tra sito e app."
 }

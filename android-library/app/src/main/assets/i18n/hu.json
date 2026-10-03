@@ -380,5 +380,8 @@
   "Ничего.": "Semmi.",
   "Обновление уже загружается": "A frissítés letöltése már folyamatban van",
   "Анимация открытия приложения и входа в аккаунт.": "Animáció az alkalmazás megnyitásakor és bejelentkezéskor.",
-  "Плавное появление значка, шапки и библиотеки.": "Az ikon, a fejléc és a könyvtár fokozatos megjelenése."
+  "Плавное появление значка, шапки и библиотеки.": "Az ikon, a fejléc és a könyvtár fokozatos megjelenése.",
+  "Скрытие из «Случайно» доступно для всех авторов.": "Bármely szerző elrejthető a véletlenszerű rendezésből.",
+  "В профиле автора показаны время публикации и UUID скриптов.": "A szerző profilján megjelenik a szkriptek közzétételi ideje és UUID-je.",
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "A szerzők elrejtési beállításai szinkronizálódnak a webhely és az alkalmazás között."
 }

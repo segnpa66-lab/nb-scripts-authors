@@ -380,5 +380,8 @@
   "Ничего.": "Nada.",
   "Обновление уже загружается": "La actualización ya se está descargando",
   "Анимация открытия приложения и входа в аккаунт.": "Animación al abrir la aplicación e iniciar sesión.",
-  "Плавное появление значка, шапки и библиотеки.": "Aparición suave del icono, la cabecera y la biblioteca."
+  "Плавное появление значка, шапки и библиотеки.": "Aparición suave del icono, la cabecera y la biblioteca.",
+  "Скрытие из «Случайно» доступно для всех авторов.": "Se puede ocultar a cualquier autor en el orden aleatorio.",
+  "В профиле автора показаны время публикации и UUID скриптов.": "El perfil del autor muestra la fecha y hora de publicación y el UUID de los scripts.",
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Las preferencias para ocultar autores se sincronizan entre el sitio y la aplicación."
 }
