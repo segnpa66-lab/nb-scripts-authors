@@ -393,5 +393,11 @@
   "Стандартные параметры": "Alapértelmezett beállítások",
   "Все изменённые параметры": "Összes módosított paraméter",
   "Изменить ссылку": "Hivatkozás módosítása",
-  "Название скрипта недоступно": "A szkript neve nem érhető el"
+  "Название скрипта недоступно": "A szkript neve nem érhető el",
+  "Поиск в коде": "Keresés a kódban",
+  "Предыдущее совпадение": "Előző találat",
+  "Следующее совпадение": "Következő találat",
+  "Совпадения": "Találatok",
+  "Символов": "Karakterek",
+  "Строк": "Sorok"
 }

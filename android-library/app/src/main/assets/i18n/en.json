@@ -415,5 +415,11 @@
   "Изменить ссылку": "Change link",
   "Название скрипта недоступно": "Script title unavailable",
   "Выйти": "Sign out",
-  "Загружаю доступный код…": "Loading available code…"
+  "Загружаю доступный код…": "Loading available code…",
+  "Поиск в коде": "Search code",
+  "Предыдущее совпадение": "Previous match",
+  "Следующее совпадение": "Next match",
+  "Совпадения": "Matches",
+  "Символов": "Characters",
+  "Строк": "Lines"
 }

@@ -393,5 +393,11 @@
   "Стандартные параметры": "Standardowe ustawienia",
   "Все изменённые параметры": "Wszystkie zmienione parametry",
   "Изменить ссылку": "Zmień link",
-  "Название скрипта недоступно": "Nazwa skryptu niedostępna"
+  "Название скрипта недоступно": "Nazwa skryptu niedostępna",
+  "Поиск в коде": "Szukaj w kodzie",
+  "Предыдущее совпадение": "Poprzednie dopasowanie",
+  "Следующее совпадение": "Następne dopasowanie",
+  "Совпадения": "Dopasowania",
+  "Символов": "Znaki",
+  "Строк": "Wiersze"
 }

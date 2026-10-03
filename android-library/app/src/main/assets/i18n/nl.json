@@ -393,5 +393,11 @@
   "Стандартные параметры": "Standaardinstellingen",
   "Все изменённые параметры": "Alle gewijzigde parameters",
   "Изменить ссылку": "Link wijzigen",
-  "Название скрипта недоступно": "Scriptnaam niet beschikbaar"
+  "Название скрипта недоступно": "Scriptnaam niet beschikbaar",
+  "Поиск в коде": "Zoeken in code",
+  "Предыдущее совпадение": "Vorige overeenkomst",
+  "Следующее совпадение": "Volgende overeenkomst",
+  "Совпадения": "Overeenkomsten",
+  "Символов": "Tekens",
+  "Строк": "Regels"
 }

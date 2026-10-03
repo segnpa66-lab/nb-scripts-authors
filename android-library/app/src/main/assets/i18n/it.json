@@ -393,5 +393,11 @@
   "Стандартные параметры": "Impostazioni standard",
   "Все изменённые параметры": "Tutti i parametri modificati",
   "Изменить ссылку": "Cambia link",
-  "Название скрипта недоступно": "Nome dello script non disponibile"
+  "Название скрипта недоступно": "Nome dello script non disponibile",
+  "Поиск в коде": "Cerca nel codice",
+  "Предыдущее совпадение": "Corrispondenza precedente",
+  "Следующее совпадение": "Corrispondenza successiva",
+  "Совпадения": "Corrispondenze",
+  "Символов": "Caratteri",
+  "Строк": "Righe"
 }
