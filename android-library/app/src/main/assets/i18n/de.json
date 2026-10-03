@@ -383,5 +383,15 @@
   "Плавное появление значка, шапки и библиотеки.": "Sanftes Einblenden des Symbols, der Kopfzeile und der Bibliothek.",
   "Скрытие из «Случайно» доступно для всех авторов.": "Alle Autoren können aus der zufälligen Sortierung ausgeblendet werden.",
   "В профиле автора показаны время публикации и UUID скриптов.": "Das Autorenprofil zeigt Veröffentlichungszeit und UUID der Skripte.",
-  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Die Einstellungen zum Ausblenden von Autoren werden zwischen Website und App synchronisiert."
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Die Einstellungen zum Ausblenden von Autoren werden zwischen Website und App synchronisiert.",
+  "Сведения": "Details",
+  "Предпросмотр": "Vorschau",
+  "Загружаю название…": "Name wird geladen…",
+  "Изменено параметров": "Geänderte Parameter",
+  "Изменённые параметры": "Geänderte Parameter",
+  "Сравнение со стандартными параметрами боя": "Vergleich mit den Standard-Kampfeinstellungen",
+  "Стандартные параметры": "Standardeinstellungen",
+  "Все изменённые параметры": "Alle geänderten Parameter",
+  "Изменить ссылку": "Link ändern",
+  "Название скрипта недоступно": "Skriptname nicht verfügbar"
 }

@@ -1,6 +1,6 @@
 # Script Library — Android
 
-Native Android 10+ application for Null’s Brawl scripts. No application backend, advertising SDK or analytics. The app talks directly to `https://scripting.nulls.gg/api` and reads the author registry from the existing `android-script-library/list.txt` in this repository.
+Native Android 10+ application for Null’s Brawl scripts. No advertising SDK. Optional account synchronization and usage statistics use a Supabase backend. The app talks directly to `https://scripting.nulls.gg/api` and reads the author registry from the existing `android-script-library/list.txt` in this repository.
 
 ## Build and install
 
@@ -21,8 +21,14 @@ Build locally with JDK 17, Android SDK 35 and Gradle 8.9: `gradle testDebugUnitT
 
 ## Contract and limits
 
-Endpoints and room format were checked against the service’s public production frontend (AuthContext, scripts, ScriptPage, ScriptEditorPage and api assets on 2026-09-30). This is an independent client, not an official Null’s app. Service/API changes can require an app update. Accounts using an unsupported login method can manage their account via the official website. A separate server is not required, but an internet connection and the existing service remain necessary.
+Endpoints and room format were checked against the service’s public production frontend (AuthContext, scripts, ScriptPage, ScriptEditorPage and api assets on 2026-09-30). This is an independent client, not an official Null’s app. Service/API changes can require an app update. Accounts using an unsupported login method can manage their account via the official website. Browsing and script operations use the existing service directly; optional synchronization and usage statistics require the Supabase backend. An internet connection remains necessary.
 
-Live-account upload/publication and actual in-game launch require an account or installed game and cannot be fully verified in CI. Android automatic link verification also depends on the website publishing a matching Digital Asset Links file. Automated tests cover room encoding, battle values, public-data redaction, search, author-list parsing and sort semantics. CI also runs Android lint and compiles the APK.
+Live-account upload/publication and actual in-game launch require an account or installed game and cannot be fully verified in CI. Android automatic link verification also depends on the website publishing a matching Digital Asset Links file. Automated tests cover room encoding, battle values, public-data redaction, search, author-list parsing and sort semantics. CI normally runs Android lint and compiles the APK; commits marked `[skip checks]` compile without running tests or lint.
 
 Profiles contain no email, contact details or moderation information. The client only queries the explicit author registry and the signed-in user's own resources. It does not enumerate users or probe undocumented endpoints.
+
+## Usage statistics
+
+Usage reporting is enabled by default and can be disabled with “Send usage statistics” in settings. Reports contain a random installation identifier, platform (`android`), app version and activity dates. When signed in, the server stores a keyed hash of the account UUID to combine activity across devices. These are pseudonymous statistics, not fully anonymous data. Passwords and script contents are not stored in the analytics tables. Account sessions are validated separately for authenticated requests.
+
+The owner can view first launches, active installations/accounts and sign-ins. Clearing application data creates a new installation identifier; signed-in activity is deduplicated by account hash. GitHub APK download counts are shown separately and include repeat downloads; they do not measure installations. Disabling reporting stops future reports, but does not remove previously recorded statistics.

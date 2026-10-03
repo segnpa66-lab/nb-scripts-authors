@@ -383,5 +383,15 @@
   "Плавное появление значка, шапки и библиотеки.": "Het pictogram, de koptekst en de bibliotheek verschijnen geleidelijk.",
   "Скрытие из «Случайно» доступно для всех авторов.": "Elke auteur kan worden verborgen bij willekeurig sorteren.",
   "В профиле автора показаны время публикации и UUID скриптов.": "Het auteursprofiel toont de publicatiedatum en -tijd en de UUID van scripts.",
-  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Instellingen voor het verbergen van auteurs synchroniseren tussen de website en app."
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "Instellingen voor het verbergen van auteurs synchroniseren tussen de website en app.",
+  "Сведения": "Details",
+  "Предпросмотр": "Voorbeeld",
+  "Загружаю название…": "Naam laden…",
+  "Изменено параметров": "Gewijzigde parameters",
+  "Изменённые параметры": "Gewijzigde parameters",
+  "Сравнение со стандартными параметрами боя": "Vergelijking met standaard gevechtsinstellingen",
+  "Стандартные параметры": "Standaardinstellingen",
+  "Все изменённые параметры": "Alle gewijzigde parameters",
+  "Изменить ссылку": "Link wijzigen",
+  "Название скрипта недоступно": "Scriptnaam niet beschikbaar"
 }

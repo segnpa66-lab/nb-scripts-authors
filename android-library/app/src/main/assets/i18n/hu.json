@@ -383,5 +383,15 @@
   "Плавное появление значка, шапки и библиотеки.": "Az ikon, a fejléc és a könyvtár fokozatos megjelenése.",
   "Скрытие из «Случайно» доступно для всех авторов.": "Bármely szerző elrejthető a véletlenszerű rendezésből.",
   "В профиле автора показаны время публикации и UUID скриптов.": "A szerző profilján megjelenik a szkriptek közzétételi ideje és UUID-je.",
-  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "A szerzők elrejtési beállításai szinkronizálódnak a webhely és az alkalmazás között."
+  "Настройка скрытия авторов синхронизируется между сайтом и приложением.": "A szerzők elrejtési beállításai szinkronizálódnak a webhely és az alkalmazás között.",
+  "Сведения": "Részletek",
+  "Предпросмотр": "Előnézet",
+  "Загружаю название…": "Név betöltése…",
+  "Изменено параметров": "Módosított paraméterek",
+  "Изменённые параметры": "Módosított paraméterek",
+  "Сравнение со стандартными параметрами боя": "Összehasonlítás az alapértelmezett csatabeállításokkal",
+  "Стандартные параметры": "Alapértelmezett beállítások",
+  "Все изменённые параметры": "Összes módosított paraméter",
+  "Изменить ссылку": "Hivatkozás módosítása",
+  "Название скрипта недоступно": "A szkript neve nem érhető el"
 }
