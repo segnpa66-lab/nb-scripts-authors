@@ -59,7 +59,7 @@ final class CodeSearch extends LinearLayout {
         painting=true;CharSequence raw=code.getText();Spannable text=raw instanceof Spannable?(Spannable)raw:new SpannableString(raw);
         for(Hit hit:text.getSpans(0,text.length(),Hit.class))text.removeSpan(hit);
         // Keep span work bounded for very large files; every occurrence remains navigable.
-        int from=current>2000?Math.max(0,current-1000):0,to=Math.min(size,from+2000);
+        int from=current>=2000?Math.max(0,current-1000):0,to=Math.min(size,from+2000);
         for(int i=from;i<to;i++)text.setSpan(new Hit(i==current?accent:soft),starts[i],ends[i],Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         if(!(raw instanceof Spannable))code.setText(text,TextView.BufferType.SPANNABLE);
         count.setText((current<0?0:current+1)+" / "+size);count.setContentDescription(translate.apply("Совпадения")+": "+count.getText());up.setEnabled(size>0);down.setEnabled(size>0);up.setAlpha(size>0?1f:.35f);down.setAlpha(size>0?1f:.35f);painting=false;
