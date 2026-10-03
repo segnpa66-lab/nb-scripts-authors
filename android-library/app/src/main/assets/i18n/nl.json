@@ -361,5 +361,22 @@
   "Текущий пароль неверен": "Het huidige wachtwoord is onjuist",
   "Пользователи приложения": "Appgebruikers",
   "Пользователи сайта": "Websitegebruikers",
-  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Ingelogde gebruikers worden per account geteld. Zonder inloggen wordt het apparaat of de browser geteld."
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Ingelogde gebruikers worden per account geteld. Zonder inloggen wordt het apparaat of de browser geteld.",
+  "Скачивания APK (GitHub)": "APK-downloads (GitHub)",
+  "Обновление приложения": "App-update",
+  "Что нового": "Wat is er nieuw",
+  "Установить": "Installeren",
+  "Проверяю APK…": "APK controleren…",
+  "Готово к установке": "Klaar om te installeren",
+  "Скрыть": "Verbergen",
+  "Повторить": "Opnieuw proberen",
+  "Описание изменений недоступно": "Beschrijving van wijzigingen niet beschikbaar",
+  "Добавлено": "Toegevoegd",
+  "Изменено": "Gewijzigd",
+  "Удалено": "Verwijderd",
+  "Прогресс загрузки APK в процентах.": "APK-downloadvoortgang in procenten.",
+  "Окно обновления: текущая тема, закруглённые края и список изменений.": "Updatevenster: huidig thema, afgeronde hoeken en een lijst met wijzigingen.",
+  "Возвращён счётчик скачиваний GitHub.": "De GitHub-downloadteller is terug.",
+  "Ничего.": "Niets.",
+  "Обновление уже загружается": "De update wordt al gedownload"
 }

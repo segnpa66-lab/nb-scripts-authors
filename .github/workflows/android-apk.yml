@@ -75,4 +75,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
-        run: gh release create "$RELEASE_TAG" "$RUNNER_TEMP/Script-Library.apk" --verify-tag --title "$RELEASE_TAG" --generate-notes
+        run: |
+          notes=".github/release-notes/$RELEASE_TAG.md"
+          if test -f "$notes"; then
+            gh release create "$RELEASE_TAG" "$RUNNER_TEMP/Script-Library.apk" --verify-tag --title "$RELEASE_TAG" --notes-file "$notes"
+          else
+            gh release create "$RELEASE_TAG" "$RUNNER_TEMP/Script-Library.apk" --verify-tag --title "$RELEASE_TAG" --generate-notes
+          fi

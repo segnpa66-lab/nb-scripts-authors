@@ -361,5 +361,22 @@
   "Текущий пароль неверен": "La password attuale non è corretta",
   "Пользователи приложения": "Utenti dell’app",
   "Пользователи сайта": "Utenti del sito",
-  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Gli utenti che accedono sono conteggiati per account. Senza accesso viene conteggiato il dispositivo o il browser."
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Gli utenti che accedono sono conteggiati per account. Senza accesso viene conteggiato il dispositivo o il browser.",
+  "Скачивания APK (GitHub)": "Download APK (GitHub)",
+  "Обновление приложения": "Aggiornamento dell’app",
+  "Что нового": "Novità",
+  "Установить": "Installa",
+  "Проверяю APK…": "Verifica APK…",
+  "Готово к установке": "Pronto per l’installazione",
+  "Скрыть": "Nascondi",
+  "Повторить": "Riprova",
+  "Описание изменений недоступно": "Descrizione delle modifiche non disponibile",
+  "Добавлено": "Aggiunto",
+  "Изменено": "Modificato",
+  "Удалено": "Rimosso",
+  "Прогресс загрузки APK в процентах.": "Avanzamento del download APK in percentuale.",
+  "Окно обновления: текущая тема, закруглённые края и список изменений.": "Finestra di aggiornamento: tema attuale, angoli arrotondati ed elenco delle modifiche.",
+  "Возвращён счётчик скачиваний GitHub.": "Ripristinato il contatore dei download GitHub.",
+  "Ничего.": "Niente.",
+  "Обновление уже загружается": "L’aggiornamento è già in download"
 }

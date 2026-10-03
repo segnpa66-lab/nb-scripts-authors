@@ -361,5 +361,22 @@
   "Текущий пароль неверен": "A jelenlegi jelszó helytelen",
   "Пользователи приложения": "Alkalmazás felhasználói",
   "Пользователи сайта": "Webhely felhasználói",
-  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "A bejelentkezett felhasználók fiókonként számítanak. Bejelentkezés nélkül az eszköz vagy a böngésző számít."
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "A bejelentkezett felhasználók fiókonként számítanak. Bejelentkezés nélkül az eszköz vagy a böngésző számít.",
+  "Скачивания APK (GitHub)": "APK-letöltések (GitHub)",
+  "Обновление приложения": "Alkalmazás frissítése",
+  "Что нового": "Újdonságok",
+  "Установить": "Telepítés",
+  "Проверяю APK…": "APK ellenőrzése…",
+  "Готово к установке": "Telepítésre kész",
+  "Скрыть": "Elrejtés",
+  "Повторить": "Újrapróbálás",
+  "Описание изменений недоступно": "A változások leírása nem érhető el",
+  "Добавлено": "Hozzáadva",
+  "Изменено": "Módosítva",
+  "Удалено": "Eltávolítva",
+  "Прогресс загрузки APK в процентах.": "Az APK letöltésének állapota százalékban.",
+  "Окно обновления: текущая тема, закруглённые края и список изменений.": "Frissítési ablak: aktuális téma, lekerekített sarkok és változáslista.",
+  "Возвращён счётчик скачиваний GitHub.": "Visszaállt a GitHub letöltésszámlálója.",
+  "Ничего.": "Semmi.",
+  "Обновление уже загружается": "A frissítés letöltése már folyamatban van"
 }

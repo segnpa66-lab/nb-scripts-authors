@@ -28,15 +28,26 @@ final class UpdateManager {
     private static final ExecutorService NETWORK = Executors.newSingleThreadExecutor();
     private static final Handler UI = new Handler(Looper.getMainLooper());
     private static File pendingApk;
+    private static boolean downloading;
+    private static boolean awaitingInstallPermission;
 
     static final class Release {
-        final String version, url, sha256;
+        final String version, url, sha256, notes;
         final long size;
         Release(String version, String url, String sha256, long size) {
-            this.version = version; this.url = url; this.sha256 = sha256; this.size = size;
+            this(version,url,sha256,size,"");
+        }
+        Release(String version,String url,String sha256,long size,String notes){
+            this.version=version;this.url=url;this.sha256=sha256;this.size=size;this.notes=notes;
         }
     }
 
+    static final class Progress {
+        final long bytes,total;final String stage;
+        Progress(long bytes,long total,String stage){this.bytes=bytes;this.total=total;this.stage=stage;}
+        int percent(){return (int)Math.min(100,Math.max(0,bytes*100/Math.max(1,total)));}
+    }
+    private static void progress(Consumer<Progress> listener,long bytes,long total,String stage){UI.post(()->listener.accept(new Progress(bytes,total,stage)));}
     static int compareVersions(String first, String second) {
         String[] a = first.replaceFirst("^[vV]", "").split("\\.");
         String[] b = second.replaceFirst("^[vV]", "").split("\\.");
@@ -64,7 +75,7 @@ final class UpdateManager {
             if ("Script-Library.apk".equals(asset.optString("name"))
                     && url.startsWith("https://github.com/segnpa66-lab/nb-scripts-authors/releases/download/")
                     && digest.matches("sha256:[0-9a-fA-F]{64}") && size > 0 && size <= 100L * 1024 * 1024)
-                return new Release(version, url, digest.substring(7).toLowerCase(Locale.ROOT), size);
+                return new Release(version, url, digest.substring(7).toLowerCase(Locale.ROOT), size,release.optString("body"));
         }
         return null;
     }
@@ -90,48 +101,39 @@ final class UpdateManager {
         });
     }
 
-    static void download(Activity activity, Release release, Consumer<String> error) {
-        NETWORK.execute(() -> {
-            HttpURLConnection connection = null;
-            File target = null;
-            try {
-                File directory = new File(activity.getCacheDir(), "updates");
-                if (!directory.exists() && !directory.mkdirs()) throw new IOException("Не удалось подготовить загрузку");
-                target = new File(directory, "Script-Library.apk");
-                connection = (HttpURLConnection) new URL(release.url).openConnection();
-                connection.setConnectTimeout(15000); connection.setReadTimeout(30000);
-                if (connection.getResponseCode() != 200) throw new IOException("Не удалось скачать APK");
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                long length = 0;
-                try (InputStream input = connection.getInputStream(); FileOutputStream output = new FileOutputStream(target)) {
-                    byte[] bytes = new byte[32768]; int count;
-                    while ((count = input.read(bytes)) != -1) {
-                        length += count;
-                        if (length > 100L * 1024 * 1024) throw new IOException("APK слишком большой");
-                        digest.update(bytes, 0, count); output.write(bytes, 0, count);
-                    }
+    static void download(Activity activity,Release release,Consumer<String> error){download(activity,release,p->{},error);}
+    static synchronized void download(Activity activity,Release release,Consumer<Progress> listener,Consumer<String> error){
+        if(downloading){UI.post(()->error.accept("Обновление уже загружается"));return;}downloading=true;
+        NETWORK.execute(()->{
+            HttpURLConnection connection=null;File target=null;
+            try{
+                File directory=new File(activity.getCacheDir(),"updates");if(!directory.exists()&&!directory.mkdirs())throw new IOException("Не удалось подготовить загрузку");
+                target=new File(directory,"Script-Library.apk");connection=(HttpURLConnection)new URL(release.url).openConnection();connection.setConnectTimeout(15000);connection.setReadTimeout(30000);
+                progress(listener,0,release.size,"Загружаю обновление…");if(connection.getResponseCode()!=200)throw new IOException("Не удалось скачать APK");
+                MessageDigest digest=MessageDigest.getInstance("SHA-256");long length=0,lastUpdate=0;int previous=-1;
+                try(InputStream input=connection.getInputStream();FileOutputStream output=new FileOutputStream(target)){
+                    byte[] bytes=new byte[32768];int count;
+                    while((count=input.read(bytes))!=-1){length+=count;if(length>release.size||length>100L*1024*1024)throw new IOException("APK слишком большой");digest.update(bytes,0,count);output.write(bytes,0,count);
+                        int percent=(int)(length*100/release.size);long now=System.currentTimeMillis();if(percent!=previous&&now-lastUpdate>=100){previous=percent;lastUpdate=now;progress(listener,length,release.size,"Загружаю обновление…");}}
                 }
-                StringBuilder checksum = new StringBuilder();
-                for (byte value : digest.digest()) checksum.append(String.format(Locale.ROOT, "%02x", value & 255));
-                if (length != release.size || !checksum.toString().equals(release.sha256)) throw new IOException("Контрольная сумма APK не совпадает");
-                File apk = target;
-                UI.post(() -> install(activity, apk, error));
-            } catch (Exception exception) {
-                if (target != null) target.delete();
-                UI.post(() -> error.accept(exception.getMessage() == null ? "Не удалось загрузить обновление" : exception.getMessage()));
-            } finally { if (connection != null) connection.disconnect(); }
+                progress(listener,length,release.size,"Проверяю APK…");StringBuilder checksum=new StringBuilder();for(byte value:digest.digest())checksum.append(String.format(Locale.ROOT,"%02x",value&255));
+                if(length!=release.size||!checksum.toString().equals(release.sha256))throw new IOException("Контрольная сумма APK не совпадает");
+                File apk=target;UI.post(()->{pendingApk=apk;listener.accept(new Progress(release.size,release.size,"Готово к установке"));if(!activity.isFinishing()&&!activity.isDestroyed())install(activity,apk,error);});
+            }catch(Exception exception){if(target!=null)target.delete();UI.post(()->error.accept(exception.getMessage()==null?"Не удалось загрузить обновление":exception.getMessage()));}
+            finally{if(connection!=null)connection.disconnect();synchronized(UpdateManager.class){downloading=false;}}
         });
     }
+    static void installDownloaded(Activity activity,Consumer<String> error){File apk=pendingApk;if(apk!=null&&apk.isFile())install(activity,apk,error);else error.accept("Не удалось загрузить обновление");}
 
     private static void install(Activity activity, File apk, Consumer<String> error) {
         if (!activity.getPackageManager().canRequestPackageInstalls()) {
-            pendingApk = apk;
+            pendingApk = apk;awaitingInstallPermission=true;
             Intent settings = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + activity.getPackageName()));
             try { activity.startActivity(settings); }
             catch (Exception ignored) { error.accept("Разрешите установку приложений из этого источника в настройках Android."); }
             return;
         }
-        pendingApk = null;
+        pendingApk = apk;awaitingInstallPermission=false;
         try {
             Uri uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".updates", apk);
             Intent intent = new Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
@@ -142,6 +144,6 @@ final class UpdateManager {
 
     static void resumeInstall(Activity activity, Consumer<String> error) {
         File apk = pendingApk;
-        if (apk != null && activity.getPackageManager().canRequestPackageInstalls()) install(activity, apk, error);
+        if (awaitingInstallPermission && apk != null && activity.getPackageManager().canRequestPackageInstalls()) install(activity, apk, error);
     }
 }
