@@ -89,6 +89,8 @@ public final class MainActivity extends Activity {
     private void enter(View view){if(!android.animation.ValueAnimator.areAnimatorsEnabled())return;view.setAlpha(0);view.setTranslationY(dp(12));view.animate().alpha(1).translationY(0).setDuration(220).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();}
     private void step(EditText field,int index,int direction){try{int value=Integer.parseInt(field.getText().toString());long next=(long)value+direction;field.setText(String.valueOf(Math.max(Core.MIN[index],Math.min(Core.MAX[index],next))));}catch(NumberFormatException e){field.setText(String.valueOf(Core.DEFAULT[index]));}}
     private int actionIcon(String title){
+        if(title.equals(tr("Войти")))return R.drawable.nav_user;
+        if(title.equals(tr("Сохранить на сервере"))||title.equals(tr("Сохранить")))return R.drawable.nav_save;
         if(title.equals("Null’s Connect")||title.equals("Null's Connect"))return R.drawable.nav_connect;
         if(title.equals(tr("Выйти"))||title.equals(tr("Выйти и очистить данные")))return R.drawable.nav_logout;
         if(title.equals(tr("Удалить скрипт"))||title.equals(tr("Очистить историю")))return R.drawable.nav_trash;
