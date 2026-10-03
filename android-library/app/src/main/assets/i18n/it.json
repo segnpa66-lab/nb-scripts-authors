@@ -340,5 +340,19 @@
   "Открыть скрипт или конфигурацию": "Apri script o configurazione",
   "Синхронизировать": "Sincronizza",
   "Некорректная конфигурация боя": "Configurazione di battaglia non valida",
-  "Некорректная ссылка на скрипт": "Link dello script non valido"
+  "Некорректная ссылка на скрипт": "Link dello script non valido",
+  "Тема": "Tema",
+  "Как на устройстве": "Tema del dispositivo",
+  "Светлая": "Chiaro",
+  "Тёмная": "Scuro",
+  "Отправлять статистику использования": "Invia statistiche di utilizzo",
+  "Без паролей и кода скриптов.": "Senza password o codice degli script.",
+  "Сменить пароль": "Cambia password",
+  "Текущий пароль": "Password attuale",
+  "Новый пароль": "Nuova password",
+  "Повторите пароль": "Ripeti la password",
+  "Пароли не совпадают": "Le password non coincidono",
+  "Пароль изменён": "Password modificata",
+  "Повторить восстановление": "Riprova il ripristino della sessione",
+  "Не удалось восстановить сессию. Повторите попытку.": "Impossibile ripristinare la sessione. Riprova."
 }

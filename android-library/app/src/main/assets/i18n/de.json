@@ -340,5 +340,19 @@
   "Открыть скрипт или конфигурацию": "Skript oder Konfiguration öffnen",
   "Синхронизировать": "Synchronisieren",
   "Некорректная конфигурация боя": "Ungültige Kampfkonfiguration",
-  "Некорректная ссылка на скрипт": "Ungültiger Skriptlink"
+  "Некорректная ссылка на скрипт": "Ungültiger Skriptlink",
+  "Тема": "Design",
+  "Как на устройстве": "Geräteeinstellung",
+  "Светлая": "Hell",
+  "Тёмная": "Dunkel",
+  "Отправлять статистику использования": "Nutzungsstatistiken senden",
+  "Без паролей и кода скриптов.": "Ohne Passwörter und Skriptcode.",
+  "Сменить пароль": "Passwort ändern",
+  "Текущий пароль": "Aktuelles Passwort",
+  "Новый пароль": "Neues Passwort",
+  "Повторите пароль": "Passwort wiederholen",
+  "Пароли не совпадают": "Passwörter stimmen nicht überein",
+  "Пароль изменён": "Passwort geändert",
+  "Повторить восстановление": "Sitzung erneut wiederherstellen",
+  "Не удалось восстановить сессию. Повторите попытку.": "Die Sitzung konnte nicht wiederhergestellt werden. Bitte erneut versuchen."
 }

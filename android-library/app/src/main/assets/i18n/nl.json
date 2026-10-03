@@ -340,5 +340,19 @@
   "Открыть скрипт или конфигурацию": "Script of configuratie openen",
   "Синхронизировать": "Synchroniseren",
   "Некорректная конфигурация боя": "Ongeldige gevechtsconfiguratie",
-  "Некорректная ссылка на скрипт": "Ongeldige scriptlink"
+  "Некорректная ссылка на скрипт": "Ongeldige scriptlink",
+  "Тема": "Thema",
+  "Как на устройстве": "Apparaatthema",
+  "Светлая": "Licht",
+  "Тёмная": "Donker",
+  "Отправлять статистику использования": "Gebruiksstatistieken versturen",
+  "Без паролей и кода скриптов.": "Zonder wachtwoorden of scriptcode.",
+  "Сменить пароль": "Wachtwoord wijzigen",
+  "Текущий пароль": "Huidig wachtwoord",
+  "Новый пароль": "Nieuw wachtwoord",
+  "Повторите пароль": "Herhaal wachtwoord",
+  "Пароли не совпадают": "Wachtwoorden komen niet overeen",
+  "Пароль изменён": "Wachtwoord gewijzigd",
+  "Повторить восстановление": "Sessie opnieuw herstellen",
+  "Не удалось восстановить сессию. Повторите попытку.": "De sessie kon niet worden hersteld. Probeer het opnieuw."
 }

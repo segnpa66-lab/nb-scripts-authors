@@ -340,5 +340,19 @@
   "Открыть скрипт или конфигурацию": "Szkript vagy konfiguráció megnyitása",
   "Синхронизировать": "Szinkronizálás",
   "Некорректная конфигурация боя": "Érvénytelen csatakonfiguráció",
-  "Некорректная ссылка на скрипт": "Érvénytelen szkriptlink"
+  "Некорректная ссылка на скрипт": "Érvénytelen szkriptlink",
+  "Тема": "Téma",
+  "Как на устройстве": "Eszköz témája",
+  "Светлая": "Világos",
+  "Тёмная": "Sötét",
+  "Отправлять статистику использования": "Használati statisztikák küldése",
+  "Без паролей и кода скриптов.": "Jelszavak és szkriptkód nélkül.",
+  "Сменить пароль": "Jelszó módosítása",
+  "Текущий пароль": "Jelenlegi jelszó",
+  "Новый пароль": "Új jelszó",
+  "Повторите пароль": "Jelszó ismétlése",
+  "Пароли не совпадают": "A jelszavak nem egyeznek",
+  "Пароль изменён": "Jelszó módosítva",
+  "Повторить восстановление": "Munkamenet visszaállítása újra",
+  "Не удалось восстановить сессию. Повторите попытку.": "A munkamenet nem állítható vissza. Próbálja újra."
 }
