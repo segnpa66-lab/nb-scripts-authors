@@ -11,7 +11,18 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/><data android:mimeType="text/x-lua"/><data android:mimeType="text/lua"/><data android:mimeType="application/x-lua"/><data android:mimeType="application/octet-stream"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="text/plain"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="nullsbrawl" android:host="createAndJoinRoom"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -20,6 +31,9 @@
                 <data android:scheme="https" android:host="scripting.nulls.gg" android:pathPrefix="/scripts/"/>
                 <data android:scheme="https" android:host="scripting.nulls.gg" android:pathPrefix="/@"/>
                 <data android:scheme="https" android:host="scripting.nulls.gg" android:pathPrefix="/users/"/>
+                <data android:scheme="https" android:host="scripting.donutquine.dev" android:pathPrefix="/scripts/"/>
+                <data android:scheme="https" android:host="scripting.donutquine.dev" android:pathPrefix="/@"/>
+                <data android:scheme="https" android:host="scripting.donutquine.dev" android:pathPrefix="/users/"/>
             </intent-filter>
         </activity>
     </application>

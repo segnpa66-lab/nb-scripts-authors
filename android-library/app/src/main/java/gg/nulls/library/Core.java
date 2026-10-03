@@ -32,11 +32,12 @@ public final class Core {
         return "nullsbrawl://createAndJoinRoom?roomname=params:v2:"+base62(o.toString().getBytes(StandardCharsets.UTF_8))+"&friendly=1&side=0";
     }
     public static void requireUuid(String id){if(id==null||!id.matches("(?i)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"))throw new IllegalArgumentException("Некорректный UUID");}
+    public static boolean scriptingHost(String host){return "scripting.nulls.gg".equalsIgnoreCase(host)||"scripting.donutquine.dev".equalsIgnoreCase(host);}
     public static String scriptId(String input){
         if(input==null)return null;
         String value=input.trim();
         try{requireUuid(value);return value.toLowerCase(Locale.ROOT);}catch(IllegalArgumentException ignored){}
-        try{URI uri=URI.create(value);if(!"https".equalsIgnoreCase(uri.getScheme())||!"scripting.nulls.gg".equalsIgnoreCase(uri.getHost())||uri.getUserInfo()!=null||uri.getPort()!=-1)return null;
+        try{URI uri=URI.create(value);if(!"https".equalsIgnoreCase(uri.getScheme())||!scriptingHost(uri.getHost())||uri.getUserInfo()!=null||uri.getPort()!=-1)return null;
             Matcher match=Pattern.compile("^/scripts/([0-9a-fA-F-]{36})/?$").matcher(uri.getPath());if(!match.matches())return null;String id=match.group(1);requireUuid(id);return id.toLowerCase(Locale.ROOT);
         }catch(Exception ignored){return null;}
     }

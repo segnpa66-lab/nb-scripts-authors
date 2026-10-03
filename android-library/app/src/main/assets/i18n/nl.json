@@ -324,5 +324,21 @@
   "Название: от 1 до 80 символов": "Naam: 1 tot 80 tekens",
   "Удалить конфигурацию?": "Configuratie verwijderen?",
   "Сохранить": "Opslaan",
-  "Ничего не найдено": "Geen resultaten"
+  "Ничего не найдено": "Geen resultaten",
+  "Недавние скрипты": "Recente scripts",
+  "История пуста": "De geschiedenis is leeg",
+  "Очистить историю": "Geschiedenis wissen",
+  "Импорт конфигурации боя": "Gevechtsconfiguratie importeren",
+  "Сохранить как конфигурацию": "Opslaan als configuratie",
+  "Найден скрипт": "Script gevonden",
+  "Без скрипта": "Zonder script",
+  "Показать параметры": "Parameters tonen",
+  "Открыть скрипт": "Script openen",
+  "Ссылка на бой": "Gevechtslink",
+  "Запустить": "Starten",
+  "Импортировать .lua": ".lua importeren",
+  "Открыть скрипт или конфигурацию": "Script of configuratie openen",
+  "Синхронизировать": "Synchroniseren",
+  "Некорректная конфигурация боя": "Ongeldige gevechtsconfiguratie",
+  "Некорректная ссылка на скрипт": "Ongeldige scriptlink"
 }
