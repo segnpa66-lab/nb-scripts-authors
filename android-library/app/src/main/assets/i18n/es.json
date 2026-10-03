@@ -399,5 +399,13 @@
   "Следующее совпадение": "Siguiente coincidencia",
   "Совпадения": "Coincidencias",
   "Символов": "Caracteres",
-  "Строк": "Líneas"
+  "Строк": "Líneas",
+  "Конфигурации, параметры, язык и тема синхронизируются после входа.": "Las configuraciones, los parámetros de batalla, el idioma y el tema se sincronizan al iniciar sesión.",
+  "Новые окна выбора языка и темы.": "Nuevas ventanas para elegir idioma y tema.",
+  "Язык и тема сохраняются при выходе из аккаунта.": "El idioma y el tema se conservan al cerrar sesión.",
+  "Поиск в коде со счётчиком совпадений и стрелками перехода.": "Búsqueda en el código con contador de coincidencias y flechas de navegación.",
+  "Число символов и строк в просмотре и редакторе кода.": "Número de caracteres y líneas en el visor y editor de código.",
+  "Описания и UUID снова отображаются в карточках скриптов.": "Las descripciones y los UUID vuelven a mostrarse en las tarjetas de scripts.",
+  "Обновление сайта": "Actualización del sitio",
+  "Выбрано": "Seleccionado"
 }

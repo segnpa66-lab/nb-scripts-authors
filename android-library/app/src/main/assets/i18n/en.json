@@ -342,7 +342,7 @@
   "Некорректная конфигурация боя": "Invalid battle configuration",
   "Некорректная ссылка на скрипт": "Invalid script link",
   "Тема": "Theme",
-  "Как на устройстве": "Device theme",
+  "Как на устройстве": "System default",
   "Светлая": "Light",
   "Тёмная": "Dark",
   "Отправлять статистику использования": "Send usage statistics",
@@ -421,5 +421,13 @@
   "Следующее совпадение": "Next match",
   "Совпадения": "Matches",
   "Символов": "Characters",
-  "Строк": "Lines"
+  "Строк": "Lines",
+  "Конфигурации, параметры, язык и тема синхронизируются после входа.": "Configurations, battle settings, language and theme sync after sign-in.",
+  "Новые окна выбора языка и темы.": "New language and theme pickers.",
+  "Язык и тема сохраняются при выходе из аккаунта.": "Language and theme are kept when signing out.",
+  "Поиск в коде со счётчиком совпадений и стрелками перехода.": "Code search with a match counter and navigation arrows.",
+  "Число символов и строк в просмотре и редакторе кода.": "Character and line counts in the code viewer and editor.",
+  "Описания и UUID снова отображаются в карточках скриптов.": "Descriptions and UUIDs are visible in script cards again.",
+  "Обновление сайта": "Site update",
+  "Выбрано": "Selected"
 }

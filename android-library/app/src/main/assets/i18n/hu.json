@@ -399,5 +399,13 @@
   "Следующее совпадение": "Következő találat",
   "Совпадения": "Találatok",
   "Символов": "Karakterek",
-  "Строк": "Sorok"
+  "Строк": "Sorok",
+  "Конфигурации, параметры, язык и тема синхронизируются после входа.": "A konfigurációk, csatabeállítások, nyelv és téma bejelentkezés után szinkronizálódnak.",
+  "Новые окна выбора языка и темы.": "Új nyelv- és témaválasztó ablakok.",
+  "Язык и тема сохраняются при выходе из аккаунта.": "Kijelentkezéskor a nyelv és a téma megmarad.",
+  "Поиск в коде со счётчиком совпадений и стрелками перехода.": "Kódkeresés találatszámlálóval és navigációs nyilakkal.",
+  "Число символов и строк в просмотре и редакторе кода.": "Karakter- és sorszám a kódnézetben és a szerkesztőben.",
+  "Описания и UUID снова отображаются в карточках скриптов.": "A leírások és UUID-k ismét láthatók a szkriptkártyákon.",
+  "Обновление сайта": "Webhelyfrissítés",
+  "Выбрано": "Kiválasztva"
 }

@@ -399,5 +399,13 @@
   "Следующее совпадение": "Następne dopasowanie",
   "Совпадения": "Dopasowania",
   "Символов": "Znaki",
-  "Строк": "Wiersze"
+  "Строк": "Wiersze",
+  "Конфигурации, параметры, язык и тема синхронизируются после входа.": "Konfiguracje, ustawienia bitwy, język i motyw synchronizują się po zalogowaniu.",
+  "Новые окна выбора языка и темы.": "Nowe okna wyboru języka i motywu.",
+  "Язык и тема сохраняются при выходе из аккаунта.": "Język i motyw pozostają po wylogowaniu.",
+  "Поиск в коде со счётчиком совпадений и стрелками перехода.": "Wyszukiwanie w kodzie z licznikiem dopasowań i strzałkami nawigacji.",
+  "Число символов и строк в просмотре и редакторе кода.": "Liczba znaków i wierszy w podglądzie i edytorze kodu.",
+  "Описания и UUID снова отображаются в карточках скриптов.": "Opisy i UUID są ponownie widoczne na kartach skryptów.",
+  "Обновление сайта": "Aktualizacja strony",
+  "Выбрано": "Wybrano"
 }
