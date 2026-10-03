@@ -419,5 +419,14 @@
   "Быстрые действия: избранное, поделиться и скачать.": "Gyors műveletek: kedvencek, megosztás és letöltés.",
   "История: 25 скриптов и «Показать ещё».": "Előzmények: 25 szkript és Továbbiak.",
   "Исправлены загрузка библиотеки и оформление импорта боя.": "Javítva a könyvtár betöltése és a csataimport megjelenése.",
-  "Доступ к статистике определяется правами на сервере.": "A statisztikák elérését a szerver jogosultságai határozzák meg."
+  "Доступ к статистике определяется правами на сервере.": "A statisztikák elérését a szerver jogosultságai határozzák meg.",
+  "Проверка синтаксиса": "Szintaxis ellenőrzése",
+  "Проверяет синтаксис Luau, не запускает скрипт.": "A Luau szintaxisát ellenőrzi a szkript futtatása nélkül.",
+  "Проверить код": "Kód ellenőrzése",
+  "Проверяю код…": "Kód ellenőrzése…",
+  "Код изменён. Проверьте снова.": "A kód megváltozott. Ellenőrizd újra.",
+  "Синтаксических ошибок нет": "Nincs szintaktikai hiba",
+  "Ошибка синтаксиса": "Szintaktikai hiba",
+  "Код слишком большой для проверки": "A kód túl nagy az ellenőrzéshez",
+  "Проверка недоступна. Попробуйте снова.": "Az ellenőrzés nem érhető el. Próbáld újra."
 }

@@ -441,5 +441,14 @@
   "Быстрые действия: избранное, поделиться и скачать.": "Quick actions: favorite, share and download.",
   "История: 25 скриптов и «Показать ещё».": "History: 25 scripts and Show more.",
   "Исправлены загрузка библиотеки и оформление импорта боя.": "Fixed library loading and battle import styling.",
-  "Доступ к статистике определяется правами на сервере.": "Statistics access uses server permissions."
+  "Доступ к статистике определяется правами на сервере.": "Statistics access uses server permissions.",
+  "Проверка синтаксиса": "Syntax validation",
+  "Проверяет синтаксис Luau, не запускает скрипт.": "Checks Luau syntax without running the script.",
+  "Проверить код": "Validate code",
+  "Проверяю код…": "Checking code…",
+  "Код изменён. Проверьте снова.": "Code changed. Check again.",
+  "Синтаксических ошибок нет": "No syntax errors",
+  "Ошибка синтаксиса": "Syntax error",
+  "Код слишком большой для проверки": "Code is too large to validate",
+  "Проверка недоступна. Попробуйте снова.": "Validation unavailable. Try again."
 }

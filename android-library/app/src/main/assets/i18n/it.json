@@ -419,5 +419,14 @@
   "Быстрые действия: избранное, поделиться и скачать.": "Azioni rapide: preferiti, condivisione e download.",
   "История: 25 скриптов и «Показать ещё».": "Cronologia: 25 script e Mostra altro.",
   "Исправлены загрузка библиотеки и оформление импорта боя.": "Corretti il caricamento della libreria e il tema di importazione battaglia.",
-  "Доступ к статистике определяется правами на сервере.": "L’accesso alle statistiche usa i permessi del server."
+  "Доступ к статистике определяется правами на сервере.": "L’accesso alle statistiche usa i permessi del server.",
+  "Проверка синтаксиса": "Verifica della sintassi",
+  "Проверяет синтаксис Luau, не запускает скрипт.": "Verifica la sintassi Luau senza eseguire lo script.",
+  "Проверить код": "Verifica codice",
+  "Проверяю код…": "Verifica del codice…",
+  "Код изменён. Проверьте снова.": "Il codice è cambiato. Verifica di nuovo.",
+  "Синтаксических ошибок нет": "Nessun errore di sintassi",
+  "Ошибка синтаксиса": "Errore di sintassi",
+  "Код слишком большой для проверки": "Codice troppo grande da verificare",
+  "Проверка недоступна. Попробуйте снова.": "Verifica non disponibile. Riprova."
 }

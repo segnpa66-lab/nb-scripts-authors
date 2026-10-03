@@ -1,0 +1,5 @@
+<!doctype html><meta charset="utf-8"><script type="module">
+import {validate} from './validate.js';
+window.validateSource=async source=>{AndroidValidator.result(JSON.stringify(await validate(source)));};
+AndroidValidator.ready();
+</script>

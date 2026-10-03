@@ -1,0 +1,4 @@
+Luau Web 1.4.0 by xNasuni — MIT license
+https://github.com/xNasuni/luau-web
+Uses the Luau compiler (Roblox Corporation), MIT license.
+Only the Asyncify runtime is included; validation compiles but never executes script code.

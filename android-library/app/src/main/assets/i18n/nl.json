@@ -419,5 +419,14 @@
   "Быстрые действия: избранное, поделиться и скачать.": "Snelle acties: favorieten, delen en downloaden.",
   "История: 25 скриптов и «Показать ещё».": "Geschiedenis: 25 scripts en Meer tonen.",
   "Исправлены загрузка библиотеки и оформление импорта боя.": "Bibliotheekladen en de vormgeving van gevechtsimport verbeterd.",
-  "Доступ к статистике определяется правами на сервере.": "Toegang tot statistieken wordt door serverrechten bepaald."
+  "Доступ к статистике определяется правами на сервере.": "Toegang tot statistieken wordt door serverrechten bepaald.",
+  "Проверка синтаксиса": "Syntaxiscontrole",
+  "Проверяет синтаксис Luau, не запускает скрипт.": "Controleert Luau-syntaxis zonder het script uit te voeren.",
+  "Проверить код": "Code controleren",
+  "Проверяю код…": "Code controleren…",
+  "Код изменён. Проверьте снова.": "Code gewijzigd. Controleer opnieuw.",
+  "Синтаксических ошибок нет": "Geen syntaxisfouten",
+  "Ошибка синтаксиса": "Syntaxisfout",
+  "Код слишком большой для проверки": "Code is te groot om te controleren",
+  "Проверка недоступна. Попробуйте снова.": "Controle niet beschikbaar. Probeer opnieuw."
 }
