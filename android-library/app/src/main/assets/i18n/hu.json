@@ -409,5 +409,15 @@
   "Обновление сайта": "Webhelyfrissítés",
   "Выбрано": "Kiválasztva",
   "Номера строк в просмотре и редакторе кода.": "Sorszámok a kódnézetben és a szerkesztőben.",
-  "Иконка у кнопки «Что нового».": "Ikon az „Újdonságok” gombhoz."
+  "Иконка у кнопки «Что нового».": "Ikon az „Újdonságok” gombhoz.",
+  "Открыть по UUID / ссылке": "UUID / hivatkozás megnyitása",
+  "Некорректная ссылка или UUID": "Érvénytelen hivatkozás vagy UUID",
+  "Перейти к строке": "Ugrás a sorra",
+  "Номер строки": "Sorszám",
+  "Учитывать регистр": "Kis- és nagybetű megkülönböztetése",
+  "Загрузка заняла слишком много времени. Попробуйте снова.": "A betöltés időtúllépés miatt leállt. Próbáld újra.",
+  "Быстрые действия: избранное, поделиться и скачать.": "Gyors műveletek: kedvencek, megosztás és letöltés.",
+  "История: 25 скриптов и «Показать ещё».": "Előzmények: 25 szkript és Továbbiak.",
+  "Исправлены загрузка библиотеки и оформление импорта боя.": "Javítva a könyvtár betöltése és a csataimport megjelenése.",
+  "Доступ к статистике определяется правами на сервере.": "A statisztikák elérését a szerver jogosultságai határozzák meg."
 }

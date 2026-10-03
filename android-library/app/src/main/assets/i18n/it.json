@@ -409,5 +409,15 @@
   "Обновление сайта": "Aggiornamento del sito",
   "Выбрано": "Selezionato",
   "Номера строк в просмотре и редакторе кода.": "Numeri di riga nel visualizzatore e nell’editor di codice.",
-  "Иконка у кнопки «Что нового».": "Icona per il pulsante “Novità”."
+  "Иконка у кнопки «Что нового».": "Icona per il pulsante “Novità”.",
+  "Открыть по UUID / ссылке": "Apri UUID / link",
+  "Некорректная ссылка или UUID": "Link o UUID non valido",
+  "Перейти к строке": "Vai alla riga",
+  "Номер строки": "Numero di riga",
+  "Учитывать регистр": "Distingui maiuscole e minuscole",
+  "Загрузка заняла слишком много времени. Попробуйте снова.": "Caricamento scaduto. Riprova.",
+  "Быстрые действия: избранное, поделиться и скачать.": "Azioni rapide: preferiti, condivisione e download.",
+  "История: 25 скриптов и «Показать ещё».": "Cronologia: 25 script e Mostra altro.",
+  "Исправлены загрузка библиотеки и оформление импорта боя.": "Corretti il caricamento della libreria e il tema di importazione battaglia.",
+  "Доступ к статистике определяется правами на сервере.": "L’accesso alle statistiche usa i permessi del server."
 }

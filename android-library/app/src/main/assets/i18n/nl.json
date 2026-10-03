@@ -409,5 +409,15 @@
   "Обновление сайта": "Website-update",
   "Выбрано": "Geselecteerd",
   "Номера строк в просмотре и редакторе кода.": "Regelnummers in de codeviewer en editor.",
-  "Иконка у кнопки «Что нового».": "Een pictogram voor de knop ‘Wat is er nieuw’."
+  "Иконка у кнопки «Что нового».": "Een pictogram voor de knop ‘Wat is er nieuw’.",
+  "Открыть по UUID / ссылке": "Openen via UUID / link",
+  "Некорректная ссылка или UUID": "Ongeldige link of UUID",
+  "Перейти к строке": "Ga naar regel",
+  "Номер строки": "Regelnummer",
+  "Учитывать регистр": "Hoofdlettergevoelig",
+  "Загрузка заняла слишком много времени. Попробуйте снова.": "Laden duurde te lang. Probeer opnieuw.",
+  "Быстрые действия: избранное, поделиться и скачать.": "Snelle acties: favorieten, delen en downloaden.",
+  "История: 25 скриптов и «Показать ещё».": "Geschiedenis: 25 scripts en Meer tonen.",
+  "Исправлены загрузка библиотеки и оформление импорта боя.": "Bibliotheekladen en de vormgeving van gevechtsimport verbeterd.",
+  "Доступ к статистике определяется правами на сервере.": "Toegang tot statistieken wordt door serverrechten bepaald."
 }

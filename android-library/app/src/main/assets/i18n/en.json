@@ -431,5 +431,15 @@
   "Обновление сайта": "Site update",
   "Выбрано": "Selected",
   "Номера строк в просмотре и редакторе кода.": "Line numbers in the code viewer and editor.",
-  "Иконка у кнопки «Что нового».": "An icon for the “What’s new” button."
+  "Иконка у кнопки «Что нового».": "An icon for the “What’s new” button.",
+  "Открыть по UUID / ссылке": "Open UUID / link",
+  "Некорректная ссылка или UUID": "Invalid link or UUID",
+  "Перейти к строке": "Go to line",
+  "Номер строки": "Line number",
+  "Учитывать регистр": "Match case",
+  "Загрузка заняла слишком много времени. Попробуйте снова.": "Loading timed out. Try again.",
+  "Быстрые действия: избранное, поделиться и скачать.": "Quick actions: favorite, share and download.",
+  "История: 25 скриптов и «Показать ещё».": "History: 25 scripts and Show more.",
+  "Исправлены загрузка библиотеки и оформление импорта боя.": "Fixed library loading and battle import styling.",
+  "Доступ к статистике определяется правами на сервере.": "Statistics access uses server permissions."
 }

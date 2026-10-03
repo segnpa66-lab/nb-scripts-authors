@@ -17,8 +17,8 @@ android {
         applicationId 'gg.nulls.library'
         minSdk 29
         targetSdk 34
-        versionCode 24
-        versionName '1.7.10'
+        versionCode 25
+        versionName '1.7.11'
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
     }
     buildTypes { release { minifyEnabled false; signingConfig signingConfigs.release } }
