@@ -53,6 +53,7 @@ final class AccountSync implements SharedPreferences.OnSharedPreferenceChangeLis
         if(!old.isEmpty())save("backup:"+old,current);else if(!id.isEmpty())save("guest",current);
         owner=id;meta.edit().putString("current",id).apply();pending=read("outbox:"+id);
         JSONObject next=id.isEmpty()?read("guest"):read("backup:"+id);
+        if(id.isEmpty()){put(next,"theme",current.optString("theme","system"));save("guest",next);}
         bootstrap=next.length()>0?next:old.isEmpty()?current:new JSONObject();
         apply(next);status="";notify.accept(true);if(!id.isEmpty())pull();
     }
@@ -60,7 +61,7 @@ final class AccountSync implements SharedPreferences.OnSharedPreferenceChangeLis
         applying=true;
         Set<String> authors=new HashSet<>(),scripts=new HashSet<>();SharedPreferences.Editor battleEdit=battle.edit().clear(),brawlerEdit=brawlers.edit().clear(),presetEdit=presets.edit().clear();
         Iterator<String> keys=values.keys();while(keys.hasNext()){String key=keys.next();String[] parts=key.split(":",2);if(parts.length!=2)continue;String kind=parts[0],id=parts[1];if(kind.equals("author")&&values.optBoolean(key))authors.add(id);if(kind.equals("script")&&values.optBoolean(key))scripts.add(id);if(kind.equals("preset")&&values.optJSONObject(key)!=null)presetEdit.putString(id,values.optJSONObject(key).toString());if(kind.equals("battle")&&values.optJSONArray(key)!=null)battleEdit.putString(id,values.optJSONArray(key).toString());if(kind.equals("brawlers")&&values.optJSONArray(key)!=null){Set<String> selected=new HashSet<>();JSONArray array=values.optJSONArray(key);for(int i=0;i<array.length();i++)selected.add(String.valueOf(array.optInt(i)));brawlerEdit.putStringSet(id,selected);}}
-        settings.edit().putString("theme",values.optString("theme","system")).putString("language",values.optString("language","system")).putBoolean("strip_service_wrapper",values.optBoolean("stripWrapper",false)).apply();
+        settings.edit().putString("theme",values.optString("theme",settings.getString("theme","system"))).putString("language",values.optString("language","system")).putBoolean("strip_service_wrapper",values.optBoolean("stripWrapper",false)).apply();
         blocks.edit().putStringSet("authors",authors).putStringSet("scripts",scripts).putBoolean("hide_d2_random",values.optBoolean("hideD2Random",false)).apply();battleEdit.apply();brawlerEdit.apply();presetEdit.apply();last=snapshot();applying=false;
     }
     @Override public void onSharedPreferenceChanged(SharedPreferences prefs,String key){
