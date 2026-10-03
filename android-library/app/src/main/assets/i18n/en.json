@@ -429,5 +429,7 @@
   "Число символов и строк в просмотре и редакторе кода.": "Character and line counts in the code viewer and editor.",
   "Описания и UUID снова отображаются в карточках скриптов.": "Descriptions and UUIDs are visible in script cards again.",
   "Обновление сайта": "Site update",
-  "Выбрано": "Selected"
+  "Выбрано": "Selected",
+  "Номера строк в просмотре и редакторе кода.": "Line numbers in the code viewer and editor.",
+  "Иконка у кнопки «Что нового».": "An icon for the “What’s new” button."
 }

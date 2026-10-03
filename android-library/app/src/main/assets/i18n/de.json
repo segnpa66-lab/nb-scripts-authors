@@ -407,5 +407,7 @@
   "Число символов и строк в просмотре и редакторе кода.": "Zeichen- und Zeilenzahl in Codeansicht und Editor.",
   "Описания и UUID снова отображаются в карточках скриптов.": "Beschreibungen und UUIDs werden wieder auf Skriptkarten angezeigt.",
   "Обновление сайта": "Website-Update",
-  "Выбрано": "Ausgewählt"
+  "Выбрано": "Ausgewählt",
+  "Номера строк в просмотре и редакторе кода.": "Zeilennummern in Codeansicht und Editor.",
+  "Иконка у кнопки «Что нового».": "Symbol für die Schaltfläche „Neuigkeiten“."
 }

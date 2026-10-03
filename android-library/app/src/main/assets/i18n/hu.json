@@ -407,5 +407,7 @@
   "Число символов и строк в просмотре и редакторе кода.": "Karakter- és sorszám a kódnézetben és a szerkesztőben.",
   "Описания и UUID снова отображаются в карточках скриптов.": "A leírások és UUID-k ismét láthatók a szkriptkártyákon.",
   "Обновление сайта": "Webhelyfrissítés",
-  "Выбрано": "Kiválasztva"
+  "Выбрано": "Kiválasztva",
+  "Номера строк в просмотре и редакторе кода.": "Sorszámok a kódnézetben és a szerkesztőben.",
+  "Иконка у кнопки «Что нового».": "Ikon az „Újdonságok” gombhoz."
 }

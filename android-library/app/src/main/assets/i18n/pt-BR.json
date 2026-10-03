@@ -407,5 +407,7 @@
   "Число символов и строк в просмотре и редакторе кода.": "Contagem de caracteres e linhas no visualizador e editor de código.",
   "Описания и UUID снова отображаются в карточках скриптов.": "Descrições e UUIDs voltaram a aparecer nos cartões de scripts.",
   "Обновление сайта": "Atualização do site",
-  "Выбрано": "Selecionado"
+  "Выбрано": "Selecionado",
+  "Номера строк в просмотре и редакторе кода.": "Números de linha no visualizador e editor de código.",
+  "Иконка у кнопки «Что нового».": "Ícone no botão “Novidades”."
 }

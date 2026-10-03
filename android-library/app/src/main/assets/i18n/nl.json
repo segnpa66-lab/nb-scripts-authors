@@ -407,5 +407,7 @@
   "Число символов и строк в просмотре и редакторе кода.": "Aantal tekens en regels in de codeviewer en editor.",
   "Описания и UUID снова отображаются в карточках скриптов.": "Beschrijvingen en UUID’s staan weer op de scriptkaarten.",
   "Обновление сайта": "Website-update",
-  "Выбрано": "Geselecteerd"
+  "Выбрано": "Geselecteerd",
+  "Номера строк в просмотре и редакторе кода.": "Regelnummers in de codeviewer en editor.",
+  "Иконка у кнопки «Что нового».": "Een pictogram voor de knop ‘Wat is er nieuw’."
 }
