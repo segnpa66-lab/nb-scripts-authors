@@ -398,5 +398,7 @@
   "Окно обновления: текущая тема, закруглённые края и список изменений.": "Update window: current theme, rounded corners and release notes.",
   "Возвращён счётчик скачиваний GitHub.": "GitHub download counter restored.",
   "Ничего.": "Nothing.",
-  "Обновление уже загружается": "The update is already downloading"
+  "Обновление уже загружается": "The update is already downloading",
+  "Анимация открытия приложения и входа в аккаунт.": "Animation when opening the app and signing in.",
+  "Плавное появление значка, шапки и библиотеки.": "Smooth appearance of the icon, header and library."
 }

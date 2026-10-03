@@ -378,5 +378,7 @@
   "Окно обновления: текущая тема, закруглённые края и список изменений.": "Updatevenster: huidig thema, afgeronde hoeken en een lijst met wijzigingen.",
   "Возвращён счётчик скачиваний GitHub.": "De GitHub-downloadteller is terug.",
   "Ничего.": "Niets.",
-  "Обновление уже загружается": "De update wordt al gedownload"
+  "Обновление уже загружается": "De update wordt al gedownload",
+  "Анимация открытия приложения и входа в аккаунт.": "Animatie bij het openen van de app en het inloggen.",
+  "Плавное появление значка, шапки и библиотеки.": "Het pictogram, de koptekst en de bibliotheek verschijnen geleidelijk."
 }

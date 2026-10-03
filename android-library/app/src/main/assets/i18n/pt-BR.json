@@ -378,5 +378,7 @@
   "Окно обновления: текущая тема, закруглённые края и список изменений.": "Janela de atualização: tema atual, cantos arredondados e lista de alterações.",
   "Возвращён счётчик скачиваний GitHub.": "O contador de downloads do GitHub foi restaurado.",
   "Ничего.": "Nada.",
-  "Обновление уже загружается": "A atualização já está sendo baixada"
+  "Обновление уже загружается": "A atualização já está sendo baixada",
+  "Анимация открытия приложения и входа в аккаунт.": "Animação ao abrir o aplicativo e entrar na conta.",
+  "Плавное появление значка, шапки и библиотеки.": "Aparecimento suave do ícone, cabeçalho e biblioteca."
 }

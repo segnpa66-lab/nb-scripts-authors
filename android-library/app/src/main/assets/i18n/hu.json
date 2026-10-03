@@ -378,5 +378,7 @@
   "Окно обновления: текущая тема, закруглённые края и список изменений.": "Frissítési ablak: aktuális téma, lekerekített sarkok és változáslista.",
   "Возвращён счётчик скачиваний GitHub.": "Visszaállt a GitHub letöltésszámlálója.",
   "Ничего.": "Semmi.",
-  "Обновление уже загружается": "A frissítés letöltése már folyamatban van"
+  "Обновление уже загружается": "A frissítés letöltése már folyamatban van",
+  "Анимация открытия приложения и входа в аккаунт.": "Animáció az alkalmazás megnyitásakor és bejelentkezéskor.",
+  "Плавное появление значка, шапки и библиотеки.": "Az ikon, a fejléc és a könyvtár fokozatos megjelenése."
 }
