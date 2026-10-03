@@ -346,7 +346,6 @@
   "Светлая": "Claro",
   "Тёмная": "Escuro",
   "Отправлять статистику использования": "Enviar estatísticas de uso",
-  "Без паролей и кода скриптов.": "Sem senhas ou código dos scripts.",
   "Сменить пароль": "Alterar senha",
   "Текущий пароль": "Senha atual",
   "Новый пароль": "Nova senha",
@@ -354,5 +353,13 @@
   "Пароли не совпадают": "As senhas não coincidem",
   "Пароль изменён": "Senha alterada",
   "Повторить восстановление": "Tentar restaurar a sessão",
-  "Не удалось восстановить сессию. Повторите попытку.": "Não foi possível restaurar a sessão. Tente novamente."
+  "Не удалось восстановить сессию. Повторите попытку.": "Não foi possível restaurar a sessão. Tente novamente.",
+  "Подключено": "Conectado",
+  "Не подключено": "Não conectado",
+  "Подключить": "Conectar",
+  "Минимум 8 символов": "Pelo menos 8 caracteres",
+  "Текущий пароль неверен": "A senha atual está incorreta",
+  "Пользователи приложения": "Usuários do aplicativo",
+  "Пользователи сайта": "Usuários do site",
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Usuários conectados são contados por conta. Sem login, é contado o dispositivo ou navegador."
 }

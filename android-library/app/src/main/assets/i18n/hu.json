@@ -346,7 +346,6 @@
   "Светлая": "Világos",
   "Тёмная": "Sötét",
   "Отправлять статистику использования": "Használati statisztikák küldése",
-  "Без паролей и кода скриптов.": "Jelszavak és szkriptkód nélkül.",
   "Сменить пароль": "Jelszó módosítása",
   "Текущий пароль": "Jelenlegi jelszó",
   "Новый пароль": "Új jelszó",
@@ -354,5 +353,13 @@
   "Пароли не совпадают": "A jelszavak nem egyeznek",
   "Пароль изменён": "Jelszó módosítva",
   "Повторить восстановление": "Munkamenet visszaállítása újra",
-  "Не удалось восстановить сессию. Повторите попытку.": "A munkamenet nem állítható vissza. Próbálja újra."
+  "Не удалось восстановить сессию. Повторите попытку.": "A munkamenet nem állítható vissza. Próbálja újra.",
+  "Подключено": "Csatlakoztatva",
+  "Не подключено": "Nincs csatlakoztatva",
+  "Подключить": "Csatlakozás",
+  "Минимум 8 символов": "Legalább 8 karakter",
+  "Текущий пароль неверен": "A jelenlegi jelszó helytelen",
+  "Пользователи приложения": "Alkalmazás felhasználói",
+  "Пользователи сайта": "Webhely felhasználói",
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "A bejelentkezett felhasználók fiókonként számítanak. Bejelentkezés nélkül az eszköz vagy a böngésző számít."
 }

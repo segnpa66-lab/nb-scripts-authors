@@ -346,7 +346,6 @@
   "Светлая": "Licht",
   "Тёмная": "Donker",
   "Отправлять статистику использования": "Gebruiksstatistieken versturen",
-  "Без паролей и кода скриптов.": "Zonder wachtwoorden of scriptcode.",
   "Сменить пароль": "Wachtwoord wijzigen",
   "Текущий пароль": "Huidig wachtwoord",
   "Новый пароль": "Nieuw wachtwoord",
@@ -354,5 +353,13 @@
   "Пароли не совпадают": "Wachtwoorden komen niet overeen",
   "Пароль изменён": "Wachtwoord gewijzigd",
   "Повторить восстановление": "Sessie opnieuw herstellen",
-  "Не удалось восстановить сессию. Повторите попытку.": "De sessie kon niet worden hersteld. Probeer het opnieuw."
+  "Не удалось восстановить сессию. Повторите попытку.": "De sessie kon niet worden hersteld. Probeer het opnieuw.",
+  "Подключено": "Verbonden",
+  "Не подключено": "Niet verbonden",
+  "Подключить": "Verbinden",
+  "Минимум 8 символов": "Minimaal 8 tekens",
+  "Текущий пароль неверен": "Het huidige wachtwoord is onjuist",
+  "Пользователи приложения": "Appgebruikers",
+  "Пользователи сайта": "Websitegebruikers",
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Ingelogde gebruikers worden per account geteld. Zonder inloggen wordt het apparaat of de browser geteld."
 }

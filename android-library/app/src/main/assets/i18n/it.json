@@ -346,7 +346,6 @@
   "Светлая": "Chiaro",
   "Тёмная": "Scuro",
   "Отправлять статистику использования": "Invia statistiche di utilizzo",
-  "Без паролей и кода скриптов.": "Senza password o codice degli script.",
   "Сменить пароль": "Cambia password",
   "Текущий пароль": "Password attuale",
   "Новый пароль": "Nuova password",
@@ -354,5 +353,13 @@
   "Пароли не совпадают": "Le password non coincidono",
   "Пароль изменён": "Password modificata",
   "Повторить восстановление": "Riprova il ripristino della sessione",
-  "Не удалось восстановить сессию. Повторите попытку.": "Impossibile ripristinare la sessione. Riprova."
+  "Не удалось восстановить сессию. Повторите попытку.": "Impossibile ripristinare la sessione. Riprova.",
+  "Подключено": "Collegato",
+  "Не подключено": "Non collegato",
+  "Подключить": "Collega",
+  "Минимум 8 символов": "Almeno 8 caratteri",
+  "Текущий пароль неверен": "La password attuale non è corretta",
+  "Пользователи приложения": "Utenti dell’app",
+  "Пользователи сайта": "Utenti del sito",
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Gli utenti che accedono sono conteggiati per account. Senza accesso viene conteggiato il dispositivo o il browser."
 }

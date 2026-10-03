@@ -346,7 +346,6 @@
   "Светлая": "Light",
   "Тёмная": "Dark",
   "Отправлять статистику использования": "Send usage statistics",
-  "Без паролей и кода скриптов.": "No passwords or script contents.",
   "Сменить пароль": "Change password",
   "Текущий пароль": "Current password",
   "Новый пароль": "New password",
@@ -374,5 +373,13 @@
   "Платформа": "Platform",
   "Активные": "Active",
   "Со входом": "Signed in",
-  "Статистика недоступна.": "Statistics unavailable."
+  "Статистика недоступна.": "Statistics unavailable.",
+  "Подключено": "Connected",
+  "Не подключено": "Not connected",
+  "Подключить": "Connect",
+  "Минимум 8 символов": "At least 8 characters",
+  "Текущий пароль неверен": "Current password is incorrect",
+  "Пользователи приложения": "App users",
+  "Пользователи сайта": "Website users",
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Signed-in users are counted by account. Without signing in, a device or browser is counted."
 }

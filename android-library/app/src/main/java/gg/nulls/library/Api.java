@@ -49,9 +49,21 @@ final class Api {
     JSONObject statistics()throws Exception{
         JSONObject identity=identity();if(identity==null)throw new Failure(401,"Требуется вход.");JSONObject result;
         try{result=sync(new JSONObject().put("op","stats"),identity.getString("uuid"));}catch(Failure error){if(error.status==403)throw new Failure(403,"Недостаточно прав.");throw error;}
-        result.put("downloads",JSONObject.NULL);
-        HttpURLConnection connection=(HttpURLConnection)new URL("https://api.github.com/repos/segnpa66-lab/nb-scripts-authors/releases?per_page=100").openConnection();connection.setConnectTimeout(5000);connection.setReadTimeout(5000);connection.setRequestProperty("Accept","application/vnd.github+json");connection.setRequestProperty("User-Agent","Script-Library");
-        try{if(connection.getResponseCode()==200){JSONArray releases=new JSONArray(read(connection.getInputStream(),4*1024*1024));long downloads=0;for(int i=0;i<releases.length();i++){JSONArray assets=releases.getJSONObject(i).optJSONArray("assets");if(assets!=null)for(int j=0;j<assets.length();j++){JSONObject asset=assets.getJSONObject(j);if(asset.optString("name").endsWith(".apk"))downloads+=asset.optLong("download_count");}}result.put("downloads",downloads);}}catch(Exception ignored){}finally{connection.disconnect();}return result;
+        return result;
+    }
+
+    synchronized void refreshIdentity()throws Exception{me=Core.publicUser(request("GET","/users/me",null));}
+    synchronized void changePassword(String current,String next,String expectedAccount)throws Exception{
+        if(me==null||!expectedAccount.equals(me.optString("uuid")))throw new Failure(409,"Аккаунт изменён.");
+        JSONObject body=new JSONObject().put("new_password",next);if(me.optBoolean("has_password",true))body.put("password",current);
+        try{raw("PUT","/users/"+expectedAccount+"/password",body);}catch(Failure failure){if(failure.status==401)throw new Failure(400,"Текущий пароль неверен");throw failure;}
+        password=next;if(vault.read()!=null)vault.save(username,next);me.put("has_password",true);
+    }
+    synchronized void connect(String token,String expectedAccount)throws Exception{
+        if(me==null||!expectedAccount.equals(me.optString("uuid")))throw new Failure(409,"Аккаунт изменён.");
+        raw("POST","/auth/connect",new JSONObject().put("id_token",token));
+        JSONObject identity=Core.publicUser(raw("GET","/users/me",null));
+        if(!expectedAccount.equals(identity.optString("uuid"))){clear();throw new Failure(409,"Аккаунт изменён.");}me=identity;
     }
     void telemetry(String client)throws Exception{
         String cookieHeader="",token;synchronized(this){Map<String,List<String>> values=cookies.get(URI.create(Core.API+"/users/me"),Collections.emptyMap());for(Map.Entry<String,List<String>> value:values.entrySet())if(value.getKey().equalsIgnoreCase("Cookie"))cookieHeader=String.join("; ",value.getValue());token=bearer;}

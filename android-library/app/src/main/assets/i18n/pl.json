@@ -346,7 +346,6 @@
   "Светлая": "Jasny",
   "Тёмная": "Ciemny",
   "Отправлять статистику использования": "Wysyłaj statystyki użycia",
-  "Без паролей и кода скриптов.": "Bez haseł i kodu skryptów.",
   "Сменить пароль": "Zmień hasło",
   "Текущий пароль": "Obecne hasło",
   "Новый пароль": "Nowe hasło",
@@ -354,5 +353,13 @@
   "Пароли не совпадают": "Hasła nie są identyczne",
   "Пароль изменён": "Hasło zmienione",
   "Повторить восстановление": "Ponów przywracanie sesji",
-  "Не удалось восстановить сессию. Повторите попытку.": "Nie udało się przywrócić sesji. Spróbuj ponownie."
+  "Не удалось восстановить сессию. Повторите попытку.": "Nie udało się przywrócić sesji. Spróbuj ponownie.",
+  "Подключено": "Połączono",
+  "Не подключено": "Nie połączono",
+  "Подключить": "Połącz",
+  "Минимум 8 символов": "Co najmniej 8 znaków",
+  "Текущий пароль неверен": "Obecne hasło jest nieprawidłowe",
+  "Пользователи приложения": "Użytkownicy aplikacji",
+  "Пользователи сайта": "Użytkownicy strony",
+  "Вошедшие пользователи учитываются по аккаунту. Без входа учитывается устройство или браузер.": "Zalogowani użytkownicy są liczeni według konta. Bez logowania liczone jest urządzenie lub przeglądarka."
 }
